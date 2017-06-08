@@ -1,0 +1,31 @@
+# This is a sample build configuration for Python.
+# Check our guides at https://confluence.atlassian.com/x/x4UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: python:3.5.1
+
+pipelines:
+  branches:
+    master:
+      - step:
+          script: # Modify the commands below to build your repository.
+            - pip install -U tox
+            - pip --version
+            - tox --version
+            - pip install -r requirements.txt
+            # - cp requirements.txt zookeeper-app/requirements.txt
+            # - cd zookeeper-app/
+            # - mkdir log
+            # - chmod 777 log/ -R
+            # - python manage.py migrate
+            # - python manage.py createsuperuser
+            - pip install awscli
+            - aws deploy push --application-name ZooKeeper --s3-location s3://fidenz-zookeeper-s3/zookeeper.zip --region us-east-1 --ignore-hidden-files
+            - aws deploy create-deployment --application-name ZooKeeper --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name zookeeper-group --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=zookeeper.zip --region us-east-1
+    develop:
+      - step:
+          script: # Modify the commands below to build your repository.
+            - pip install awscli
+            - aws deploy push --application-name ZooKeeper --s3-location s3://fidenz-zookeeper-s3/zookeeper-dev.zip --region us-east-1 --ignore-hidden-files
+            - aws deploy create-deployment --application-name ZooKeeper --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name zookeeper-develop --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=zookeeper-dev.zip --region us-east-1
