@@ -7,8 +7,11 @@
 	color: #4169E1;
 }
 
-a:link active {
+a:link {
 	color: #333;
+}
+a:visited{
+	color: #39739d;
 }
 
 input[type=text] {
