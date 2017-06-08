@@ -21,11 +21,11 @@ pipelines:
             # - python manage.py migrate
             # - python manage.py createsuperuser
             - pip install awscli
-            - aws deploy push --application-name techjargon --s3-location s3://fidenz-zookeeper-s3/techjargon.zip --region us-east-1 --ignore-hidden-files
-            - aws deploy create-deployment --application-name techjargon --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-group --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=techjargon.zip --region us-east-1
+            - aws deploy push --application-name ZooKeeper --s3-location s3://fidenz-zookeeper-s3/techjargon.zip --region us-east-1 --ignore-hidden-files
+            - aws deploy create-deployment --application-name ZooKeeper --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-group --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=techjargon.zip --region us-east-1
     develop:
       - step:
           script: # Modify the commands below to build your repository.
             - pip install awscli
-            - aws deploy push --application-name techjargon --s3-location s3://fidenz-zookeeper-s3/techjargon-dev.zip --region us-east-1 --ignore-hidden-files
-            - aws deploy create-deployment --application-name techjargon --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-develop --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=techjargon-dev.zip --region us-east-1
+            - aws deploy push --application-name ZooKeeper --s3-location s3://fidenz-zookeeper-s3/techjargon-dev.zip --region us-east-1 --ignore-hidden-files
+            - aws deploy create-deployment --application-name ZooKeeper --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-develop --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=techjargon-dev.zip --region us-east-1
