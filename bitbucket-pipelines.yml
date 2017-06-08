@@ -14,18 +14,18 @@ pipelines:
             - pip --version
             - tox --version
             - pip install -r requirements.txt
-            # - cp requirements.txt zookeeper-app/requirements.txt
-            # - cd zookeeper-app/
+            # - cp requirements.txt techjargon-app/requirements.txt
+            # - cd techjargon-app/
             # - mkdir log
             # - chmod 777 log/ -R
             # - python manage.py migrate
             # - python manage.py createsuperuser
             - pip install awscli
-            - aws deploy push --application-name ZooKeeper --s3-location s3://fidenz-zookeeper-s3/zookeeper.zip --region us-east-1 --ignore-hidden-files
-            - aws deploy create-deployment --application-name ZooKeeper --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name zookeeper-group --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=zookeeper.zip --region us-east-1
+            - aws deploy push --application-name techjargon --s3-location s3://fidenz-techjargon-s3/techjargon.zip --region us-east-1 --ignore-hidden-files
+            - aws deploy create-deployment --application-name techjargon --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-group --description "Automated Deployment" --s3-location bucket=fidenz-techjargon-s3,bundleType=zip,key=techjargon.zip --region us-east-1
     develop:
       - step:
           script: # Modify the commands below to build your repository.
             - pip install awscli
-            - aws deploy push --application-name ZooKeeper --s3-location s3://fidenz-zookeeper-s3/zookeeper-dev.zip --region us-east-1 --ignore-hidden-files
-            - aws deploy create-deployment --application-name ZooKeeper --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name zookeeper-develop --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=zookeeper-dev.zip --region us-east-1
+            - aws deploy push --application-name techjargon --s3-location s3://fidenz-techjargon-s3/techjargon-dev.zip --region us-east-1 --ignore-hidden-files
+            - aws deploy create-deployment --application-name techjargon --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-develop --description "Automated Deployment" --s3-location bucket=fidenz-techjargon-s3,bundleType=zip,key=techjargon-dev.zip --region us-east-1
