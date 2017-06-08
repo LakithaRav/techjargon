@@ -61,7 +61,7 @@
         audience: 'https://' + 'techjargon.auth0.com' + '/userinfo',
         scope: 'openid profile email',
         responseType: 'code',
-        redirectUri: 'http://127.0.0.1:3000/authors/callback/'
+        redirectUri: window.location.origin + '/authors/callback/'
       });
     });
   });  
