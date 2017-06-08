@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="row">
+			<h2>Top Articles:</h2>
+			{% for article in top_articles %}
+			<div class="col-md-4">
+				<h3><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title|title }}</a></h3>
+				<p class="text-justify">{{ article.description_short | safe }}</p>
+				<span class="text-right">
+					<p><small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
+						<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+					</p>
+				</span>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<hr>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="row">
+			<h3>Latest:</h3>
+			{% for article in latest_articles %}
+			<div class="col-md-3">
+				<h4><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title|title }}</a></h4>
+				<p class="text-justify">{{ article.description_short | safe }}</p>
+				<span class="text-right">
+					<p><small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
+						<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+					</p>
+				</span>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  
+</script>
+{% endblock %}

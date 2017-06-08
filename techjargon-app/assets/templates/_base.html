@@ -1,0 +1,187 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en"> <!-- Set this to the main language of your site -->
+<head>
+  <meta charset="utf-8">
+
+  <title>{% block title %}{% endblock %} | TechJargon</title>
+
+  <!-- Enter a brief description of your page -->
+  <meta name="description" content="">
+
+  <!-- Define a viewport to mobile devices to use - telling the browser to assume that the page is as wide as the device (width=device-width,
+  and setting the initial page zoom level to be 1 (initial-scale=1.0), and fixing width=device-width for iOS9 (shtink-to-fit=no) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+  <!-- Add normalize.css which enables browsers to render all elements more consistently and in line with modern standards as it only targets particular styles that need normalizing -->
+  <link rel="stylesheet" href="{% static 'normalize.css' %}" media="all">
+  <!-- For legacy support (IE 6/7, Firefox < 4, and Safari < 5) use normalize-legacy.css instead -->
+  <!--<link href="{% static 'normalize-legacy.css' %}" rel="stylesheet" media="all">-->
+
+  <!-- Include the site stylesheet -->
+  <link rel="stylesheet" href="{% static 'styles.css' %}" media="all">
+
+  <!-- custom overrieds -->
+  <link rel="stylesheet" href="{% static 'custom.css' %}" media="all">
+
+  <!-- Include the HTML5 shiv print polyfill for Internet Explorer browsers 8 and below -->
+  <!--[if lt IE 9]><script src="{% static 'html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+
+  <!-- bootstrap 3.3.7 -->
+  <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+
+  <!-- selectize 0.12.4 -->
+  <link rel="stylesheet" type="text/css" href="{% static 'bower_components/selectize/dist/css/selectize.css' %}">
+
+  <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+
+  <!-- custom page specific css -->
+  {% block css_styles %}
+  {% endblock %}
+
+</head>
+<body>
+
+  <div class="container-fluid">
+    <!-- The page header typically contains items such as your site heading, logo and possibly the main site navigation -->
+    <!-- ARIA: the landmark role "banner" is set as it is the prime heading or internal title of the page -->
+    <header role="banner">
+
+      <div class="page-header" id="banner">
+        <div class="row">
+
+          <div class="col-md-3" id="logo">
+            <a href="/"><h1><small>#Tech</small><strong>Jargon</strong></h1></a>
+          </div>
+
+          <div class="col-md-6" id="search-box">
+            <input type="text" id="search-box-autocomplete" name="" placeholder="search..." v-model="query" v-on:keyup="searchArticles" autocomplete="off">
+            <div class="col-md-12" id="search-box-autocomplete-suggestions">
+              <a v-for="article in results" v-bind:href="article.link">
+                <div class="box">
+                  <h4 class="text-capitalize">@{ article.title }</h4>
+                  <span class="text-muted" v-html="article.description_short"></span>
+                </div>
+              </a>
+
+              <a href="{% url 'articles:add' %}">
+                <div class="box text-info">
+                  <h4 class="text-capitalize">+ Add @{ query }</h4>
+                  <span class="text-muted">Add @{ query } article to techJargor</span>
+                </div>
+              </a>
+
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+              <div class="collapse navbar-collapse">
+                <div class="navbar-nav pull-right">
+                  <a class="nav-item nav-link btn" href="{% url 'articles:add' %}">+ new article</a>
+                </div>
+              </div>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+
+    </header>
+    <br>
+    <div class="container" id="content-main-area">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <!-- The main page footer can contain items such as copyright and contact information. It can also contain a duplicated navigation of your site which is not usually contained within a <nav> -->
+    <!-- ARIA: the landmark role "contentinfo" is added here as it contains metadata that applies to the parent document -->
+    <footer role="contentinfo">
+
+      <!-- The <address> element contains contact information for the nearest <article> or <body> element. This example is for the <body> -->
+      <address>
+        <p>Project by <strong>Fidenz</strong>, <a href="mailto:lakitha@fidenz.com">Lakitha Sam</a>.</p>
+      </address>
+
+      <!-- Copyright information can be contained within the <small> element. The <time> element is used here to indicate that the '2016' is a date -->
+      <small>Copyright &copy; <time datetime="2016">2016</time></small>
+
+    </footer>
+  </div>
+
+  <!-- jQuery 2.2.4 -->
+  <script src="{% static 'bower_components/jQuery/dist/jquery.min.js' %}"></script>
+
+  <!-- bootstrap 3.3.7 -->
+  <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+  <!-- vue -->
+  <script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
+  <script src="{% static 'bower_components/axios/dist/axios.min.js' %}"></script>
+
+  <!-- js-cookie 2.1.4 -->
+  <script src="{% static 'bower_components/js-cookie/src/js.cookie.js' %}"></script>
+
+  <!-- selectize 0.12.4 -->
+  <!--[if lt IE 9]><script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script><![endif]-->
+  <script src="{% static 'bower_components/selectize/dist/js/standalone/selectize.min.js' %}"></script>
+
+  <script>
+    var countries = [
+   { value: 'Andorra', data: 'AD' },
+   { value: 'Zimbabwe', data: 'ZZ' }
+];
+
+    // $(document).ready(function() {
+    //   $('#search-box-autocomplete').keyup(function() {
+    //     clearTimeout(wto);
+    //     wto = setTimeout(function() {
+    //       // do stuff when user has been idle for 1 second
+    //       var val = $("#search-box-input").val();
+    //       search(val);
+    //       $('#search-box-autocomplete-suggestions').show();
+    //     }, 500);
+    //   });
+    // });
+
+    var search = new Vue({
+      el: '#search-box',
+      delimiters: ['@{', '}'],
+      data: {
+        results: [],
+        query: null
+      },
+      ready: function() {
+      },
+      methods: {
+        searchArticles: function() {
+          var csrftoken = Cookies.get('csrftoken');
+      
+          axios({
+            method:'post',
+            url:'/search/',
+            data: {
+              'query': search.query
+            },
+            headers: {'X-CSRFToken': csrftoken}
+          })
+          .then(function (response) {
+            $('#search-box-autocomplete-suggestions').show();
+            search.results = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        }
+      }
+    });
+    
+  </script>
+
+  <!-- custom page specific js -->
+  {% block javascript %}
+  {% endblock %}
+
+</body>
+</html>

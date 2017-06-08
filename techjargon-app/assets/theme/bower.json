@@ -1,0 +1,29 @@
+{
+  "name": "techjargon",
+  "authors": [
+    "LakithaRav <lakitha@fidenz.com>"
+  ],
+  "description": "technical term dictionary",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vue": "^2.3.3",
+    "axios": "^0.16.1",
+    "jquery-confirm2": "craftpip/jquery-confirm#^3.2.3",
+    "bootstrap": "^3.3.7",
+    "select2": "^4.0.3",
+    "selectize": "^0.12.4",
+    "js-cookie": "^2.1.4",
+    "font-awesome": "^4.7.0",
+    "auth0.js": "^8.7.0"
+  }
+}
