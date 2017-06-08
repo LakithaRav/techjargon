@@ -58,7 +58,7 @@ def auth0_callback(request):
     get_token = GetToken('techjargon.auth0.com')
     auth0_users = Users('techjargon.auth0.com')
     token = get_token.authorization_code('QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx',
-                                         '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a', code, 'http://127.0.0.1:3000/authors/callback/')
+                                         '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a', code, 'http://54.166.204.140/authors/callback/')
     user_info = auth0_users.userinfo(token['access_token'])
     user = json.loads(user_info)
     request.session['profile'] = user
@@ -95,7 +95,7 @@ def __check_n_register(userj):
         except IntegrityError as e:
             message.append(e)
             pass
-           
+
     except IntegrityError as e:
         message.append(e)
         pass
@@ -112,4 +112,3 @@ def __build_username(fullname):
     if len(_name_frags) > 1:
         username += "." + _name_frags[1][0].lower()
     return username
-
