@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load article_meta_filter %}
+
 {% block title %} {{article.title}} {% endblock %}
 
 {% block content %}
@@ -16,6 +18,19 @@
 
 		<div class="row">
 			<p class="lead text-justify">{{ content.body|safe }}</p>
+		</div>
+
+		<div class="row">
+			<table class="table table-condensed table-responsive">
+				<tbody>
+					{% for meta in content.contentmeta_set.all %}
+					<tr>
+						<td width="100">{{ meta.name }}</td>
+	        			<td>{{ meta.data|article_meta|safe }}</td>
+        			</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 
 		<div class="row">

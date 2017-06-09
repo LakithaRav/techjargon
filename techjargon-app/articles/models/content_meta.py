@@ -10,3 +10,6 @@ class ContentMeta(models.Model):
 
     # relations
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
+
+    class Meta:
+    	ordering = ['id']

@@ -54,7 +54,12 @@ def add(request):
         _form = NewArticleForm(request.POST)
         if _form.is_valid():
             _user = request.user
-            flag, message = __save_article(_form.cleaned_data, _user)
+            pdb.set_trace()
+            _metas = {
+                'keys': _form.data.getlist('meta_keys'),
+                'values': _form.data.getlist('meta_values')
+            }
+            flag, message = __save_article(_form.cleaned_data, _user, _metas)
             return HttpResponseRedirect('/')
         else:
             _context = {
@@ -77,7 +82,11 @@ def update(request, slug, article_id):
     if request.method == 'POST':
         if _uform.is_valid():
             _user = request.user
-            flag, message = __update_article(_uform.cleaned_data, _user, _article)
+            _metas = {
+                'keys': _uform.data.getlist('meta_keys'),
+                'values': _uform.data.getlist('meta_values')
+            }
+            flag, message = __update_article(_uform.cleaned_data, _user, _article, _metas)
             return HttpResponseRedirect('/')
 
     _context = {
@@ -89,7 +98,7 @@ def update(request, slug, article_id):
 
 # private
 
-def __save_article(post, user):
+def __save_article(post, user, metas):
     flag = False
     message = []
     try:
@@ -105,13 +114,15 @@ def __save_article(post, user):
             tag, created = Tag.objects.get_or_create(name=_tag)
             _article.tags.add(tag)
 
-        # pdb.set_trace()
-        # _article.content_set.update(status=Content.STATUS[0][0])
         _content.article = _article
         _content.save()
 
-        _meta_keys = post['meta_keys']
-        _meta_values = post['meta_values']
+        _key_index = 0
+        for key in metas['keys']:
+            _meta = ContentMeta(name=key, data=metas['values'][_key_index])
+            _meta.content = _content
+            _meta.save()
+            _key_index += 1
 
     except IntegrityError as e:
         message.append(e)
@@ -123,7 +134,7 @@ def __save_article(post, user):
     return flag, message
 
 
-def __update_article(post, user, article):
+def __update_article(post, user, article, metas):
     flag = False
     message = []
     try:
@@ -141,8 +152,12 @@ def __update_article(post, user, article):
         _content.article = article
         _content.save()
 
-        # _meta_keys = post['meta_keys']
-        # _meta_values = post['meta_values']
+        _key_index = 0
+        for key in metas['keys']:
+            _meta = ContentMeta(name=key, data=metas['values'][_key_index])
+            _meta.content = _content
+            _meta.save()
+            _key_index += 1
 
     except IntegrityError as e:
         message.append(e)

@@ -9,6 +9,8 @@ import json
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.conf import settings
+
 
 
 # Create your views here.
@@ -57,8 +59,8 @@ def auth0_callback(request):
     code = request.GET.get('code')
     get_token = GetToken('techjargon.auth0.com')
     auth0_users = Users('techjargon.auth0.com')
-    token = get_token.authorization_code('QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx',
-                                         '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a', code, 'http://techjargon-dev.fidenz.info/authors/callback/')
+    # token = get_token.authorization_code('QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx', '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a', code, 'http://techjargon-dev.fidenz.info/authors/callback/')
+    token = get_token.authorization_code(settings.AUTH_0['CLIENT_ID'], settings.AUTH_0['CLIENT_SECRET'], code, settings.AUTH_0['CALLBACK_URL'])
     user_info = auth0_users.userinfo(token['access_token'])
     user = json.loads(user_info)
     request.session['profile'] = user

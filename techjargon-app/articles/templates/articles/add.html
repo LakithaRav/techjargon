@@ -22,32 +22,6 @@
           <label>Meta</label><button type="button" class="btn btn-link" onclick="addMeta()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
       </div>
 
-      <template id="article-meta-template">
-        <div class="form-group">
-          <div class="row">
-
-              <div class="col-sm-3">
-                <select class="select-gear" name="{{form.meta_keys.html_name}}">
-                  <option value="reference">reference</option>
-                  <option value="resource">resource</option>
-                  <option value="other">other</option>
-                </select>
-              </div>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="{{form.meta_values.html_name}}" value="{{ form.meta_values.value|default_if_none:'' }}">
-              </div>
-
-              <div class="col-sm-1">
-                <button type="button" class="btn btn-link" aria-hidden="true">
-                  <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
-                </button>
-              </div>
-            
-          </div>
-          
-        </div>
-      </template>
-
       <div id="article-metas"></div>
 
       <div class="form-group">
@@ -58,11 +32,41 @@
     </form>
   </div>
 </div>
+
+<!-- templates -->
+<template id="article-meta-template">
+  <div class="form-group">
+    <div class="row">
+
+        <div class="col-sm-3">
+          <select class="select-gear" name="{{form.meta_keys.html_name}}">
+            <option value="reference">link</option>
+            <option value="reference">reference</option>
+            <option value="resource">resource</option>
+            <option value="other">other</option>
+          </select>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="{{form.meta_values.html_name}}" value="{{ form.meta_values.value|default_if_none:'' }}">
+        </div>
+
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-link btn-remove" aria-hidden="true">
+            <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
+          </button>
+        </div>
+      
+    </div>
+    
+  </div>
+</template>
+
 {% endblock %}
 
 {% block javascript %}
 <script>
   $(document).ready(function() {
+
     $('.select-gear').selectize({
       create: true
     });
@@ -95,16 +99,20 @@
   function addMeta() { 
 
     var template = $('#article-meta-template').html();
-    $(template).prop("id", meta_index++);
+    _div_id = "meta-box-" + meta_index++;
+    template = $( template ).attr("id", _div_id);
+    $( template ).find(".btn-remove").click({div: "#" + _div_id}, removeMeta);
     $('#article-metas').append(template);
     $('select').selectize({
       create: true
     });
+
+    function removeMeta(event) {
+      $(event.data.div).remove();
+    }
   };
 
-  function removeMeta(id) {
-    $(id).remove();
-  }
+  
 
 </script>
 {% endblock %}
