@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name 54.166.204.140 techjargon.fidenz.info;
+    server_name techjargon-dev.fidenz.info;
 
     access_log /var/www/techjargon_dev/techjargon-app/log/nginx-access.log;
     error_log /var/www/techjargon_dev/techjargon-app/log/nginx-error.log;
