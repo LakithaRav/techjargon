@@ -8,7 +8,7 @@ register = template.Library()
 @stringfilter
 def article_meta(value):
 	if is_url(value):
-		return "<a href='%s' targer='_blank'>%s</a>" % (value, value)
+		return "<a href='%s' target='_blank'>%s</a>" % (value, value)
 	else:
 		return value
 
