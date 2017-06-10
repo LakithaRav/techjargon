@@ -43,8 +43,6 @@ def history(request, slug, content_id):
         'article': article,
         'content': content
     }
-    article.views = F('views') +1
-    article.save()
 
     return render(request, 'articles/history.html', _context)
 
