@@ -2,7 +2,6 @@ from django.db import models
 from datetime import datetime
 from django.db.models import F
 
-
 # Create your models here.
 class Tag(models.Model):
     name = models.CharField(max_length=200, unique=True)
@@ -16,9 +15,7 @@ class Tag(models.Model):
     def increase_weight(self, type):
         if type == 0:
             # self.weight = F('weight') + 0.05
-            Tag.objects.filter(id=self.id).update(weight=F('weight') + 0.05)
+            Tag.objects.filter(pk=self.id).update(weight=F('weight') + 0.05)
         elif type == 1:
             # self.weight = F('weight') + 0.01
-            Tag.objects.filter(id=self.id).update(weight=F('weight') + 0.01)
-
-        self.save()
+            Tag.objects.filter(pk=self.id).update(weight=F('weight') + 0.01)
