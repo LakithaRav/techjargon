@@ -74,8 +74,12 @@
 
   <div class="col-sm-2">
     <div class="row">
-      <h2 class="text-left">{{ articles.count }}</h2>
-      <span>articles tagged</span>
+      <h2 class="text-left">{{ hit_count }}</h2>
+			{% if hit_count > 1 %}
+      	<span>articles tagged</span>
+			{% else %}
+				<span>article tagged</span>
+			{% endif %}
     </div>
     <br>
 

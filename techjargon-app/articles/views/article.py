@@ -17,7 +17,7 @@ from django.db.models import F
 
 def index(request):
   _top_articles = Article.objects.order_by('-views')[:3]
-  _latest_articles = Article.objects.order_by('-created_at')
+  _latest_articles = Article.objects.order_by('-created_at')[:4]
   _tags = Tag.objects.order_by('-created_at')
   _context = {
     'top_articles': _top_articles,

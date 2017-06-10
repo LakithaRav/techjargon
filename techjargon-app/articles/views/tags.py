@@ -34,6 +34,7 @@ def detail(request, slug):
 
     _context = {
         'tag': _tag,
+        'hit_count': _articles.count,
         'ralated_tags': _ralated_tags,
         'articles': _paginated_artciles,
         'new_articles': _new_articles
