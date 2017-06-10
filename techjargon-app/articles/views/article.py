@@ -2,12 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
-from .forms.article import NewArticleForm
-from .forms.article import UpdateArticleForm
-from .models.article import Article
-from .models.content import Content
-from .models.tag import Tag
-from .models.content_meta import ContentMeta
+from articles.forms.article import NewArticleForm
+from articles.forms.article import UpdateArticleForm
+from articles.models.article import Article
+from articles.models.content import Content
+from articles.models.tag import Tag
+from articles.models.content_meta import ContentMeta
 import pdb;
 from django.db import IntegrityError
 from django.db.models import F
@@ -17,10 +17,12 @@ from django.db.models import F
 
 def index(request):
   _top_articles = Article.objects.order_by('-views')[:3]
-  _latest_articles = Article.objects.order_by('-created_at')[:4]
+  _latest_articles = Article.objects.order_by('-created_at')
+  _tags = Tag.objects.order_by('-created_at')
   _context = {
     'top_articles': _top_articles,
     'latest_articles': _latest_articles,
+    'tags': _tags
   }
   return render(request, 'articles/index.html', _context)
 
@@ -30,9 +32,8 @@ def detail(request, slug):
         'article': article,
         'content': article.active_content
     }
-    article.views = F('views') +1
-    article.save()
-    
+    Article.objects.filter(id=article.id).update(views=F('views') + 1)
+
     return render(request, 'articles/detail.html', _context)
 
 def history(request, slug, content_id):
@@ -44,7 +45,7 @@ def history(request, slug, content_id):
     }
     article.views = F('views') +1
     article.save()
-    
+
     return render(request, 'articles/history.html', _context)
 
 @login_required
@@ -54,7 +55,7 @@ def add(request):
         _form = NewArticleForm(request.POST)
         if _form.is_valid():
             _user = request.user
-            pdb.set_trace()
+
             _metas = {
                 'keys': _form.data.getlist('meta_keys'),
                 'values': _form.data.getlist('meta_values')
@@ -111,7 +112,9 @@ def __save_article(post, user, metas):
         article_tags = []
         _tags = post['tags']
         for _tag in _tags:
-            tag, created = Tag.objects.get_or_create(name=_tag)
+            tag, created = Tag.objects.get_or_create(name=_tag.lower(), slug=slugify(_tag))
+            if not created:
+                tag.increase_weight(1)
             _article.tags.add(tag)
 
         _content.article = _article
@@ -140,12 +143,14 @@ def __update_article(post, user, article, metas):
     try:
         _content = Content(body=post['content'], status=Content._DEFAULT_STATUS, author=user.author)
 
-        article.tags.all().delete()
+        article.tags.clear()
 
         article_tags = []
         _tags = post['tags']
         for _tag in _tags:
-            tag, created = Tag.objects.get_or_create(name=_tag)
+            tag, created = Tag.objects.get_or_create(name=_tag.lower(), slug=slugify(_tag))
+            if not created:
+                tag.increase_weight(1)
             article.tags.add(tag)
 
         article.content_set.update(status=Content.STATUS[0][0])
@@ -167,5 +172,3 @@ def __update_article(post, user, article, metas):
         flag = True
 
     return flag, message
-
-

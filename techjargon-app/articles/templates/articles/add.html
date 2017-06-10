@@ -40,9 +40,10 @@
 
         <div class="col-sm-3">
           <select class="select-gear" name="{{form.meta_keys.html_name}}">
-            <option value="reference">link</option>
-            <option value="reference">reference</option>
-            <option value="resource">resource</option>
+            <option value="home">home</option>
+            <option value="wiki">wiki</option>
+            <option value="github">github</option>
+            <option value="install">install</option>
             <option value="other">other</option>
           </select>
         </div>
@@ -55,9 +56,9 @@
             <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
           </button>
         </div>
-      
+
     </div>
-    
+
   </div>
 </template>
 
@@ -86,7 +87,7 @@
     $("#article-content").keyup(function(e){
       var _remaing = (500 - $(this).val().length);
       $("#article-content-length-msg").text("characters left: " + _remaing);
-      $("#article-content").keydown(function(e){         
+      $("#article-content").keydown(function(e){
           if(_remaing == 0){
               e.preventDefault();
           }
@@ -96,7 +97,7 @@
 
   var meta_index = 0;
 
-  function addMeta() { 
+  function addMeta() {
 
     var template = $('#article-meta-template').html();
     _div_id = "meta-box-" + meta_index++;
@@ -112,7 +113,7 @@
     }
   };
 
-  
+
 
 </script>
 {% endblock %}
