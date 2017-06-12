@@ -28,9 +28,17 @@ def index(request):
 
 def detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
+    _tags = []
+    for tag in article.tags.all():
+        _tags.append(tag.slug)
+
+    action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
+    related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')
+    
     _context = {
         'article': article,
-        'content': article.active_content
+        'content': article.active_content,
+        'related_articles': related_articles
     }
     Article.objects.filter(id=article.id).update(views=F('views') + 1)
 

@@ -60,4 +60,3 @@ class Article(models.Model):
         updated_at = serializers.DateTimeField()
 
         description_short = serializers.CharField(max_length=100)
-            
