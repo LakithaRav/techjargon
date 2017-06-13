@@ -5,10 +5,17 @@
 <head>
   <meta charset="utf-8">
 
-  <title>{% block title %}{% endblock %} | TechJargon</title>
+  <!-- seo work -->
+  <title>{% block title %}{% endblock %} TechJargon</title>
+  <meta name="description" content="TechJargon is a leading technology index wiki, dedicated to obsessively new technical terms, reviewing new tech products, and breaking tech products and solutions.">
+  <link rel="search" type="application/opensearchdescription+xml" title="TechJargon" href="{% static 'opensearch.xml' %}">
+  <meta property="og:site_name" content="TechJargon" />
+  <meta property="og:site" content="techjargon-dev.fidenz.info" />
+  <meta name="apple-mobile-web-app-title" content="TechJargon" />
+  <meta name="twitter:domain" content="techjargon-dev.fidenz.info"/>
+  <meta name="keywords" content="technoloy, jargons, news, tech terms, dictionary,">
 
-  <!-- Enter a brief description of your page -->
-  <meta name="description" content="">
+  {% block meta %}{% endblock %}
 
   <!-- Define a viewport to mobile devices to use - telling the browser to assume that the page is as wide as the device (width=device-width,
   and setting the initial page zoom level to be 1 (initial-scale=1.0), and fixing width=device-width for iOS9 (shtink-to-fit=no) -->
@@ -54,6 +61,11 @@
 
 </head>
 <body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P52XKQJ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <div class="container-fluid">
     <!-- The page header typically contains items such as your site heading, logo and possibly the main site navigation -->
@@ -150,6 +162,25 @@
 
   <!-- js-socials 1.4.0 -->
   <script src="{% static 'bower_components/jssocials/dist/jssocials.min.js' %}"></script>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-75179136-4', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P52XKQJ');</script>
+  <!-- End Google Tag Manager -->
 
   <script>
     var countries = [

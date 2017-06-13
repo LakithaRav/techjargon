@@ -35,7 +35,7 @@ def detail(request, slug):
         _tags.append(tag.slug)
 
     action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
-    related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')
+    related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')[:10]
 
     _my_rating = 0
     if hasattr(request.user, 'author'):

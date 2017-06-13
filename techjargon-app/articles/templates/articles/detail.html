@@ -5,7 +5,27 @@
 {% load article_meta_filter %}
 {% load humanize %}
 
-{% block title %} {{article.title}} {% endblock %}
+{% block title %} {{article.title}} |{% endblock %}
+
+{% block meta %}
+<meta property="og:url" content="{% url 'articles:detail' slug=article.slug%}">
+<meta name="author" content="{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}, TechJargon">
+<meta name="keywords" content="{{ article.tags_str }}">
+
+<meta name='twitter:card' content='summary_large_image' />
+<meta name='twitter:image:src' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta name='twitter:site' content='@techjargons' />
+<meta name='twitter:url' content='{% url 'articles:detail' slug=article.slug%}' />
+<meta name='twitter:description' content='{{ article.active_content.body }}' />
+<meta name='twitter:title' content='{{ article.title }}' />
+
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="{{ article.title }}" />
+<meta property="og:description" content="{{ article.active_content.body }}" />
+<meta property="og:url" content="{% url 'articles:detail' slug=article.slug%}" />
+<meta property="og:image" content="http://fidenz.com/wp-content/themes/one-page/images/fidenz.png" />
+
+{% endblock %}
 
 {% block content %}
 
