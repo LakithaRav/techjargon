@@ -9,7 +9,7 @@
 
 {% block meta %}
 <meta name="author" content="{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}, TechJargon">
-<meta name="keywords" content="{{ article.tags_str }}">
+<meta name="article_keywords" content="{{ article.tags_str }}">
 
 <meta name='twitter:card' content='summary_large_image' />
 <meta name='twitter:image:src' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
@@ -19,7 +19,6 @@
 <meta name='twitter:title' content='{{ article.title }}' />
 
 <!-- Open Graph Protocol Meta -->
-<meta property='og:site_name' value='TechJargon'/>
 <meta property='og:title' content='{{ article.title }}' />
 <meta property='og:url' content='{{ full_url_path }}' />
 <meta property='og:image' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
