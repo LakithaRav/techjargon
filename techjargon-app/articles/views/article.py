@@ -53,7 +53,8 @@ def detail(request, slug):
         'article': article,
         'content': article.active_content,
         'related_articles': related_articles,
-        'my_rating': _my_rating
+        'my_rating': _my_rating,
+        'full_url_path': request.build_absolute_uri()
     }
     Article.objects.filter(id=article.id).update(views=F('views') + 1)
 
