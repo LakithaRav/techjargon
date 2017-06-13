@@ -52,24 +52,30 @@
 
 		<div class="row article-info-panel">
 			<ul class="list-inline">
-			  <li><a href="{% url 'articles:update' slug=article.slug article_id=article.id %}" class="">improve this article</a></li>
+			  <li><a href="{% url 'articles:update' slug=article.slug article_id=article.id %}" class=""><b>improve this article</b></a></li>
 				<li><a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">history </a></li>
-				<li class="pull-right"><a href="#" class="text-danger">report <i class="fa fa-bullhorn text-danger" aria-hidden="true"></i></a></li>
+				<!-- <li class="pull-right"><a href="#" class="text-danger">report <i class="fa fa-bullhorn text-danger" aria-hidden="true"></i></a></li> -->
 			</ul>
 		</div>
 
 		<div class="row rating-bar">
 			<br>
+			{% if user.is_authenticated %}
 			<div class="">
 				<span class="text-muted">How helpfull was this answer for you ?</span>
 				<select id="my-rating" name="rating" autocomplete="off" data-current-rating="{{ my_rating }}">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
 			</div>
+			{% else %}
+			<div class="">
+				<span class="text-muted"><b><a href="{% url 'authors:signin' %}">sign-in</a></b> to rate this article</span>
+			</div>
+			{% endif %}
 
 		</div>
 

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from articles.forms.article import NewArticleForm
 from articles.forms.article import UpdateArticleForm
+from authors.models.author import Author
 from articles.models.article import Article
 from articles.models.content import Content
 from articles.models.tag import Tag
@@ -37,10 +38,13 @@ def detail(request, slug):
     related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')
 
     _my_rating = 0
-    if request.user is not None:
+    if hasattr(request.user, 'author'):
         try:
             _rating = ContentRating.objects.get(content_id=article.content_set.get(status=1).id, owner_id=request.user.author.id)
             _my_rating = _rating.value
+        except Author.DoesNotExist:
+            _my_rating = -1
+            pass
         except ContentRating.DoesNotExist:
             _my_rating = -1
             pass
