@@ -214,30 +214,46 @@ mixpanel.init("2a7417e757d5987d09abde4a99d74879");</script><!-- end Mixpanel -->
       ready: function() {
       },
       methods: {
-        searchArticles: function() {
-
-          mixpanel.track('search', {query: search.query});
-
-          var csrftoken = Cookies.get('csrftoken');
-
-          axios({
-            method:'post',
-            url:'/search/',
-            data: {
-              'query': search.query
-            },
-            headers: {'X-CSRFToken': csrftoken}
-          })
-          .then(function (response) {
-            $('#search-box-autocomplete-suggestions').show();
-            search.results = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        }
+        searchArticles: debounce(search, 500, false)
       }
     });
+
+    function search() {
+      mixpanel.track('search', {query: search.query});
+
+      var csrftoken = Cookies.get('csrftoken');
+
+      axios({
+        method:'post',
+        url:'/search/',
+        data: {
+          'query': search.query
+        },
+        headers: {'X-CSRFToken': csrftoken}
+      })
+      .then(function (response) {
+        $('#search-box-autocomplete-suggestions').show();
+        search.results = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
+    function debounce(func, wait, immediate) {
+    	var timeout;
+    	return function() {
+    		var context = this, args = arguments;
+    		var later = function() {
+    			timeout = null;
+    			if (!immediate) func.apply(context, args);
+    		};
+    		var callNow = immediate && !timeout;
+    		clearTimeout(timeout);
+    		timeout = setTimeout(later, wait);
+    		if (callNow) func.apply(context, args);
+    	};
+    };
 
   </script>
 
