@@ -8,6 +8,7 @@ from articles.models.article import Article
 from articles.models.content import Content
 from articles.models.tag import Tag
 from articles.models.content_meta import ContentMeta
+from articles.models.content_rating import ContentRating
 import pdb;
 from django.db import IntegrityError
 from django.db.models import F
@@ -18,7 +19,7 @@ from django.db.models import F
 def index(request):
   _top_articles = Article.objects.order_by('-views')[:3]
   _latest_articles = Article.objects.order_by('-created_at')[:4]
-  _tags = Tag.objects.order_by('-created_at')
+  _tags = Tag.objects.order_by('-created_at')[:100]
   _context = {
     'top_articles': _top_articles,
     'latest_articles': _latest_articles,
@@ -34,11 +35,21 @@ def detail(request, slug):
 
     action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
     related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')
-    
+
+    _my_rating = 0
+    if request.user is not None:
+        try:
+            _rating = ContentRating.objects.get(content_id=article.content_set.get(status=1).id, owner_id=request.user.author.id)
+            _my_rating = _rating.value
+        except ContentRating.DoesNotExist:
+            _my_rating = -1
+            pass
+
     _context = {
         'article': article,
         'content': article.active_content,
-        'related_articles': related_articles
+        'related_articles': related_articles,
+        'my_rating': _my_rating
     }
     Article.objects.filter(id=article.id).update(views=F('views') + 1)
 

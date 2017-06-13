@@ -39,6 +39,15 @@
   <!-- webui-popover 1.2.18 -->
   <link rel="stylesheet" href="{% static 'bower_components/webui-popover/dist/jquery.webui-popover.min.css' %}">
 
+  <!-- jquery-bar-rating 1.2.2 -->
+  <link rel="stylesheet" href="{% static 'bower_components/jquery-bar-rating/dist/themes/bootstrap-stars.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/jquery-bar-rating/dist/themes/css-stars.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/jquery-bar-rating/dist/themes/bars-1to10.css' %}">
+
+  <!-- js-socials 1.4.0 -->
+  <link rel="stylesheet" href="{% static 'bower_components/jssocials/dist/jssocials.css' %}"/>
+  <link rel="stylesheet" href="{% static 'bower_components/jssocials/dist/jssocials-theme-plain.css' %}"/>
+
   <!-- custom page specific css -->
   {% block css_styles %}
   {% endblock %}
@@ -82,7 +91,7 @@
             <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
               <div class="collapse navbar-collapse">
                 <div class="navbar-nav pull-right">
-                  <a class="nav-item nav-link btn" href="{% url 'articles:add' %}">+ new article</a>
+                  <a class="nav-item nav-link bt btn-add-article" href="{% url 'articles:add' %}"><i class="fa fa-plus-circle fa-2" aria-hidden="true"></i> new article</a>
                 </div>
               </div>
             </nav>
@@ -100,18 +109,19 @@
 
     <!-- The main page footer can contain items such as copyright and contact information. It can also contain a duplicated navigation of your site which is not usually contained within a <nav> -->
     <!-- ARIA: the landmark role "contentinfo" is added here as it contains metadata that applies to the parent document -->
-    <footer role="contentinfo">
-
-      <!-- The <address> element contains contact information for the nearest <article> or <body> element. This example is for the <body> -->
-      <address>
-        <p>Project by <strong>Fidenz</strong>, <a href="mailto:lakitha@fidenz.com">Lakitha Sam</a>.</p>
-      </address>
-
-      <!-- Copyright information can be contained within the <small> element. The <time> element is used here to indicate that the '2016' is a date -->
-      <small>Copyright &copy; <time datetime="2016">2016</time></small>
-
-    </footer>
   </div>
+  <footer role="contentinfo">
+    <div class="container" id="content-main-area">
+      <div class="row">
+          <ul class="list-inline">
+            <li>Copyright © <a href="http://fidenz.com/">Fidenz Technologies</a></li>
+            <li class="pull-right"><a href="http://fidenz.com/about-page/">about</a></li>
+            <li class="pull-right"><a href="/new">new artcile</a></li>
+            <li class="pull-right"><a href="/">home</a></li>
+          </ul>
+      </div>
+    </div>
+  </footer>
 
   <!-- jQuery 3.2.1 -->
   <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
@@ -134,6 +144,12 @@
 
   <!-- webui-popover 1.2.18 -->
   <script src="{% static 'bower_components/webui-popover/dist/jquery.webui-popover.min.js' %}"></script>
+
+  <!-- jquery-bar-rating 1.2.2 -->
+  <script src="{% static 'bower_components/jquery-bar-rating/dist/jquery.barrating.min.js' %}"></script>
+
+  <!-- js-socials 1.4.0 -->
+  <script src="{% static 'bower_components/jssocials/dist/jssocials.min.js' %}"></script>
 
   <script>
     var countries = [

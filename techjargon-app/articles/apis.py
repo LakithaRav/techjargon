@@ -5,6 +5,8 @@ from django.db import IntegrityError
 import pdb;
 from rest_framework.renderers import JSONRenderer
 from .models.article import Article
+from .models.content import Content
+from .models.content_rating import ContentRating
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import json
 
@@ -26,4 +28,52 @@ def search(request):
 		_articles_seri = Article.ArticleSerializer(articles, many=True)
 		return JsonResponse(_articles_seri.data, status=200, safe=False)
 	else:
-		return HttpResponse(status=404) 
+		return HttpResponse(status=404)
+
+
+@login_required
+def rate(request):
+	_user = request.user
+	# pdb.set_trace()
+	if request.method == 'POST':
+		try:
+			body_unicode = request.body.decode('utf-8')
+			body = json.loads(body_unicode)
+			_content_id = body['content_id']
+			_value = body['value']
+
+			_content = Content.objects.get(pk=_content_id)
+			_rating, _created = ContentRating.objects.get_or_create(content_id=_content_id, owner_id=_user.author.id)
+			_rating.value = _value
+			_rating.save()
+			average = processRating(_content)
+		except Content.DoesNotExist:
+			return HttpResponse(status=404)
+			pass
+		except IntegrityError as e:
+			_message.append(e)
+			pass
+		else:
+			# _todo_seri = ToDo.ToDoSerializer(_todo)
+			response = {
+				'status': True,
+				'value': _value,
+				'average': average,
+				'count': _content.contentrating_set.count()
+			}
+			return JsonResponse(response, status=200)
+	else:
+		return HttpResponse(status=404)
+
+
+# private
+def processRating(content):
+	ratings = content.contentrating_set.all()
+	_total = 0
+	for rating in ratings:
+		_total += rating.value
+
+	_average = _total / ratings.count()
+	content.article.rating = _average
+	content.article.save()
+	return _average

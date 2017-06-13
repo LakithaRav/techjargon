@@ -104,14 +104,17 @@ input[type=text]:focus {
 	margin: 8px;
 }
 
-.article-info-panel > a {
-	margin-right: 5px;
-}
-
 .related-articles {
 	width: 100%;
 	display: block;
 	float: left;
+}
+
+.article-stats > h4 > small {
+	padding-top: 4px;
+	width: 45px;
+	float: left;
+	display: block;
 }
 
 .view-count {
@@ -128,4 +131,30 @@ input[type=text]:focus {
 
 .view-count-gray {
 	background-color: #eee;
+}
+
+.jssocials-share-link {
+	font-size: 11px;
+	color: #eee;
+	color: #eee;
+}
+
+.btn-add-article {
+	display: block;
+	margin-top: 25px;
+	font-size: 25px;
+}
+
+
+footer {
+	/*position:absolute;*/
+	bottom:0;
+	width:100%;
+	height:60px;   /* Height of the footer */
+	/*background:#6cf;*/
+}
+
+.container-fluid {
+	min-height: calc(100vh - 60px);
+	padding-bottom: 20px;
 }

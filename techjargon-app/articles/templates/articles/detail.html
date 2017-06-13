@@ -3,6 +3,7 @@
 {% load static %}
 
 {% load article_meta_filter %}
+{% load humanize %}
 
 {% block title %} {{article.title}} {% endblock %}
 
@@ -12,7 +13,6 @@
 	<div class="col-sm-7 col-sm-offset-1">
 
 		<div class="row">
-			<small class="pull-right"><i class="fa fa-eye text-muted" aria-hidden="true"></i> {{ article.views }}</small>
 		  <h1>{{ article.title|title }}</h1>
 		</div>
 
@@ -21,7 +21,9 @@
 		</div>
 
 		<div class="row">
+			{% if article.active_content.contentmeta_set.count > 0 %}
 			<span class="pull-right"><i class="fa fa-list" aria-hidden="true"></i></span>
+			{% endif %}
 			<table class="table table-condensed table-responsive">
 				<tbody>
 					{% for meta in article.active_content.contentmeta_set.all %}
@@ -49,18 +51,25 @@
 		</div>
 
 		<div class="row article-info-panel">
-			<a href="{% url 'articles:update' slug=article.slug article_id=article.id %}" class="">improve this article</a>
-			<!-- <a href="#" class="show-pop-dropdown pull-right" data-placement="bottom" data-target="webuiPopover84">actions</a> -->
-			<a role="presentation" class="dropdown">
-				<a href="#" class="dropdown-toggle" id="drop5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> more <span class="caret"></span> </a>
-				<ul class="dropdown-menu " id="menu2" aria-labelledby="drop5">
-					<li><a href="#">rate </a></li>
-					<li><a href="#">share</a></li>
-					<li><a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">history </a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#" class="text-danger">report <i class="fa fa-bullhorn pull-right text-danger" aria-hidden="true"></i></a></li>
-				</ul>
-			</a>
+			<ul class="list-inline">
+			  <li><a href="{% url 'articles:update' slug=article.slug article_id=article.id %}" class="">improve this article</a></li>
+				<li><a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">history </a></li>
+				<li class="pull-right"><a href="#" class="text-danger">report <i class="fa fa-bullhorn text-danger" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>
+
+		<div class="row rating-bar">
+			<br>
+			<div class="">
+				<span class="text-muted">How helpfull was this answer for you ?</span>
+				<select id="my-rating" name="rating" autocomplete="off" data-current-rating="{{ my_rating }}">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+			</div>
 
 		</div>
 
@@ -69,7 +78,30 @@
 	<div class="col-sm-3">
 			<div class="col-sm-10 col-sm-offset-2">
 				<div class="row">
-					<h3>Related Adrticles:</h3>
+					<select id="overall-rating" name="rating" autocomplete="off"``>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+				</div>
+				<div class="row article-stats">
+					<h4 class=""><small>ratings</small> <span id="overall-rating-count">{{ article.active_content.contentrating_set.count | intcomma }}</span></h4>
+					<h4 class=""><small>views</small> <span>{{ article.views | intcomma }}</span></h4>
+					<h4 class=""><small>added</small> <span>{{ article.created_at | naturaltime }}</span></h4>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-sm-offset-2">
+				<div class="row">
+					<div id="share"></div>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-sm-offset-2">
+				<div class="row">
+					<h3 class="text-muted">Related Adrticles:</h3>
 				</div>
 				<div class="row">
 					{% for article in related_articles %}
@@ -81,7 +113,7 @@
 								{% else %}
 								<span class="view-count view-count-gray">{{article.views}}</span>
 								{% endif %}
-								{{ article.title }}
+								{{ article.title | title }}
 							</h4>
 						</a>
 					</div>
@@ -120,6 +152,54 @@
 	$(document).ready(function() {
 	  // $('a').webuiPopover();
 		$('.dropdown-toggle').dropdown()
+
+		$('#overall-rating').barrating({
+			theme: 'bootstrap-stars',
+			initialRating: {{ article.rating }},
+			readonly: true
+		});
+
+		$("#share").jsSocials({
+			url: window.location.origin + '{{ article.link }}',
+			text: "{{ artciel.title }}",
+			showLabel: false,
+			showCount: "inside",
+			shares: ["email", "twitter", "facebook", "googleplus", "linkedin"]
+    });
+
+		var my_rating = $('#my-rating').data('current-rating');
+
+		$('#my-rating').barrating({
+			initialRating: my_rating,
+      theme: 'bootstrap-stars',
+      showSelectedRating: true,
+			onSelect: function(value, text) {
+				rateArticle(value);
+      }
+    });
+
 	});
+
+	function rateArticle(value) {
+		var csrftoken = Cookies.get('csrftoken');
+
+		axios({
+			method:'post',
+			url:'/rate/',
+			data: {
+				'content_id': {{ article.active_content.id }},
+				'value': value
+			},
+			headers: {'X-CSRFToken': csrftoken}
+		})
+		.then(function (response) {
+			$('#overall-rating').barrating('set', response.data.average);
+			$('#overall-rating-count').html(response.data.count);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	}
+
 </script>
 {% endblock %}

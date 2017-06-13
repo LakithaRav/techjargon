@@ -19,7 +19,7 @@ class Content(models.Model):
     )
     _DEFAULT_STATUS = 1
 
-    body = models.TextField(null=False, blank=False)
+    body = models.TextField(null=False, blank=False, max_length=500)
     # external_link = models.URLField(max_length=200)
     status = models.PositiveSmallIntegerField(choices=STATUS, default=_DEFAULT_STATUS)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
