@@ -115,6 +115,8 @@
 {% block javascript %}
 
 <script>
-
+	$(document).ready(function() {
+		mixpanel.track('tag', {name: "{{tag.name}}"});
+	});
 </script>
 {% endblock %}
