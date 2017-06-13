@@ -216,7 +216,7 @@ mixpanel.init("2a7417e757d5987d09abde4a99d74879");</script><!-- end Mixpanel -->
       methods: {
         searchArticles: function() {
 
-          mixpanel.track('search', search.query);
+          mixpanel.track('search', {query: search.query});
 
           var csrftoken = Cookies.get('csrftoken');
 
