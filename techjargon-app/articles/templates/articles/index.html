@@ -51,7 +51,7 @@
 <hr>
 
 <div class="row">
-  <div class="col-md-10 col-md-offset-1 text-justify tagcloud" id="tags">
+  <div class="col-sm-12 text-justify tagcloud" id="tags">
     {% for tag in tags %}
     <a href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
     {% endfor %}
