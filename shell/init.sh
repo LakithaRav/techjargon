@@ -11,5 +11,5 @@ source $_PATH/env/bin/activate
 pip3 install -r $_PATH/requirements.txt
 
 python3 $_PATH/techjargon-app/manage.py migrate
-python3 $_PATH/techjargon-app/manage.py createsuperuser
+# python3 $_PATH/techjargon-app/manage.py createsuperuser
 python3 $_PATH/techjargon-app/manage.py collectstatic --noinput

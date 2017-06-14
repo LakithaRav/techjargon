@@ -37,7 +37,8 @@ def detail(request, slug):
         'hit_count': _articles.count,
         'ralated_tags': _ralated_tags,
         'articles': _paginated_artciles,
-        'new_articles': _new_articles
+        'new_articles': _new_articles,
+        'full_url_path': request.build_absolute_uri()
     }
 
     # weghy

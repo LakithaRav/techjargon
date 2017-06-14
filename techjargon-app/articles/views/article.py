@@ -21,10 +21,23 @@ def index(request):
   _top_articles = Article.objects.order_by('-views')[:3]
   _latest_articles = Article.objects.order_by('-created_at')[:4]
   _tags = Tag.objects.order_by('-created_at')[:100]
+
+  _page_meta = {
+    'keywords': ''
+  }
+
+  for article in _top_articles:
+      _page_meta['keywords'] += article.title + ','
+
+  for article in _latest_articles:
+      _page_meta['keywords'] += article.title + ','
+
+
   _context = {
     'top_articles': _top_articles,
     'latest_articles': _latest_articles,
-    'tags': _tags
+    'tags': _tags,
+    'meta': _page_meta,
   }
   return render(request, 'articles/index.html', _context)
 
