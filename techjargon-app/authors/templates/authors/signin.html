@@ -10,7 +10,7 @@
     {% if error %}
     <p class="login-box-msg text-red">{{ error }}</p>
     {% else %}
-    <p class="login-box-msg">Sign in to start your session with Auth0</p>
+    <p class="login-box-msg">Sign In with <a href="https://auth0.com/">Auth0</a></p>
     {% endif %}
 
     <form class="form-horizontal" action="{% url 'authors:signin' %}" method="post">

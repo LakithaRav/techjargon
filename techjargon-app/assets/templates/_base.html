@@ -61,6 +61,16 @@
 </head>
 <body>
 
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9&appId=1854059634921059";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P52XKQJ"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -124,14 +134,9 @@
   <footer role="contentinfo">
     <div class="container" id="content-main-area">
       <div class="row">
-        <div id="site_share" class="text-right">
-          <a href="https://www.facebook.com/techjargons/"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-          <a href="https://twitter.com/techjargons?lang=en"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-        </div>
-      </div>
-      <div class="row">
+        <div class="col-md-4">
+          <br>
           <ul class="list-inline">
-            <li class="pull-right">Copyright © <a href="http://fidenz.com/">Fidenz Technologies</a></li>
             <li><a href="/">Home</a></li>
             <li><a href="http://fidenz.com/about-page/">About</a></li>
             <li><a href="/new">New article</a></li>
@@ -141,6 +146,19 @@
             <li><a href="{% url 'authors:signin' %}">Sing In</a></li>
             {% endif %}
           </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline text-center" id="site_share">
+            <li><a href="https://www.facebook.com/techjargons/" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/techjargons?lang=en" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 text-right">
+          <br>
+          <p class="">Copyright © <a href="http://fidenz.com/">Fidenz Technologies</a></p>
+          <p class=""><small>2017 A product by Fidenz <i class="fa fa-heart" aria-hidden="true"></i></small></a></p>
+        </div>
+
       </div>
     </div>
   </footer>

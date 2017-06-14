@@ -183,7 +183,8 @@ footer .jssocials-shares a {
 }
 
 #site_share {
-	font-size: 30px;
+	font-size: 25px;
+	padding-top: 12px;
 }
 
 @media (max-width: 768px) {
