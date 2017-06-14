@@ -75,7 +75,7 @@
         <div class="row">
 
           <div class="col-md-3" id="logo">
-            <a href="/"><h1><small>Tech</small><strong>Jargon</strong></h1></a>
+            <a href="/"><h1><small>Tech</small><strong>Jargon</strong><sup class="text-muted"><small>{beta}</small></sup></h1></a>
           </div>
 
           <div class="col-md-6" id="search-box">
@@ -123,6 +123,9 @@
   </div>
   <footer role="contentinfo">
     <div class="container" id="content-main-area">
+      <div class="row">
+        <div id="site_share" class="text-center"></div>
+      </div>
       <div class="row">
           <ul class="list-inline">
             <li>Copyright © <a href="http://fidenz.com/">Fidenz Technologies</a></li>
@@ -199,22 +202,14 @@ mixpanel.init("2a7417e757d5987d09abde4a99d74879");</script><!-- end Mixpanel -->
   <!-- end userreport -->
 
   <script>
-    var countries = [
-   { value: 'Andorra', data: 'AD' },
-   { value: 'Zimbabwe', data: 'ZZ' }
-];
 
-    // $(document).ready(function() {
-    //   $('#search-box-autocomplete').keyup(function() {
-    //     clearTimeout(wto);
-    //     wto = setTimeout(function() {
-    //       // do stuff when user has been idle for 1 second
-    //       var val = $("#search-box-input").val();
-    //       search(val);
-    //       $('#search-box-autocomplete-suggestions').show();
-    //     }, 500);
-    //   });
-    // });
+  $("#site_share").jsSocials({
+    url: window.location.origin,
+    text: "TechJargon",
+    showLabel: false,
+    showCount: "inside",
+    shares: ["email", "twitter", "facebook", "googleplus", "linkedin"]
+  });
 
     var search = new Vue({
       el: '#search-box',
