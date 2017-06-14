@@ -23,7 +23,8 @@ def index(request):
   _tags = Tag.objects.order_by('-weight')[:100]
 
   _page_meta = {
-    'keywords': ''
+    'keywords': '',
+    'full_url_path': request.build_absolute_uri()
   }
 
   for article in _top_articles:
