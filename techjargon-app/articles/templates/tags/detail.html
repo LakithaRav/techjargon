@@ -6,6 +6,21 @@
 
 {% block title %} #{{tag.name}} {% endblock %}
 
+{% block meta %}
+<meta name="article_keywords" content="{{ tag.name }}, tags, search">
+
+<!-- Open Graph Protocol Meta -->
+<meta property='og:title' content='{{ tag.name }}' />
+<meta property='og:url' content='{{ full_url_path }}' />
+<meta property='og:image' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:url' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:image:type' content='image/jpeg' />
+<meta property='og:description' content='{{ article.active_content.body }}' />
+<!-- END Open Graph Protocol Meta -->
+{% endblock %}
+
 {% block content %}
 <div class="row">
 	<div class="col-sm-6 col-sm-offset-2">
