@@ -114,7 +114,18 @@
       <h4 class="text-left text-muted"><i class="fa fa-folder-open" aria-hidden="true"></i> New Articles</h4>
       <div class="text-justify">
         {% for article in new_articles %}
-        <a href="{{ article.link }}"><h4 class="">{{ article.title }}</h4></a>
+				<div class="related-articles">
+					<a href="{% url 'articles:detail' slug=article.slug%}">
+						<h4>
+							{% if article.views > 100 %}
+							<span class="view-count btn-success">{{article.views}}</span>
+							{% else %}
+							<span class="view-count view-count-gray">{{article.views}}</span>
+							{% endif %}
+							{{ article.title | title }}
+						</h4>
+					</a>
+				</div>
         {% endfor %}
       </div>
     </div>

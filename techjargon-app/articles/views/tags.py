@@ -17,7 +17,7 @@ def detail(request, slug):
     _new_articles = Article.objects.filter(tags__slug=slug).order_by('-created_at')[:5]
 
     # pagination
-    paginator = Paginator(_articles, 10)
+    paginator = Paginator(_articles, 5)
 
     try:
         _paginated_artciles = paginator.page(_page)
