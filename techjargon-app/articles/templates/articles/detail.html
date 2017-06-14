@@ -84,8 +84,13 @@
 		<div class="row rating-bar">
 			<br>
 			{% if user.is_authenticated %}
-			<div class="">
-				<span class="text-muted">How helpfull was this answer for you ?</span>
+			<div class="my-rating-box">
+				{% if my_rating > 0 %}
+				<span class="text-muted ">You rated</span>
+				{% else %}
+				<span class="text-muted ">How helpful was this answer for you ?</span>
+				{% endif %}
+
 				<select id="my-rating" name="rating" autocomplete="off" data-current-rating="{{ my_rating }}">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -130,7 +135,7 @@
 
 			<div class="col-sm-10 col-sm-offset-2">
 				<div class="row">
-					<h3 class="text-muted">Related Adrticles:</h3>
+					<h3 class="text-muted">Related Articles:</h3>
 				</div>
 				<div class="row">
 					{% for article in related_articles %}

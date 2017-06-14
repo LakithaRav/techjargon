@@ -9,6 +9,7 @@
 
 a:link {
 	color: #333;
+	word-wrap: break-word;
 }
 a:visited{
 	color: #39739d;
@@ -62,7 +63,7 @@ input[type=text]:focus {
 #search-box #search-box-autocomplete-suggestions {
 	margin-top: 5px;
 	position: absolute;
-	width: 100%;
+	/*width: 100%;*/
 	height: auto;
 	max-height: 400px;
 	background-color: #fcfcfc;
@@ -72,6 +73,8 @@ input[type=text]:focus {
 	padding: 0px !important;
 	overflow: scroll;
 	display: none;
+	left: 15px;
+	right: 15px;
 }
 
 #search-box #search-box-autocomplete-suggestions a {
@@ -126,7 +129,7 @@ input[type=text]:focus {
 	display: block;
 	border-radius: 2px;
 	text-align: center;
-	font-family: 'Arial, "Helvetica Neue", Helvetica, sans-serif';
+	font-family: 'Open Sans', sans-serif;
 }
 
 .view-count-gray {
@@ -150,11 +153,41 @@ footer {
 	/*position:absolute;*/
 	bottom:0;
 	width:100%;
-	height:60px;   /* Height of the footer */
-	/*background:#6cf;*/
+	/*height:60px;   */
+	background-color: #4169E1;
+	color: #fff;
+	font-family: 'Open Sans', sans-serif;
+}
+
+footer a {
+	color: #fff !important;
+
+}
+
+footer .jssocials-shares a {
+	border-color: #fff;
 }
 
 .container-fluid {
 	min-height: calc(100vh - 60px);
 	padding-bottom: 20px;
+}
+
+.my-rating-box span.text-muted {
+	float: left;
+  margin-right: 10px;
+}
+
+#overall-rating a {
+	font-size: 20px;
+}
+
+#site_share {
+	font-size: 30px;
+}
+
+@media (max-width: 768px) {
+	.page-header #logo {
+		text-align: center;
+	}
 }
