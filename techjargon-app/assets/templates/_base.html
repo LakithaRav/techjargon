@@ -80,7 +80,7 @@
 
           <div class="col-md-6" id="search-box">
             <input type="text" id="search-box-autocomplete" name="" placeholder="search..." v-model="query" v-on:keyup="searchArticles" autocomplete="off">
-            <div class="col-md-12" id="search-box-autocomplete-suggestions">
+            <div id="search-box-autocomplete-suggestions">
               <a v-for="article in results" v-bind:href="article.link">
                 <div class="box">
                   <h4 class="text-capitalize">@{ article.title }</h4>
@@ -98,7 +98,7 @@
             </div>
           </div>
 
-          <div class="col-sm-3">
+          <div class="col-md-3 hidden-xs">
             <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
               <div class="collapse navbar-collapse">
                 <div class="navbar-nav pull-right">
@@ -124,14 +124,22 @@
   <footer role="contentinfo">
     <div class="container" id="content-main-area">
       <div class="row">
-        <div id="site_share" class="text-center"></div>
+        <div id="site_share" class="text-right">
+          <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+          <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+        </div>
       </div>
       <div class="row">
           <ul class="list-inline">
-            <li>Copyright © <a href="http://fidenz.com/">Fidenz Technologies</a></li>
-            <li class="pull-right"><a href="http://fidenz.com/about-page/">about</a></li>
-            <li class="pull-right"><a href="/new">new artcile</a></li>
-            <li class="pull-right"><a href="/">home</a></li>
+            <li class="pull-right">Copyright © <a href="http://fidenz.com/">Fidenz Technologies</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="http://fidenz.com/about-page/">About</a></li>
+            <li><a href="/new">New article</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'authors:signout' %}">Sing Out</a></li>
+            {% else %}
+            <li><a href="{% url 'authors:signin' %}">Sing In</a></li>
+            {% endif %}
           </ul>
       </div>
     </div>
@@ -203,14 +211,9 @@ mixpanel.init("2a7417e757d5987d09abde4a99d74879");</script><!-- end Mixpanel -->
 
   <script>
 
-  $("#site_share").jsSocials({
-    url: window.location.origin,
-    text: "TechJargon",
-    showLabel: false,
-    showCount: "inside",
-    shares: ["email", "twitter", "facebook", "googleplus", "linkedin"]
+  $('body').on('click', function () {
+    $('#search-box-autocomplete-suggestions').hide();
   });
-
     var search = new Vue({
       el: '#search-box',
       delimiters: ['@{', '}'],

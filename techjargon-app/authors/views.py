@@ -52,7 +52,7 @@ def signin(request):
 def signout(request):
     from django.contrib.auth import authenticate, login, logout
     logout(request)
-    del request.session['profile']
+    # del request.session['profile']
     return redirect('/')
 
 def auth0_callback(request):
@@ -63,7 +63,7 @@ def auth0_callback(request):
     token = get_token.authorization_code(settings.AUTH_0['CLIENT_ID'], settings.AUTH_0['CLIENT_SECRET'], code, settings.AUTH_0['CALLBACK_URL'])
     user_info = auth0_users.userinfo(token['access_token'])
     user = json.loads(user_info)
-    request.session['profile'] = user
+    # request.session['profile'] = user
     flag, message = __check_n_register(user)
     if flag:
         _user = User.objects.get(email=user['email'])
