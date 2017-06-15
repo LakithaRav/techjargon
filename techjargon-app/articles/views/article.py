@@ -15,6 +15,7 @@ from django.db import IntegrityError
 from django.db.models import F
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import operator
 
 
 # Create your views here.
@@ -23,6 +24,9 @@ def index(request):
   _top_articles = Article.objects.order_by('-views')[:3]
   _latest_articles = Article.objects.order_by('-created_at')[:4]
   _tags = Tag.objects.order_by('-weight')[:100]
+
+  _tags = sorted(_tags, key=operator.attrgetter('created_at'))
+
 
   _page_meta = {
     'keywords': '',

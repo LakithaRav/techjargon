@@ -100,5 +100,6 @@
 {% block javascript %}
 <script>
   search.query = '{{query}}';
+	mixpanel.track('search', {query: search.query});
 </script>
 {% endblock %}

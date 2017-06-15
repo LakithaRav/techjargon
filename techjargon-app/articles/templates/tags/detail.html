@@ -101,7 +101,7 @@
     <br>
 
     <div class="row">
-      <h4 class="text-left text-muted"><i class="fa fa-hashtag" aria-hidden="true"></i> Related Tags</h4>
+      <h4 class="text-left text-muted"><i class="fa fa-hashtag" aria-hidden="true"></i> Related</h4>
       <div class="text-justify">
         {% for tag in ralated_tags %}
         <a class="tag" href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }} {{ tag.article_set.count }}</a>
@@ -111,7 +111,7 @@
     <br>
 
     <div class="row">
-      <h4 class="text-left text-muted"><i class="fa fa-folder-open" aria-hidden="true"></i> New Articles</h4>
+      <h4 class="text-left text-muted"><i class="fa fa-folder-open" aria-hidden="true"></i> New</h4>
       <div class="text-justify">
         {% for article in new_articles %}
 				<div class="related-articles">
