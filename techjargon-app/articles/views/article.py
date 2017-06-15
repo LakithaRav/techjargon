@@ -23,14 +23,16 @@ import operator
 def index(request):
   _top_articles = Article.objects.order_by('-views')[:3]
   _latest_articles = Article.objects.order_by('-created_at')[:4]
-  _tags = Tag.objects.order_by('-weight')[:100]
+  _tags = Tag.objects.order_by('-weight')[:50]
+
+  _top_100 = Article.objects.order_by('-views')[:100]
 
   _tags = sorted(_tags, key=operator.attrgetter('created_at'))
 
-
   _page_meta = {
     'keywords': '',
-    'full_url_path': request.build_absolute_uri()
+    'article_titles': '',
+    'full_url_path': request.build_absolute_uri(),
   }
 
   for article in _top_articles:
@@ -39,6 +41,8 @@ def index(request):
   for article in _latest_articles:
       _page_meta['keywords'] += article.title + ','
 
+  for article in _top_100:
+      _page_meta['article_titles'] += article.title + ','
 
   _context = {
     'top_articles': _top_articles,

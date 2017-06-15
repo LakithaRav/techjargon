@@ -152,6 +152,17 @@ body {
  *  Main Content
  * ========================== */
 
+ #top-articles {
+	 font-size: 80px;
+	 text-align: center;
+	 border: none;
+ }
+
+ .intro-box {
+	 height: 450px;
+	 padding-top: 140px;
+ }
+
 /* Tag cloud */
 .tag {
 	background-color: #E1ECF4;

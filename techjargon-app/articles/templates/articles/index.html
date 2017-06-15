@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<!-- <div class="row">
 	<div class="col-sm-12">
 		<h2>Top Articles:</h4>
 		<div class="row">
@@ -40,8 +40,6 @@
 	</div>
 </div>
 
-<hr>
-
 <div class="row">
 	<div class="col-sm-12">
 		<h3>Latest:</h3>
@@ -62,9 +60,19 @@
 			{% endfor %}
 		</div>
 	</div>
+</div> -->
+
+<div class="col-md-10 col-md-offset-1 text-center">
+	<div class="intro-box">
+		<input type="hidden" id="article-titles" value="{{ meta.titles }}">
+		<p class="lead text-muted text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
+		<!-- <h1 id="top-articles" class="lead"></h1> -->
+		<form action="{% url 'articles:search'%}" method="get">
+			<input type="text" name="q" id="top-articles" placeholder="search..."/>
+		</form>
+	</div>
 </div>
 
-<hr>
 
 <div class="row">
   <div class="col-sm-12 text-justify tagcloud" id="tags">
@@ -88,6 +96,30 @@
 
 	$(function () {
 		$('#tags a').tagcloud();
+
+		$('#search-box').css("visibility","hidden");
+
+		var articles_str = '{{ meta.article_titles }}';
+		var articles = articles_str.split(",");
+
+		var typed = $("#top-articles").typed({
+			strings: articles,
+			typeSpeed: 100,
+			startDelay: 100,
+			shuffle: true,
+			loop: true,
+			loopCount: null,
+			showCursor: false,
+			backSpeed: 10,
+			backDelay: 1800
+		});
+
+		$("#top-articles").on('click', function () {
+			$(this).data('typed').reset();
+      // $('#top-articles').replaceWith('<input type="text"  name="q" size="25"  id="top-articles" value=""/>');
+      // $("#top-articles").focus();
+		});
+
 	});
 </script>
 {% endblock %}

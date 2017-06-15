@@ -85,22 +85,22 @@ WSGI_APPLICATION = 'techjargon.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'techjargon',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'techjargon_dev',
-    #     'USER': 'pgzookeeper',
-    #     'PASSWORD': 'pgzookeeper911',
-    #     'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
+    #     'NAME': 'techjargon',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': '127.0.0.1',
     #     'PORT': '5432',
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'techjargon_dev',
+        'USER': 'pgzookeeper',
+        'PASSWORD': 'pgzookeeper911',
+        'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
+    }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'techjargon',
@@ -172,13 +172,13 @@ REST_FRAMEWORK = {
     ]
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 300,
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#         'LOCATION': 'unique-snowflake',
+#         'TIMEOUT': 300,
+#     }
+# }
 
 # LOGGING_CONFIG = None
 LOGGING = {
@@ -253,5 +253,5 @@ logging.config.dictConfig(LOGGING)
 AUTH_0 = {
     'CLIENT_ID': 'QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx',
     'CLIENT_SECRET': '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a',
-    'CALLBACK_URL': 'http://techjargon-dev.fidenz.info/authors/callback/'
+    'CALLBACK_URL': 'http://127.0.0.1:3000/authors/callback/'
 }

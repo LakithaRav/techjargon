@@ -37,11 +37,11 @@
 	<div class="col-sm-7 col-sm-offset-1">
 
 		<div class="row">
-		  <h1>{{ article.title|title }}</h1>
+		  <h1 id="article-title">{{ article.title|title }}</h1>
 		</div>
 
 		<div class="row">
-			<p class="lead text-justify">{{ article.active_content.body | safe }}</p>
+			<p class="lead text-justify" id="article-body">{{ article.active_content.body | safe }}</p>
 		</div>
 
 		<div class="row">
@@ -186,7 +186,10 @@
 <script>
 	$(document).ready(function() {
 	  // $('a').webuiPopover();
-		$('.dropdown-toggle').dropdown()
+
+		$('#article-body').flowtype();
+
+		$('.dropdown-toggle').dropdown();
 
 		$('#overall-rating').barrating({
 			theme: 'bootstrap-stars',
