@@ -172,13 +172,13 @@ REST_FRAMEWORK = {
     ]
 }
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-#         'LOCATION': 'unique-snowflake',
-#         'TIMEOUT': 300,
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 300,
+    }
+}
 
 # LOGGING_CONFIG = None
 LOGGING = {
