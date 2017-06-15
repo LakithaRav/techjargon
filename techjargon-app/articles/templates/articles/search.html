@@ -16,6 +16,13 @@
         {% for article in articles %}
         <div class="box text-justify">
           <div class="row">
+						<h4>
+							{% if article.views > 100 %}
+							<span class="view-count btn-success">{{article.views}}</span>
+							{% else %}
+							<span class="view-count view-count-gray">{{article.views}}</span>
+							{% endif %}
+						</h4>
             <a href="{{ article.link }}"><h3 class="text-capitalize">{{ article.title }}</h3></a>
             <span class="text-left text-muted">{{ article.description_short|safe }}</span>
           </div>
