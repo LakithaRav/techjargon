@@ -1,12 +1,8 @@
+/* ==========================
+ *  Common 
+ * ========================== */
 
-.page-header {
-	margin: 0 !important;
-}
-
-.page-header #logo a:link {
-	color: #4169E1;
-}
-
+/* Typography */
 a:link {
 	color: #333;
 	word-wrap: break-word;
@@ -26,36 +22,75 @@ input[type=text]:focus {
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #cecece;
+  color: #c9c9c9;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-  color: #cecece;
+  color: #c9c9c9;
 }
 :-ms-input-placeholder { /* IE 10+ */
-  color: #cecece;
+  color: #c9c9c9;
 }
 :-moz-placeholder { /* Firefox 18- */
-  color: #cecece;
+  color: #c9c9c9;
 }
 
-.page-header #logo {
-
+/* Layout */
+body {
+	background-color: #fcfcfc !important;
 }
 
+.container-fluid {
+	min-height: calc(100vh - 80px);
+	padding-bottom: 20px;
+}
+
+.main-content {
+	padding-top: 15px;
+}
+
+/* ==========================
+ *  Header 
+ * ========================== */
+
+.page-header {
+	margin: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+/* Logo */
+.page-header #logo h1 {
+	margin: 14px 0 0 0;
+}
+
+@media (max-width: 768px) {
+	.page-header #logo h1 {
+		margin-bottom: 10px;
+	}
+}
+
+.page-header #logo a:link {
+	color: #4169E1;
+}
+
+/* Search bar */
 #search-box input[type=text] {
-
 	width: 100%;
     /* height: 70px; */
     font-size: 25px;
     border: 0;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
     background: #f;
-    background-color: #f5f5f5;
-    padding: 8px;
+    background-color: #ededed;
+    padding: 16px 20px;
+}
+
+@media (max-width: 768px) {
+	#search-box input[type=text] {
+		padding: 8px 12px;
+	}
 }
 
 #search-box input[type=text]:focus {
-
 	outline-width: 0;
 	border: none;
 }
@@ -63,7 +98,6 @@ input[type=text]:focus {
 #search-box #search-box-autocomplete-suggestions {
 	margin-top: 5px;
 	position: absolute;
-	/*width: 100%;*/
 	height: auto;
 	max-height: 400px;
 	background-color: #fcfcfc;
@@ -91,6 +125,27 @@ input[type=text]:focus {
 	background-color: #D6EBF2;
 }
 
+/* Add a article button */
+.btn-add-article {
+	background-color: #4169E1;
+	display: inline-block;
+	font-size: 25px;
+	padding: 16px;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	width: 67px;
+}
+
+.btn-add-article i {
+	color: #fff;
+}
+
+/* ==========================
+ *  Main Content 
+ * ========================== */
+
+/* Tag cloud */
 .tag {
 	background-color: #E1ECF4;
 	padding:4px;
@@ -107,6 +162,44 @@ input[type=text]:focus {
 	margin: 8px;
 }
 
+/* Article cards */
+.article-card {
+	background-color: #fff;
+	border-radius: 2px;
+	box-shadow: 0 2px 4px 0 rgba(211,211,211,0.4);
+	min-height: 270px;
+	padding: 30px;
+	position: relative;
+}
+
+@media (max-width: 768px) {
+	.article-card {
+		margin-bottom: 15px;
+	}
+}
+
+.article-card h3,
+.article-card h4 {
+	color: #4169E1;
+	margin-top: 0;
+}
+
+.article-card p {
+	font-size: 16px;
+}
+
+.article-card__footer {
+	bottom: 30px;
+	font-size: 14px !important;
+	margin-bottom: 0;
+	position: absolute;
+	right: 30px;
+}
+
+.article-card__footer a {
+	font-size: 14px !important;
+}
+
 .related-articles {
 	width: 100%;
 	display: block;
@@ -118,6 +211,25 @@ input[type=text]:focus {
 	width: 45px;
 	float: left;
 	display: block;
+}
+
+/* Article Share */
+.article-share .jssocials-share a {
+	border-color: #555;
+	transition: border-color 100ms ease-in-out;
+}
+
+.article-share .jssocials-share a i {
+	color: #555;
+	transition: color 100ms ease-in-out;
+}
+
+.article-share .jssocials-share a:hover {
+	border-color: #4169E1;
+}
+
+.article-share .jssocials-share a:hover i {
+	color: #4169E1;
 }
 
 .view-count {
@@ -142,13 +254,9 @@ input[type=text]:focus {
 	color: #eee;
 }
 
-.btn-add-article {
-	display: block;
-	margin-top: 25px;
-	font-size: 25px;
-}
-
-
+/* ==========================
+ *  Footer 
+ * ========================== */
 footer {
 	/*position:absolute;*/
 	bottom:0;
@@ -166,11 +274,6 @@ footer a {
 
 footer .jssocials-shares a {
 	border-color: #fff;
-}
-
-.container-fluid {
-	min-height: calc(100vh - 60px);
-	padding-bottom: 20px;
 }
 
 .my-rating-box span.text-muted {

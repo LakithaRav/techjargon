@@ -108,14 +108,8 @@
             </div>
           </div>
 
-          <div class="col-md-3 hidden-xs">
-            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-              <div class="collapse navbar-collapse">
-                <div class="navbar-nav pull-right">
-                  <a class="nav-item nav-link bt btn-add-article" href="{% url 'articles:add' %}"><i class="fa fa-plus-circle fa-2" aria-hidden="true"></i> new article</a>
-                </div>
-              </div>
-            </nav>
+          <div class="col-md-3 hidden-sm hidden-xs">
+            <a class="btn-add-article" href="{% url 'articles:add' %}"><i class="fa fa-plus" aria-hidden="true"></i></a>
           </div>
 
         </div>
@@ -123,7 +117,7 @@
 
     </header>
     <br>
-    <div class="container" id="content-main-area">
+    <div class="container main-content" id="content-main-area">
       {% block content %}
       {% endblock %}
     </div>
