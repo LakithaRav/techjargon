@@ -89,7 +89,9 @@
           </div>
 
           <div class="col-md-6" id="search-box">
-            <input type="text" id="search-box-autocomplete" name="" placeholder="search..." v-model="query" v-on:keyup="searchArticles" autocomplete="off">
+            <form action="{% url 'articles:search'%}" method="get">
+              <input type="text" id="search-box-autocomplete" name="q" placeholder="search..." v-model="query" v-on:keyup="searchArticles" autocomplete="off" value="{{ query }}">
+            </form>
             <div id="search-box-autocomplete-suggestions">
               <a v-for="article in results" v-bind:href="article.link">
                 <div class="box">
@@ -253,7 +255,7 @@ mixpanel.init("2a7417e757d5987d09abde4a99d74879");</script><!-- end Mixpanel -->
 
       axios({
         method:'post',
-        url:'/search/',
+        url:'/api/search/',
         data: {
           'query': search.query
         },

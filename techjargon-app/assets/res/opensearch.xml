@@ -5,5 +5,5 @@
   <Tags>example web</Tags>
   <Contact>admin@example.com</Contact>
   <Url type="application/rss+xml"
-       template="http://example.com/?q={searchTerms}&amp;pw={startPage?}&amp;format=rss"/>
+       template="http://techjargon-dev.fidenz.info/?q={searchTerms}"/>
 </OpenSearchDescription>

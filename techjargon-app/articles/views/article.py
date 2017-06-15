@@ -13,6 +13,8 @@ from articles.models.content_rating import ContentRating
 import pdb;
 from django.db import IntegrityError
 from django.db.models import F
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -41,6 +43,31 @@ def index(request):
     'meta': _page_meta,
   }
   return render(request, 'articles/index.html', _context)
+
+def search(request):
+    # pdb.set_trace()
+    _query = request.GET.get('q')
+    _page = request.GET.get('page')
+
+    _articles = Article.objects.annotate(search=SearchVector('title', 'tags__name'),).filter(search=_query).distinct('id')
+    _tags = Tag.objects.filter(name__contains=_query).order_by('-weight')[:20]
+
+    paginator = Paginator(_articles, 5)
+    try:
+        _paginated_artciles = paginator.page(_page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        _paginated_artciles = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        _paginated_artciles = paginator.page(paginator.num_pages)
+
+    _context = {
+        'query': _query,
+        'articles': _paginated_artciles,
+        'tags': _tags
+    }
+    return render(request, 'articles/search.html', _context)
 
 def detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
