@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="techjargon-dev"                                  # Name of the application
+NAME="techjargon"                                  # Name of the application
 DJANGODIR=/var/www/techjargon                      # Django project directory
 SOCKFILE=$DJANGODIR/techjargon.sock  # we will communicte using this unix socket
 USER=www-data                                        # the user to run as

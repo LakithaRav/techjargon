@@ -2,6 +2,9 @@ apt --assume-yes install libpq-dev python3-dev
 apt-get --assume-yes install libcurl4-openssl-dev
 apt-get --assume-yes install supervisor
 apt-get --assume-yes install rabbitmq-server
+apt-get --assume-yes install rabbitmq-server
+apt install python-pip
+pip install virtualenv
 
 _PATH=/var/www/techjargon
 
