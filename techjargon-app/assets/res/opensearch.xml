@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <title>TechJargon</title>
   <ShortName>TechJargon</ShortName>
   <Description>Search TechJargon: QA for professional and enthusiast on technical terms in tech industry</Description>
-  <Tags>example web</Tags>
-  <Contact>admin@example.com</Contact>
+  <Tags>technology news software engineering terms tech jargons</Tags>
+  <Contact>info@fidenz.com</Contact>
   <Url type="application/rss+xml"
        template="http://techjargon-dev.fidenz.info/?q={searchTerms}"/>
 </OpenSearchDescription>
