@@ -1,0 +1,180 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% block title %} Update |{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <form action="{% url 'articles:update' slug=article.slug article_id=article.id%}" method="post" id="article-form">
+      {% csrf_token %}
+      {% for error in errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      <input type="hidden" name="{{uform.article_id.html_name}}" value="{{uform.article_id.value}}">
+      <div class="form-group">
+        <h1>{{ article.title|title }}</h1>
+      </div>
+      <div class="form-group">
+        <label>Content</label>
+        <textarea rows="10" id="article-content" name="{{uform.content.html_name}}" class="form-control" rows="3">{{ uform.content.value|default_if_none:'' }}</textarea>
+        <p class="text-right" id="article-content-length-msg">500</p>
+        {% for error in uform.content.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      </div>
+      <div class="form-group">
+          <label>Meta</label><button type="button" class="btn btn-link btn-plus" onclick="addMeta()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+      </div>
+
+      {% for meta in article.active_content.contentmeta_set.all %}
+      <div class="form-group" id="ext-meta-tag-{{ meta.id }}">
+        <div class="row">
+            <div class="col-sm-3">
+              <select class="select-gear" name="{{uform.meta_keys.html_name}}">
+                <option value="{{ meta.name }}" selected="">{{ meta.name }}</option>
+                <option value="home">home</option>
+                <option value="wiki">wiki</option>
+                <option value="github">github</option>
+                <option value="install">install</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="{{uform.meta_values.html_name}}" value="{{ meta.data }}">
+            </div>
+
+            <div class="col-sm-1">
+              <button type="button" class="btn btn-link btn-remove" aria-hidden="true" onclick="removeExtMeta('#ext-meta-tag-{{ meta.id }}')">
+                <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
+              </button>
+            </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+      <div id="article-metas"></div>
+
+      <div class="form-group">
+        <label>Tags</label>
+        <input name="{{uform.tags.html_name}}" type="text" class="" id="article-tags" value="{{ uform.tags.value|default_if_none:'' }}">
+        {% for error in uform.tags.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-default">Update</button>
+    </form>
+  </div>
+</div>
+
+<!-- templates -->
+<template id="article-meta-template">
+  <div class="form-group">
+    <div class="row">
+        <div class="col-sm-3">
+          <select class="select-gear" name="{{uform.meta_keys.html_name}}">
+            <option value="reference">link</option>
+            <option value="reference">reference</option>
+            <option value="resource">resource</option>
+            <option value="other">other</option>
+          </select>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="{{uform.meta_values.html_name}}" value="{{ uform.meta_values.value|default_if_none:'' }}">
+        </div>
+
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-link btn-remove" aria-hidden="true">
+            <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
+          </button>
+        </div>
+
+    </div>
+  </div>
+</template>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  $(document).ready(function() {
+    $('.select-gear').selectize({
+      create: true
+    });
+
+    var csrftoken = Cookies.get('csrftoken');
+
+    $('#article-tags').selectize({
+        delimiter: ',',
+        copyClassesToDropdown: true,
+        persist: false,
+        create: true,
+        options: [],
+        valueField: 'name',
+        labelField: 'name',
+        searchField: 'name',
+        load: function(query, callback) {
+            if (!query.length) return callback();
+
+            axios({
+              method:'post',
+              url:'/api/tags/search/',
+              data: {
+                'query': query
+              },
+              headers: {'X-CSRFToken': csrftoken}
+            })
+            .then(function (response) {
+              callback(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+              callback();
+            });
+        }
+    });
+
+    $("#article-content").on('keydown', function(e){
+      var _remaing = (500 - $(this).val().length);
+      $("#article-content-length-msg").text("characters left: " + _remaing);
+      $("#article-content").keydown(function(e){
+          if(_remaing <= 0){
+              e.preventDefault();
+          }
+      });
+    });
+
+    $("#article-content").bind("paste", function(e){
+      var _remaing = $(this).val().length;
+      var pastedData = e.originalEvent.clipboardData.getData('text');
+      var _tot_remaing = (500 - ( _remaing + pastedData.length));
+      if(_tot_remaing <= 0){
+          e.preventDefault();
+      } else {
+        $("#article-content-length-msg").text("characters left: " + _tot_remaing);
+      }
+    });
+
+  });
+
+  var meta_index = 0;
+
+  function addMeta() {
+
+    var template = $('#article-meta-template').html();
+    _div_id = "meta-box-" + meta_index++;
+    template = $( template ).attr("id", _div_id);
+    $( template ).find(".btn-remove").click({div: "#" + _div_id}, removeMeta);
+    $('#article-metas').append(template);
+    $('select').selectize({
+      create: true
+    });
+
+    function removeMeta(event) {
+      $(event.data.div).remove();
+    }
+  };
+
+  function removeExtMeta(el) {
+    $(el).remove();
+  }
+
+</script>
+{% endblock %}

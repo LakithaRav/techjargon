@@ -1,0 +1,78 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% load article_meta_filter %}
+
+{% block title %} {{article.title}} |{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-7 col-sm-offset-1">
+		
+		<div class="row">
+			<a href=""><i class="fa fa-arrow-left" aria-hidden="true"></i> back</a>
+		  	<h1>{{ article.title|title }}</h1>
+		</div>
+
+		<div class="row">
+			<p class="lead text-justify">{{ content.body|safe }}</p>
+		</div>
+
+		<div class="row">
+			<table class="table table-condensed table-responsive">
+				<tbody>
+					{% for meta in content.contentmeta_set.all %}
+					<tr>
+						<td width="100">{{ meta.name }}</td>
+	        			<td>{{ meta.data|article_meta|safe }}</td>
+        			</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="row">
+			{% for tag in article.tags.all %}
+			<a class="tag">{{ tag.name }}</a>
+			{% endfor %}
+		</div>
+
+		<div class="row">
+			<span class="text-right">
+				<p><small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
+				<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+				</p>
+			</span>
+		</div>
+
+	</div>
+
+	<div class="col-sm-3">
+		<div class="row">
+			<h5 class="text-right">History</h5>
+		</div>
+		<div class="row" style="max-height: 600px; overflow-y: auto;">
+			{% for history in article.content_set.all %}
+			<div class="col-sm-10 col-sm-offset-2 text-right">
+				<span>
+					<small>
+					<a href="{% url 'articles:history' slug=article.slug content_id=history.id %}">{{ history.updated_at |  date:"d l, N Y" }} <i class="fa fa-link" aria-hidden="true"></i></a>
+					</small>
+				</span>
+				<br>
+				<span><small>Edit by <a href="#">{{ history.author.user.username }}</a></small></span>
+				<hr>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

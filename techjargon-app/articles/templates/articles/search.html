@@ -1,0 +1,113 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% load article_meta_filter %}
+{% load range_filter %}
+
+{% block title %} {{ query }} |{% endblock %}
+
+{% block content %}
+<div class="row">
+
+	<div class="col-sm-7 col-sm-offset-1">
+    <div class="row">
+			<div class="col-sm-12">
+	      {% if articles %}
+	        {% for article in articles %}
+	        <div class="box text-justify">
+	          <div class="row">
+							<div class="col-md-12">
+								<h4>
+									{% if article.views > 100 %}
+									<span class="view-count btn-success">{{article.views}}</span>
+									{% else %}
+									<span class="view-count view-count-gray">{{article.views}}</span>
+									{% endif %}
+									<a href="{{ article.link }}"><h3 class="text-capitalize">{{ article.title }}</h3></a>
+								</h4>
+
+		            <span class="text-left text-muted">{{ article.description_short|safe }}</span>
+							</div>
+	          </div>
+	          <br>
+	          <div class="row">
+	      			<div class="col-md-12">
+								{% for tag in article.tags.all %}
+		      			<a class="tag" href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a>
+		      			{% endfor %}
+	      			</div>
+	      		</div>
+	          <div class="row">
+	      			<div class="col-md-12">
+								<span class="text-right">
+		              <small>
+		        				<p>
+		                  <small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
+		        				  <a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+		        				</p>
+		              </small>
+		      			</span>
+	      			</div>
+	      		</div>
+	        </div>
+	        <hr>
+	        {% endfor %}
+	      {% else %}
+	      <p>Nothing found..</p>
+	      {% endif %}
+	    </div>
+
+	    <div class="col-sm-12">
+				<nav aria-label="Page navigation">
+				  <ul class="pagination">
+						{% if articles.has_previous %}
+						<li>
+							<a href="?q={{query}}&page={{ articles.previous_page_number }}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+		        {% endif %}
+
+				    {% for page in 1|range:articles.paginator.num_pages %}
+						<li><a href="?q={{query}}&page={{ page }}">{{ page }}</a></li>
+						{% endfor %}
+
+						{% if articles.has_next %}
+							<li>
+							 <a href="?q={{query}}&page={{ articles.next_page_number }}" aria-label="Next">
+								 <span aria-hidden="true">&raquo;</span>
+							 </a>
+						 </li>
+						 {% endif %}
+
+				  </ul>
+				</nav>
+			</div>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+    <!-- <div class="row"> -->
+      <h4 class="text-left text-muted"><i class="fa fa-hashtag" aria-hidden="true"></i> Related Tags</h4>
+      <div class="text-justify">
+        {% if tags %}
+          {% for tag in tags %}
+          <a class="tag" href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }} {{ tag.article_set.count }}</a>
+          {% endfor %}
+        {% else %}
+        <p class="text-muted">no tags found</p>
+        {% endif %}
+      </div>
+    <!-- </div> -->
+  </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  search.query = '{{query}}';
+	mixpanel.track('search', {query: search.query});
+</script>
+{% endblock %}

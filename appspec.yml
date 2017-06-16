@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/techjargon_dev
+permissions:
+  - object: /
+    owner: www-data
+    group: www-data
+    mode: 755
+hooks:
+  AfterInstall:
+    - location: shell/log.sh
+    - location: shell/init.sh
+    - location: shell/server-init.sh

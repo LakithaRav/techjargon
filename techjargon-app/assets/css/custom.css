@@ -1,0 +1,381 @@
+/* ==========================
+ *  Common
+ * ========================== */
+
+/* Typography */
+a:link {
+	color: #333;
+	word-wrap: break-word;
+}
+a:visited{
+	color: #39739d;
+}
+
+/*input[type=text] {
+
+	border-radius: 0;
+}
+
+input[type=text]:focus {
+	outline-width: 0;
+	border: none;
+}*/
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #c9c9c9;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #c9c9c9;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #c9c9c9;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #c9c9c9;
+}
+
+/* Layout */
+body {
+	background-color: #fcfcfc !important;
+}
+
+.colar {
+	width: 100%;
+	display: block;
+	height: 4px;
+	background-color: #4169E1;
+}
+
+.container-fluid {
+	min-height: calc(100vh - 80px);
+	padding-bottom: 20px;
+}
+
+.main-content {
+	padding-top: 15px;
+}
+
+/* Forms */
+.form-control,
+.selectize-input {
+	border: 1px solid #ccc !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	outline: 0 !important;
+}
+
+/* Buttons */
+
+.btn-blue {
+	background-color: #4169E1;
+	border: none !important;
+	border-radius: 0 !important;
+	color: #fff;
+	font-family: 'Open Sans', sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 300 !important;
+}
+
+.btn-blue:hover {
+	color: #fff !important;
+}
+
+.btn-plus i {
+	font-size: 20px;
+}
+
+/* ==========================
+ *  Header
+ * ========================== */
+
+.page-header {
+	margin: 0 -15px !important;
+	min-height: 68px;
+	padding: 0 15px 0 15px !important;
+}
+
+/* Logo */
+.page-header #logo h1 {
+	margin: 14px 0 0 0;
+}
+
+@media (max-width: 768px) {
+	.page-header #logo h1 {
+		margin-bottom: 10px;
+	}
+}
+
+.page-header #logo a:link {
+	color: #4169E1;
+}
+
+/* Search bar */
+#search-box input[type=text] {
+	width: 100%;
+    /* height: 70px; */
+    font-size: 25px;
+    border: 0;
+    /*margin-top: 15px;*/
+    background: #f;
+    background-color: #ededed;
+    padding: 16px 20px;
+}
+
+@media (max-width: 768px) {
+	#search-box input[type=text] {
+		padding: 8px 12px;
+	}
+}
+
+#search-box input[type=text]:focus {
+	outline-width: 0;
+	border: none;
+}
+
+#search-box #search-box-autocomplete-suggestions {
+	margin-top: 5px;
+	position: absolute;
+	height: auto;
+	max-height: 400px;
+	background-color: #fcfcfc;
+	border: 1px solid #eee;
+	box-shadow: 1px 4px 5px #ccc;
+	z-index: 9999;
+	padding: 0px !important;
+	overflow-y: scroll;
+	display: none;
+	left: 15px;
+	right: 15px;
+}
+
+#search-box #search-box-autocomplete-suggestions a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+#search-box #search-box-autocomplete-suggestions .box {
+	padding: 5px;
+	padding-left: 8px;
+}
+
+#search-box #search-box-autocomplete-suggestions .box:hover {
+	background-color: #D6EBF2;
+}
+
+/* Add a article button */
+.btn-add-article {
+	background-color: #4169E1;
+	display: inline-block;
+	font-size: 25px;
+	padding: 16px;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	width: 67px;
+}
+
+.btn-add-article i {
+	color: #fff;
+}
+
+/* ==========================
+ *  Main Content
+ * ========================== */
+
+ #top-articles {
+	 font-size: 80px;
+	 text-align: center;
+	 border: none;
+	 background-color: transparent;
+	 width: 100%;
+ }
+
+ #top-articles:focus {
+	 border: none;
+	 outline-width: 0;
+ }
+
+ @media (max-width: 768px) {
+	 #top-articles {
+		 font-size: 40px;
+	 }
+ }
+
+ .intro-box {
+	 height: 300px;
+	 left: 50%;
+	 /*padding-top: 140px;*/
+	 position: absolute;
+	 transform: translate(-50%, -50%);
+	 top: 50%;
+	 width: 83%;
+ }
+
+/* Tag cloud */
+.tag {
+	background-color: #E1ECF4;
+	padding:4px;
+	display: block;
+	float: left;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	color:#39739d;
+	font-size: 9pt;
+	cursor: pointer;
+}
+
+.tagcloud {
+	bottom: 100px;
+	left: 15px;
+	position: absolute;
+	right: 15px;
+}
+
+.tagcloud a {
+	margin: 8px;
+}
+
+/* Article cards */
+.article-card {
+	background-color: #fff;
+	border-radius: 2px;
+	box-shadow: 0 2px 4px 0 rgba(211,211,211,0.4);
+	min-height: 270px;
+	padding: 30px;
+	position: relative;
+}
+
+@media (max-width: 768px) {
+	.article-card {
+		margin-bottom: 15px;
+	}
+}
+
+.article-card h3,
+.article-card h4 {
+	color: #4169E1;
+	margin-top: 0;
+}
+
+.article-card p {
+	font-size: 16px;
+}
+
+.article-card__footer {
+	bottom: 30px;
+	font-size: 14px !important;
+	margin-bottom: 0;
+	position: absolute;
+	right: 30px;
+}
+
+.article-card__footer a {
+	font-size: 14px !important;
+}
+
+.related-articles {
+	width: 100%;
+	display: block;
+	float: left;
+}
+
+.article-stats > h4 > small {
+	padding-top: 4px;
+	width: 45px;
+	float: left;
+	display: block;
+}
+
+/* Article Share */
+.article-share .jssocials-share a {
+	border-color: #555;
+	transition: border-color 100ms ease-in-out;
+}
+
+.article-share .jssocials-share a i {
+	color: #555;
+	transition: color 100ms ease-in-out;
+}
+
+.article-share .jssocials-share a:hover {
+	border-color: #4169E1;
+}
+
+.article-share .jssocials-share a:hover i {
+	color: #4169E1;
+}
+
+.view-count {
+	width: 40px;
+	padding: 5px;
+	margin-right: 10px;
+	float: left;
+	font-size: 9pt;
+	display: block;
+	border-radius: 2px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.view-count-gray {
+	background-color: #eee;
+}
+
+.jssocials-share-link {
+	font-size: 11px;
+	color: #eee;
+	color: #eee;
+}
+
+/* ==========================
+ *  Footer
+ * ========================== */
+footer {
+	/*position:absolute;*/
+	bottom:0;
+	width:100%;
+	/*height:60px;   */
+	background-color: #4169E1;
+	color: #fff;
+	font-family: 'Open Sans', sans-serif;
+}
+
+footer a {
+	color: #fff !important;
+
+}
+
+footer .jssocials-shares a {
+	border-color: #fff;
+}
+
+footer .footer-copyright {
+	text-align: right;
+}
+
+@media (max-width: 768px) {
+	footer,
+	footer .footer-copyright {
+		text-align: center;
+	}
+}
+
+.my-rating-box span.text-muted {
+	float: left;
+  margin-right: 10px;
+}
+
+#overall-rating a {
+	font-size: 20px;
+}
+
+#site_share {
+	font-size: 25px;
+	padding-top: 12px;
+}
+
+@media (max-width: 768px) {
+	.page-header #logo {
+		text-align: center;
+	}
+}

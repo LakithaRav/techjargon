@@ -1,0 +1,231 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% block title %} New |{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h1>Create New Article</h1>
+    <form action="{% url 'articles:add'%}" method="post" id="article-form">
+      {% csrf_token %}
+      {% for error in errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      <div class="form-group">
+        <label>Title</label>
+        <input name="{{form.title.html_name}}" type="text" class="form-control input-lg" value="{{ form.title.value|default_if_none:'' }}" v-model="art_query" v-on:keyup="searchArticles" autocomplete="off">
+        <span class="help-block" id="article-title-help" v-if="articles.length">
+          Did you mean?
+          <ul class="list-inline">
+            <li v-for="article in articles">
+                <a v-bind:href="article.link" class="text-capitalize">
+                  <span class="">@{ article.title }</span>
+                </a>
+            </li>
+          </ul>
+
+        </span>
+        {% for error in form.title.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label>Content</label>
+        <textarea rows="10" id="article-content" name="{{form.content.html_name}}" class="form-control" rows="4">{{ form.content.value|default_if_none:'' }}</textarea>
+        <p class="text-right" id="article-content-length-msg">500</p>
+        {% for error in form.content.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      </div>
+      <div class="form-group">
+          <label>Meta</label><button type="button" class="btn btn-link btn-plus" onclick="addMeta()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+      </div>
+
+      <div id="article-metas"></div>
+
+      <div class="form-group">
+        <label>Tags</label>
+        <input name="{{form.tags.html_name}}" type="text" class="" id="article-tags" value="{{ form.tags.value|default_if_none:'' }}">
+        {% for error in form.tags.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+      </div>
+      <button type="submit" class="btn btn-blue">Submit</button>
+    </form>
+  </div>
+</div>
+
+<!-- templates -->
+<template id="article-meta-template">
+  <div class="form-group">
+    <div class="row">
+
+        <div class="col-sm-3">
+          <select class="select-gear" name="{{form.meta_keys.html_name}}">
+            <option value="home">home</option>
+            <option value="wiki">wiki</option>
+            <option value="github">github</option>
+            <option value="install">install</option>
+            <option value="other">other</option>
+          </select>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="{{form.meta_values.html_name}}" value="{{ form.meta_values.value|default_if_none:'' }}">
+        </div>
+
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-link btn-remove" aria-hidden="true">
+            <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
+          </button>
+        </div>
+
+    </div>
+
+  </div>
+</template>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  $(document).ready(function() {
+
+    $('.select-gear').selectize({
+      create: true
+    });
+
+    // $('#article-tags').selectize({
+    //   delimiter: ',',
+    //   copyClassesToDropdown: true,
+    //   persist: false,
+    //   create: function(input) {
+    //       return {
+    //           value: input,
+    //           text: input
+    //       }
+    //   }
+    // });
+
+    var csrftoken = Cookies.get('csrftoken');
+
+    $('#article-tags').selectize({
+        delimiter: ',',
+        copyClassesToDropdown: true,
+        persist: false,
+        create: true,
+        options: [],
+        valueField: 'name',
+        labelField: 'name',
+        searchField: 'name',
+        load: function(query, callback) {
+            if (!query.length) return callback();
+
+            axios({
+              method:'post',
+              url:'/api/tags/search/',
+              data: {
+                'query': query
+              },
+              headers: {'X-CSRFToken': csrftoken}
+            })
+            .then(function (response) {
+              callback(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+              callback();
+            });
+        }
+    });
+
+
+    $("#article-content").on('keydown', function(e){
+      var _remaing = (500 - $(this).val().length);
+      $("#article-content-length-msg").text("characters left: " + _remaing);
+      $("#article-content").keydown(function(e){
+          if(_remaing <= 0){
+              e.preventDefault();
+          }
+      });
+    });
+
+    $("#article-content").bind("paste", function(e){
+      var _remaing = $(this).val().length;
+      var pastedData = e.originalEvent.clipboardData.getData('text');
+      var _tot_remaing = (500 - ( _remaing + pastedData.length));
+      if(_tot_remaing <= 0){
+          e.preventDefault();
+      } else {
+        $("#article-content-length-msg").text("characters left: " + _tot_remaing);
+      }
+    });
+
+  });
+
+  var meta_index = 0;
+
+  function addMeta() {
+
+    var template = $('#article-meta-template').html();
+    _div_id = "meta-box-" + meta_index++;
+    template = $( template ).attr("id", _div_id);
+    $( template ).find(".btn-remove").click({div: "#" + _div_id}, removeMeta);
+    $('#article-metas').append(template);
+    $('select').selectize({
+      create: true
+    });
+
+    function removeMeta(event) {
+      $(event.data.div).remove();
+    }
+  };
+</script>
+
+<script>
+  var search = new Vue({
+    el: '#article-form',
+    delimiters: ['@{', '}'],
+    data: {
+      articles: [],
+      tags: [],
+      art_query: null,
+      tag_query: null,
+    },
+    ready: function() {
+    },
+    methods: {
+      searchArticles: debounce(article_search, 300, false)
+    }
+  });
+
+  function article_search() {
+
+    var csrftoken = Cookies.get('csrftoken');
+
+    axios({
+      method:'post',
+      url:'/api/artciles/exists/',
+      data: {
+        'query': search.art_query
+      },
+      headers: {'X-CSRFToken': csrftoken}
+    })
+    .then(function (response) {
+      search.articles = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
+
+</script>
+{% endblock %}

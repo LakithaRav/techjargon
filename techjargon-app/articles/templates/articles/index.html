@@ -1,0 +1,113 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% block meta %}
+<meta name="keywords" content="{{ meta.keywords }}">
+<!-- Open Graph Protocol Meta -->
+<meta property='og:title' content='techjargon' />
+<meta property="og:type" content="website" />
+<meta property='og:url' content='{{ meta.full_url_path }}' />
+<meta property='og:image' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:url' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:image:type' content='image/jpeg' />
+<meta property='og:description' content='TechJargon is a leading technology index wiki, dedicated to obsessively new technical terms, reviewing new tech products, and breaking tech products and solutions.' />
+<!-- END Open Graph Protocol Meta -->
+{% endblock %}
+
+{% block content %}
+
+<!-- <div class="row">
+	<div class="col-md-10 col-md-offset-1 text-center">
+		<div class="intro-box">
+			<input type="hidden" id="article-titles" value="{{ meta.titles }}">
+			<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
+			<h1 id="top-articles" class="lead"></h1>
+			<form action="{% url 'articles:search'%}" method="get">
+				<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
+			</form>
+			<div class="text-muted animated fadeInDown">
+				<i class="fa fa-arrow-up" aria-hidden="true"></i>
+			</div>
+			<div class="animated fadeInDown">
+				<span class="text-muted">{ tap to search }</span>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<div class="intro-box text-center">
+	<input type="hidden" id="article-titles" value="{{ meta.titles }}">
+	<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
+	<!-- <h1 id="top-articles" class="lead"></h1> -->
+	<form action="{% url 'articles:search'%}" method="get">
+		<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
+	</form>
+	<div class="text-muted animated fadeInDown">
+		<i class="fa fa-arrow-up" aria-hidden="true"></i>
+	</div>
+	<div class="animated fadeInDown">
+		<span class="text-muted">{ tap to search }</span>
+	</div>
+</div>
+
+<!-- <div class="row">
+	<hr>
+  <div class="col-sm-12 text-center tagcloud animated slideInUp" id="tags">
+    {% for tag in tags %}
+    <a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
+    {% endfor %}
+  </div>
+</div> -->
+
+<div class="text-center tagcloud animated slideInUp" id="tags">
+	{% for tag in tags %}
+	<a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
+	{% endfor %}
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<!-- jquery.tagcloud 0.0.1 -->
+<script src="{% static 'jquery.tagcloud.js' %}"></script>
+
+<script>
+	$.fn.tagcloud.defaults = {
+		size: {start: 9, end: 20, unit: 'pt'},
+		color: {start: '#5bc0de', end: '#428bca'}
+	};
+
+	$(function () {
+		$('#tags a').tagcloud();
+
+		$('#search-box').css("visibility","hidden");
+
+		var articles_str = '{{ meta.article_titles }}';
+		var articles = articles_str.split(",");
+
+		var typed = $("#top-articles").typed({
+			strings: articles,
+			typeSpeed: 100,
+			startDelay: 10,
+			shuffle: true,
+			loop: true,
+			loopCount: null,
+			showCursor: false,
+			backSpeed: 10,
+			backDelay: 1800
+		});
+
+		$("#top-articles").on('click', function () {
+			$(this).data('typed').reset();
+			$(this).attr("placeholder", "Search")
+			$(this).val(null);
+      // $('#top-articles').replaceWith('<input type="text"  name="q" size="25"  id="top-articles" value=""/>');
+      // $("#top-articles").focus();
+		});
+
+	});
+</script>
+{% endblock %}
