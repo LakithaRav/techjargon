@@ -56,7 +56,7 @@ class Article(models.Model):
         id = serializers.IntegerField()
         title = serializers.CharField(max_length=100)
         link = serializers.CharField(max_length=150)
-        rank = serializers.DecimalField(max_digits=6, decimal_places=2)
+        # rank = serializers.DecimalField(max_digits=6, decimal_places=2)
         created_at = serializers.DateTimeField()
         updated_at = serializers.DateTimeField()
 

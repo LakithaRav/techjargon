@@ -11,7 +11,7 @@ a:visited{
 	color: #39739d;
 }
 
-input[type=text] {
+/*input[type=text] {
 
 	border-radius: 0;
 }
@@ -19,7 +19,7 @@ input[type=text] {
 input[type=text]:focus {
 	outline-width: 0;
 	border: none;
-}
+}*/
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #c9c9c9;
@@ -55,13 +55,43 @@ body {
 	padding-top: 15px;
 }
 
+/* Forms */
+.form-control,
+.selectize-input {
+	border: 1px solid #ccc !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	outline: 0 !important;
+}
+
+/* Buttons */
+
+.btn-blue {
+	background-color: #4169E1;
+	border: none !important;
+	border-radius: 0 !important;
+	color: #fff;
+	font-family: 'Open Sans', sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 300 !important;
+}
+
+.btn-blue:hover {
+	color: #fff !important;
+}
+
+.btn-plus i {
+	font-size: 20px;
+}
+
 /* ==========================
  *  Header
  * ========================== */
 
 .page-header {
-	margin: 0 !important;
-	padding-bottom: 0 !important;
+	margin: 0 -15px !important;
+	min-height: 68px;
+	padding: 0 15px 0 15px !important;
 }
 
 /* Logo */
@@ -112,7 +142,7 @@ body {
 	box-shadow: 1px 4px 5px #ccc;
 	z-index: 9999;
 	padding: 0px !important;
-	overflow: scroll;
+	overflow-y: scroll;
 	display: none;
 	left: 15px;
 	right: 15px;
@@ -156,11 +186,29 @@ body {
 	 font-size: 80px;
 	 text-align: center;
 	 border: none;
+	 background-color: transparent;
+	 width: 100%;
+ }
+
+ #top-articles:focus {
+	 border: none;
+	 outline-width: 0;
+ }
+
+ @media (max-width: 768px) {
+	 #top-articles {
+		 font-size: 40px;
+	 }
  }
 
  .intro-box {
-	 height: 450px;
-	 padding-top: 140px;
+	 height: 300px;
+	 left: 50%;
+	 /*padding-top: 140px;*/
+	 position: absolute;
+	 transform: translate(-50%, -50%);
+	 top: 50%;
+	 width: 83%;
  }
 
 /* Tag cloud */
@@ -174,6 +222,13 @@ body {
 	color:#39739d;
 	font-size: 9pt;
 	cursor: pointer;
+}
+
+.tagcloud {
+	bottom: 100px;
+	left: 15px;
+	position: absolute;
+	right: 15px;
 }
 
 .tagcloud a {
@@ -292,6 +347,17 @@ footer a {
 
 footer .jssocials-shares a {
 	border-color: #fff;
+}
+
+footer .footer-copyright {
+	text-align: right;
+}
+
+@media (max-width: 768px) {
+	footer,
+	footer .footer-copyright {
+		text-align: center;
+	}
 }
 
 .my-rating-box span.text-muted {

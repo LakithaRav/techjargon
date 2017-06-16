@@ -7,8 +7,9 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
-    <form action="{% url 'articles:update' slug=article.slug article_id=article.id%}" method="post">
+    <form action="{% url 'articles:update' slug=article.slug article_id=article.id%}" method="post" id="article-form">
       {% csrf_token %}
+      {% for error in errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
       <input type="hidden" name="{{uform.article_id.html_name}}" value="{{uform.article_id.value}}">
       <div class="form-group">
         <h1>{{ article.title|title }}</h1>
@@ -17,9 +18,10 @@
         <label>Content</label>
         <textarea rows="10" id="article-content" name="{{uform.content.html_name}}" class="form-control" rows="3">{{ uform.content.value|default_if_none:'' }}</textarea>
         <p class="text-right" id="article-content-length-msg">500</p>
+        {% for error in uform.content.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
       </div>
       <div class="form-group">
-          <label>Meta</label><button type="button" class="btn btn-link" onclick="addMeta()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+          <label>Meta</label><button type="button" class="btn btn-link btn-plus" onclick="addMeta()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
       </div>
 
       {% for meta in article.active_content.contentmeta_set.all %}
@@ -54,6 +56,7 @@
       <div class="form-group">
         <label>Tags</label>
         <input name="{{uform.tags.html_name}}" type="text" class="" id="article-tags" value="{{ uform.tags.value|default_if_none:'' }}">
+        {% for error in uform.tags.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
       </div>
 
       <button type="submit" class="btn btn-default">Update</button>
@@ -96,19 +99,39 @@
       create: true
     });
 
+    var csrftoken = Cookies.get('csrftoken');
+
     $('#article-tags').selectize({
-      delimiter: ',',
-      copyClassesToDropdown: true,
-      persist: false,
-      create: function(input) {
-          return {
-              value: input,
-              text: input
-          }
-      }
+        delimiter: ',',
+        copyClassesToDropdown: true,
+        persist: false,
+        create: true,
+        options: [],
+        valueField: 'name',
+        labelField: 'name',
+        searchField: 'name',
+        load: function(query, callback) {
+            if (!query.length) return callback();
+
+            axios({
+              method:'post',
+              url:'/api/tags/search/',
+              data: {
+                'query': query
+              },
+              headers: {'X-CSRFToken': csrftoken}
+            })
+            .then(function (response) {
+              callback(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+              callback();
+            });
+        }
     });
 
-    $("#article-content").keyup(function(e){
+    $("#article-content").on('keydown', function(e){
       var _remaing = (500 - $(this).val().length);
       $("#article-content-length-msg").text("characters left: " + _remaing);
       $("#article-content").keydown(function(e){
@@ -116,6 +139,17 @@
               e.preventDefault();
           }
       });
+    });
+
+    $("#article-content").bind("paste", function(e){
+      var _remaing = $(this).val().length;
+      var pastedData = e.originalEvent.clipboardData.getData('text');
+      var _tot_remaing = (500 - ( _remaing + pastedData.length));
+      if(_tot_remaing <= 0){
+          e.preventDefault();
+      } else {
+        $("#article-content-length-msg").text("characters left: " + _tot_remaing);
+      }
     });
 
   });

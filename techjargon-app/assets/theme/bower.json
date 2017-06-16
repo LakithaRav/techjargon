@@ -31,6 +31,7 @@
     "jssocials": "^1.5.0",
     "jquery-notebook": "*",
     "Flowtype.js": "^1.1.0",
-    "typed.js": "^1.1.7"
+    "typed.js": "^1.1.7",
+    "animate.css": "^3.5.2"
   }
 }
