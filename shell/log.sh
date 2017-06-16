@@ -3,7 +3,7 @@
 # mkdir log
 # chmod -R 775 log/
 
-_PATH=/var/www/techjargon_dev
+_PATH=/var/www/techjargon
 
 mkdir $_PATH/techjargon-app/log
 

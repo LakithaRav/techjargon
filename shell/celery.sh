@@ -1,4 +1,4 @@
-_PATH=/var/www/techjargon_dev/techjargon-app
+_PATH=/var/www/techjargon/techjargon-app
 cd $_PATH
 
 echo "Starting Celery worker"

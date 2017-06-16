@@ -1,4 +1,4 @@
-_PATH=/var/www/techjargon_dev
+_PATH=/var/www/techjargon
 
 
 mv $_PATH/techjargon.gunicorn.conf /etc/supervisor/conf.d/

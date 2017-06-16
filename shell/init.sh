@@ -3,7 +3,7 @@ apt-get --assume-yes install libcurl4-openssl-dev
 apt-get --assume-yes install supervisor
 apt-get --assume-yes install rabbitmq-server
 
-_PATH=/var/www/techjargon_dev
+_PATH=/var/www/techjargon
 
 virtualenv $_PATH/env
 source $_PATH/env/bin/activate
