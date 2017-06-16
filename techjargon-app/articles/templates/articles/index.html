@@ -18,68 +18,54 @@
 {% endblock %}
 
 {% block content %}
-<!-- <div class="row">
-	<div class="col-sm-12">
-		<h2>Top Articles:</h4>
-		<div class="row">
-			{% for article in top_articles %}
-			<div class="col-md-4">
-				<div class="article-card">
-					<a href="{% url 'articles:detail' slug=article.slug %}"><h3>{{ article.title|title }}</h3></a>
-					<p class="article-card__description text-justify">{{ article.description_short | safe }}</p>
-					<span class="text-right">
-						<p class="article-card__footer">
-							<small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
-							<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
-						</p>
-					</span>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-sm-12">
-		<h3>Latest:</h3>
-		<div class="row">
-			{% for article in latest_articles %}
-			<div class="col-md-3">
-				<div class="article-card">
-					<a href="{% url 'articles:detail' slug=article.slug %}"><h4>{{ article.title|title }}</h4></a>
-					<p class="text-justify">{{ article.description_short | safe }}</p>
-					<span class="text-right">
-						<p class="article-card__footer">
-							<small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
-							<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
-						</p>
-					</span>
-				</div>
+<!-- <div class="row">
+	<div class="col-md-10 col-md-offset-1 text-center">
+		<div class="intro-box">
+			<input type="hidden" id="article-titles" value="{{ meta.titles }}">
+			<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
+			<h1 id="top-articles" class="lead"></h1>
+			<form action="{% url 'articles:search'%}" method="get">
+				<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
+			</form>
+			<div class="text-muted animated fadeInDown">
+				<i class="fa fa-arrow-up" aria-hidden="true"></i>
 			</div>
-			{% endfor %}
+			<div class="animated fadeInDown">
+				<span class="text-muted">{ tap to search }</span>
+			</div>
 		</div>
 	</div>
 </div> -->
 
-<div class="col-md-10 col-md-offset-1 text-center">
-	<div class="intro-box">
-		<input type="hidden" id="article-titles" value="{{ meta.titles }}">
-		<p class="lead text-muted text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
-		<!-- <h1 id="top-articles" class="lead"></h1> -->
-		<form action="{% url 'articles:search'%}" method="get">
-			<input type="text" name="q" id="top-articles" placeholder="search..."/>
-		</form>
+<div class="intro-box text-center">
+	<input type="hidden" id="article-titles" value="{{ meta.titles }}">
+	<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
+	<!-- <h1 id="top-articles" class="lead"></h1> -->
+	<form action="{% url 'articles:search'%}" method="get">
+		<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
+	</form>
+	<div class="text-muted animated fadeInDown">
+		<i class="fa fa-arrow-up" aria-hidden="true"></i>
+	</div>
+	<div class="animated fadeInDown">
+		<span class="text-muted">{ tap to search }</span>
 	</div>
 </div>
 
-
-<div class="row">
-  <div class="col-sm-12 text-justify tagcloud" id="tags">
+<!-- <div class="row">
+	<hr>
+  <div class="col-sm-12 text-center tagcloud animated slideInUp" id="tags">
     {% for tag in tags %}
-    <a href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
+    <a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
     {% endfor %}
   </div>
+</div> -->
+
+<div class="text-center tagcloud animated slideInUp" id="tags">
+	{% for tag in tags %}
+	<a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
+	{% endfor %}
 </div>
 
 {% endblock %}
@@ -105,7 +91,7 @@
 		var typed = $("#top-articles").typed({
 			strings: articles,
 			typeSpeed: 100,
-			startDelay: 100,
+			startDelay: 10,
 			shuffle: true,
 			loop: true,
 			loopCount: null,
@@ -116,6 +102,8 @@
 
 		$("#top-articles").on('click', function () {
 			$(this).data('typed').reset();
+			$(this).attr("placeholder", "Search")
+			$(this).val(null);
       // $('#top-articles').replaceWith('<input type="text"  name="q" size="25"  id="top-articles" value=""/>');
       // $("#top-articles").focus();
 		});

@@ -21,10 +21,9 @@ import operator
 # Create your views here.
 
 def index(request):
-  _top_articles = Article.objects.order_by('-views')[:3]
-  _latest_articles = Article.objects.order_by('-created_at')[:4]
+  _top_articles = Article.objects.order_by('-views')[:10]
+  _latest_articles = Article.objects.order_by('-created_at')[:20]
   _tags = Tag.objects.order_by('-weight')[:50]
-
   _top_100 = Article.objects.order_by('-views')[:100]
 
   _tags = sorted(_tags, key=operator.attrgetter('created_at'))
@@ -42,7 +41,7 @@ def index(request):
       _page_meta['keywords'] += article.title + ','
 
   for article in _top_100:
-      _page_meta['article_titles'] += article.title + ','
+      _page_meta['article_titles'] += article.title.title() + ','
 
   _context = {
     'top_articles': _top_articles,
@@ -131,8 +130,16 @@ def add(request):
                 'keys': _form.data.getlist('meta_keys'),
                 'values': _form.data.getlist('meta_values')
             }
-            flag, message = __save_article(_form.cleaned_data, _user, _metas)
-            return HttpResponseRedirect('/')
+            flag, message, article = __save_article(_form.cleaned_data, _user, _metas)
+            if flag:
+                return HttpResponseRedirect('/article/%s' % (article.slug))
+            else:
+                _context = {
+                    'form': _form,
+                    'errors': message
+                }
+                return render(request, 'articles/add.html', _context)
+
         else:
             _context = {
                 'form': _form
@@ -158,8 +165,15 @@ def update(request, slug, article_id):
                 'keys': _uform.data.getlist('meta_keys'),
                 'values': _uform.data.getlist('meta_values')
             }
-            flag, message = __update_article(_uform.cleaned_data, _user, _article, _metas)
-            return HttpResponseRedirect('/')
+            flag, message, article = __update_article(_uform.cleaned_data, _user, _article, _metas)
+            if flag:
+                return HttpResponseRedirect('/article/%s' % (article.slug))
+            else:
+                _context = {
+                    'form': _form,
+                    'errors': message
+                }
+                return render(request, 'articles/update.html', _context)
 
     _context = {
         'article': _article,
@@ -205,7 +219,7 @@ def __save_article(post, user, metas):
         message.append("Article created successfully")
         flag = True
 
-    return flag, message
+    return flag, message, _article
 
 
 def __update_article(post, user, article, metas):
@@ -242,4 +256,4 @@ def __update_article(post, user, article, metas):
         message.append("Content updated successfully")
         flag = True
 
-    return flag, message
+    return flag, message, article

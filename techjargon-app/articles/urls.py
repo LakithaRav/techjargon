@@ -15,7 +15,9 @@ urlpatterns = [
     url(r'^article/(?P<slug>[-\w\d]+)/(?P<content_id>[0-9]+)/history$', article.history, name='history'),
     # apis
     url(r'^api/search/', apis.search, name='api_search'),
+    url(r'^api/artciles/exists/', apis.check_article_exists, name='api_check_article_exists'),
     url(r'^api/rate/', apis.rate, name='api_rate'),
+    url(r'^api/tags/search/', apis.tag_search, name='api_tag_search'),
     # tags
     url(r'^tags/(?P<slug>[-\w\d]+)/$', tags.detail, name='tags_detail'),
 ]
