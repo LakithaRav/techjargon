@@ -190,6 +190,11 @@ body {
 	 width: 100%;
  }
 
+ #top-articles:focus {
+	 border: none;
+	 outline-width: 0;
+ }
+
  @media (max-width: 768px) {
 	 #top-articles {
 		 font-size: 40px;
