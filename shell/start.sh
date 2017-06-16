@@ -3,9 +3,9 @@
 NAME="techjargon"                                  # Name of the application
 DJANGODIR=/var/www/techjargon                      # Django project directory
 SOCKFILE=$DJANGODIR/techjargon.sock  # we will communicte using this unix socket
-USER=www-data                                        # the user to run as
+USER=gunicorn                                      # the user to run as
 GROUP=www-data                                     # the group to run as
-NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
+NUM_WORKERS=6                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=techjargon.settings             # which settings file should Django use
 DJANGO_WSGI_MODULE=techjargon.wsgi                     # WSGI module name
 
