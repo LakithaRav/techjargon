@@ -7,7 +7,7 @@ permissions:
   - object: /
     owner: gunicorn
     group: www-data
-    mode: 755
+    mode: 775
 hooks:
   AfterInstall:
     - location: shell/log.sh

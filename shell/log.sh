@@ -12,4 +12,4 @@ touch $_PATH/techjargon-app/log/celery_supervisor.log
 touch $_PATH/techjargon-app/log/celerybeat_supervisor.log
 
 chmod -R 775 $_PATH/techjargon-app/log/
-chown -R www-data:www-data $_PATH/techjargon-app/log/
+chown -R gunicorn:www-data $_PATH/techjargon-app/log/
