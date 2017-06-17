@@ -6,7 +6,7 @@ After=network.target
 User=www-data
 Group=www-data
 WorkingDirectory=/var/www/techjargon/techjargon-app
-ExecStart=/var/www/techjargon/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/techjargon/techjargon.sock techjargon.wsgi:application
+ExecStart=/var/www/techjargon/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/techjargon/techjargon.sock /var/www/techjargon/techjargon-app/techjargon.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
