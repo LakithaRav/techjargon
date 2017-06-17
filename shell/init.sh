@@ -7,8 +7,6 @@ sudo pip3 install virtualenv
 
 _PATH=/var/www/techjargon
 
-chmod -R 775 $_PATH
-
 virtualenv $_PATH/env
 source $_PATH/env/bin/activate
 
