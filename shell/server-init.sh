@@ -16,7 +16,7 @@ sudo ln -s /etc/nginx/sites-available/techjargon.com /etc/nginx/sites-enabled --
 sudo systemctl daemon-reload
 sudo systemctl start techjargon.gunicorn
 sudo systemctl enable techjargon.gunicorn
-sudo systemctl restart gunicorn
+sudo systemctl restart techjargon.gunicorn
 
 # supervisorctl restart techjargon-celery
 # supervisorctl restart techjargon-celerybeat

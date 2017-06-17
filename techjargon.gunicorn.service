@@ -3,7 +3,7 @@ Description=techjargon daemon
 After=network.target
 
 [Service]
-User=www-data
+User=gunicorn
 Group=www-data
 WorkingDirectory=/var/www/techjargon/techjargon-app
 ExecStart=/var/www/techjargon/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/techjargon/techjargon.sock /var/www/techjargon/techjargon-app/techjargon.wsgi:application
