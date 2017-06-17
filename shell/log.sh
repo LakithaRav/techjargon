@@ -5,7 +5,7 @@
 
 _PATH=/var/www/techjargon
 
-mkdir $_PATH/techjargon-app/log
+sudo mkdir $_PATH/techjargon-app/log
 
 touch $_PATH/techjargon-app/log/gunicorn_supervisor.log
 touch $_PATH/techjargon-app/log/celery_supervisor.log
@@ -15,5 +15,5 @@ touch $_PATH/techjargon-app/log/django_production.log
 touch $_PATH/techjargon-app/log/django_dba.log
 
 
-chmod -R 775 $_PATH/techjargon-app/log/
-chown -R www-data:www-data $_PATH/techjargon-app/log/
+sudo chmod -R 775 $_PATH/techjargon-app/log/
+sudo chown -R www-data:www-data $_PATH/techjargon-app/log/
