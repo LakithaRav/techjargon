@@ -5,7 +5,7 @@ files:
     destination: /var/www/techjargon
 permissions:
   - object: /
-    owner: gunicorn
+    owner: www-data
     group: www-data
     mode: 755
 hooks:
