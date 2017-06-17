@@ -8,10 +8,10 @@ sudo mv $_PATH/techjargon.com /etc/nginx/sites-available/techjargon.com
 
 sudo n -s /etc/nginx/sites-available/techjargon.com /etc/nginx/sites-enabled --force
 
-supervisorctl reread
-supervisorctl update
-supervisorctl restart techjargon-gunicorn
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl restart techjargon-gunicorn
 # supervisorctl restart techjargon-celery
 # supervisorctl restart techjargon-celerybeat
 
-systemctl restart nginx
+sudo systemctl restart nginx
