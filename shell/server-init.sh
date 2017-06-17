@@ -6,7 +6,7 @@ sudo mv $_PATH/techjargon.gunicorn.conf /etc/supervisor/conf.d/
 # mv $_PATH/techjargon.celerybeat.conf /etc/supervisor/conf.d/
 sudo mv $_PATH/techjargon.com /etc/nginx/sites-available/techjargon.com
 
-sudo n -s /etc/nginx/sites-available/techjargon.com /etc/nginx/sites-enabled --force
+sudo ln -s /etc/nginx/sites-available/techjargon.com /etc/nginx/sites-enabled --force
 
 sudo supervisorctl reread
 sudo supervisorctl update
