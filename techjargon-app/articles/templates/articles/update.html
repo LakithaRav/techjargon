@@ -11,6 +11,7 @@
       {% csrf_token %}
       {% for error in errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
       <input type="hidden" name="{{uform.article_id.html_name}}" value="{{uform.article_id.value}}">
+      <input type="hidden" name="{{uform.content_hash.html_name}}" value="{{uform.content_hash.value}}">
       <div class="form-group">
         <h1>{{ article.title|title }}</h1>
       </div>

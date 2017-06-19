@@ -16,6 +16,7 @@ from django.db.models import F
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
+import hashlib
 
 
 # Create your views here.
@@ -156,7 +157,19 @@ def add(request):
 @login_required
 def update(request, slug, article_id):
     _article = get_object_or_404(Article, id=article_id)
-    _uform = UpdateArticleForm(request.POST or None, initial={'article_id': article_id, 'content': _article.active_content().body, 'tags': _article.tags_str()})
+
+    # take current content hash
+    _meta_keys = []
+    _meta_values = []
+    for meta in _article.active_content().contentmeta_set.all():
+        _meta_keys.append(meta.name)
+        _meta_values.append(meta.data)
+
+    _hash = hashlib.md5(_article.active_content().body.encode())
+    _hash.update(repr(_meta_keys).encode('utf-8'))
+    _hash.update(repr(_meta_values).encode('utf-8'))
+
+    _uform = UpdateArticleForm(request.POST or None, initial={'article_id': article_id, 'content': _article.active_content().body, 'tags': _article.tags_str(), 'content_hash': _hash.hexdigest()})
     # pdb.set_trace()
     if request.method == 'POST':
         if _uform.is_valid():
@@ -226,7 +239,6 @@ def __update_article(post, user, article, metas):
     flag = False
     message = []
     try:
-        _content = Content(body=post['content'], status=Content._DEFAULT_STATUS, author=user.author)
 
         article.tags.clear()
 
@@ -238,16 +250,31 @@ def __update_article(post, user, article, metas):
                 tag.increase_weight(1)
             article.tags.add(tag)
 
-        article.content_set.update(status=Content.STATUS[0][0])
-        _content.article = article
-        _content.save()
-
+        # take current content hash
+        _meta_keys = []
+        _meta_values = []
         _key_index = 0
         for key in metas['keys']:
-            _meta = ContentMeta(name=key, data=metas['values'][_key_index])
-            _meta.content = _content
-            _meta.save()
-            _key_index += 1
+            _meta_keys.append(key)
+            _meta_values.append(metas['values'][_key_index])
+
+        _hash = hashlib.md5(post['content'].encode())
+        _hash.update(repr(_meta_keys).encode('utf-8'))
+        _hash.update(repr(_meta_values).encode('utf-8'))
+
+        if _hash.hexdigest() != post['content_hash']:
+            _content = Content(body=post['content'], status=Content._DEFAULT_STATUS, author=user.author)
+
+            article.content_set.update(status=Content.STATUS[0][0])
+            _content.article = article
+            _content.save()
+
+            _key_index = 0
+            for key in metas['keys']:
+                _meta = ContentMeta(name=key, data=metas['values'][_key_index])
+                _meta.content = _content
+                _meta.save()
+                _key_index += 1
 
     except IntegrityError as e:
         message.append(e)

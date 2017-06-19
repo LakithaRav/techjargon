@@ -21,6 +21,7 @@ class UpdateArticleForm(forms.Form):
     article_id = forms.IntegerField()
     # title = forms.CharField(max_length=100)
     content = forms.CharField()
+    content_hash = forms.CharField()
     # metas = forms.JSONField() # comes and json object array
     tags = SimpleArrayField(forms.CharField(), delimiter=',')
     meta_keys = SimpleArrayField(forms.CharField(), required=False)
@@ -30,4 +31,3 @@ class UpdateArticleForm(forms.Form):
     class Meta:
         model = Article
         fields = ('content', 'meta', 'tags', 'meta_keys', 'meta_values')
-
