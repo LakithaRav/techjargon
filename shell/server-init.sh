@@ -1,8 +1,8 @@
 _PATH=/var/www/techjargon
 
 
-# sudo mv $_PATH/techjargon.gunicorn.conf /etc/supervisor/conf.d/
-sudo mv $_PATH/techjargon.gunicorn.service /etc/systemd/system/
+sudo mv $_PATH/techjargon.gunicorn.conf /etc/supervisor/conf.d/
+# sudo mv $_PATH/techjargon.gunicorn.service /etc/systemd/system/
 # mv $_PATH/techjargon.celeryd.conf /etc/supervisor/conf.d/
 # mv $_PATH/techjargon.celerybeat.conf /etc/supervisor/conf.d/
 sudo mv $_PATH/techjargon.com /etc/nginx/sites-available/techjargon.com
