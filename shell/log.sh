@@ -16,4 +16,4 @@ sudo touch $_PATH/techjargon-app/log/django_dba.log
 
 
 sudo chmod -R 775 $_PATH/techjargon-app/log/
-sudo chown -R gunicorn:www-data $_PATH/techjargon-app/log/
+sudo chown -R techjargon:www-data $_PATH/techjargon-app/log/
