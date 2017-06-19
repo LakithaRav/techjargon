@@ -1,15 +1,13 @@
-apt --assume-yes install libpq-dev python3-dev python3-pip
-apt-get --assume-yes install libcurl4-openssl-dev
-apt-get --assume-yes install supervisor
-apt-get --assume-yes install rabbitmq-server
--H pip3 install --upgrade pip
--H pip3 install virtualenv
+sudo apt --assume-yes install libpq-dev python3-dev python3-pip
+sudo apt-get --assume-yes install libcurl4-openssl-dev
+sudo apt-get --assume-yes install supervisor
+sudo apt-get --assume-yes install rabbitmq-server
+sudo -H pip3 install --upgrade pip
+sudo -H pip3 install virtualenv
 
 _PATH=/var/www/techjargon
 
 virtualenv $_PATH/env
-
-chown -R gunicorn:www-data $_PATH/
 
 source $_PATH/env/bin/activate
 
