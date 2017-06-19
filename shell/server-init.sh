@@ -9,14 +9,14 @@ sudo mv $_PATH/techjargon.com /etc/nginx/sites-available/techjargon.com
 
 sudo ln -s /etc/nginx/sites-available/techjargon.com /etc/nginx/sites-enabled --force
 
-# supervisorctl reread
-# supervisorctl update
-# supervisorctl restart techjargon-gunicorn
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl restart techjargon-gunicorn
 
-sudo systemctl daemon-reload
-sudo systemctl start techjargon.gunicorn
-sudo systemctl enable techjargon.gunicorn
-sudo systemctl restart techjargon.gunicorn
+# sudo systemctl daemon-reload
+# sudo systemctl start techjargon.gunicorn
+# sudo systemctl enable techjargon.gunicorn
+# sudo systemctl restart techjargon.gunicorn
 
 # supervisorctl restart techjargon-celery
 # supervisorctl restart techjargon-celerybeat
