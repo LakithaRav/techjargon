@@ -7,9 +7,9 @@ sudo -H pip3 install virtualenv
 
 _PATH=/var/www/techjargon
 
-virtualenv $_PATH/env
-
-source $_PATH/env/bin/activate
+# virtualenv $_PATH/env
+#
+# source $_PATH/env/bin/activate
 
 pip install -r $_PATH/requirements.txt
 
