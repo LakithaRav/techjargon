@@ -13,11 +13,6 @@ server {
     location / {
         include proxy_params;
         proxy_pass http://unix:/var/www/techjargon/techjargon.sock;
-        proxy_pass_header Server;
-        proxy_redirect off;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Scheme $scheme;
         proxy_set_header REMOTE_ADDR $remote_addr;
     }
 
