@@ -296,6 +296,11 @@ def __add_view_log(request, article):
     try:
         # pdb.set_trace()
         nview = None
+
+        # reverse proxy hack
+        if 'HTTP_X_FORWARDED_FOR' in request.META:
+            request.META['REMOTE_ADDR'] = request.META['HTTP_X_FORWARDED_FOR'].split(",")[0].strip()
+
         if hasattr(request.user, 'author'):
             nview = ArticleView(ip_address=request.META.get('REMOTE_ADDR'), article=article, author=request.user.author)
         else:
