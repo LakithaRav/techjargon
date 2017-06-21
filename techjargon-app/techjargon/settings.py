@@ -182,11 +182,19 @@ REST_FRAMEWORK = {
     ]
 }
 
+# production
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#         'LOCATION': 'unique-snowflake',
+#         'TIMEOUT': 1,
+#     }
+# }
+
+# development
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 0,
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 

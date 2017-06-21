@@ -10,6 +10,7 @@ from articles.models.content import Content
 from articles.models.tag import Tag
 from articles.models.content_meta import ContentMeta
 from articles.models.content_rating import ContentRating
+from articles.models.article_view import ArticleView
 import pdb;
 from django.db import IntegrityError
 from django.db.models import F
@@ -86,10 +87,11 @@ def detail(request, slug):
     action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
     related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')[:10]
 
+    _total_ratins = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('owner_id', '-id').distinct('owner_id').count()
     _my_rating = 0
     if hasattr(request.user, 'author'):
         try:
-            _rating = ContentRating.objects.get(content_id=article.content_set.get(status=1).id, owner_id=request.user.author.id)
+            _rating = ContentRating.objects.get(content_id=article.active_content().id, owner_id=request.user.author.id)
             _my_rating = _rating.value
         except Author.DoesNotExist:
             _my_rating = -1
@@ -103,9 +105,11 @@ def detail(request, slug):
         'content': article.active_content,
         'related_articles': related_articles,
         'my_rating': _my_rating,
+        'total_ratins': _total_ratins,
         'full_url_path': request.build_absolute_uri()
     }
-    Article.objects.filter(id=article.id).update(views=F('views') + 1)
+
+    falg, message = __add_view_log(request, article)
 
     return render(request, 'articles/detail.html', _context)
 
@@ -284,3 +288,27 @@ def __update_article(post, user, article, metas):
         flag = True
 
     return flag, message, article
+
+
+def __add_view_log(request, article):
+    flag = False
+    message = []
+    try:
+        # pdb.set_trace()
+        nview = None
+        if hasattr(request.user, 'author'):
+            nview = ArticleView(ip_address=request.META.get('REMOTE_ADDR'), article=article, author=request.user.author)
+        else:
+            nview = ArticleView(ip_address=request.META.get('REMOTE_ADDR'), article=article, author=None)
+
+        nview.save()
+        Article.objects.filter(id=article.id).update(views=article.articleview_set.count())
+
+    except IntegrityError as e:
+        message.append(e)
+        pass
+    else:
+        message.append("View log added")
+        flag = True
+
+    return flag, message

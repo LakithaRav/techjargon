@@ -122,9 +122,9 @@
           </select>
 				</div>
 				<div class="row article-stats">
-					<h4 class=""><small>ratings</small> <span id="overall-rating-count">{{ article.active_content.contentrating_set.count | intcomma }}</span></h4>
+					<h4 class=""><small>ratings</small> <span id="overall-rating-count">{{ total_ratins | intcomma }}</span></h4>
 					<h4 class=""><small>views</small> <span>{{ article.views | intcomma }}</span></h4>
-					<h4 class=""><small>added</small> <span>{{ article.created_at | naturaltime }}</span></h4>
+					<h4 class=""><small>update</small> <span>{{ article.updated_at | naturaltime }}</span></h4>
 				</div>
 			</div>
 

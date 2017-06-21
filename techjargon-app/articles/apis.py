@@ -99,8 +99,20 @@ def rate(request):
 
 
 # private
-def processRating(content):
+def processRating_dep(content):
 	ratings = content.contentrating_set.all()
+	_total = 0
+	for rating in ratings:
+		_total += rating.value
+
+	_average = _total / ratings.count()
+	content.article.rating = _average
+	content.article.save()
+	return _average
+
+def processRating(content):
+	article = content.article
+	ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('owner_id', '-id').distinct('owner_id')
 	_total = 0
 	for rating in ratings:
 		_total += rating.value
