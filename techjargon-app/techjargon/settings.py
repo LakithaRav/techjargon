@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import logging.config
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -286,8 +287,8 @@ CELERY_BEAT_SCHEDULE = {
     #     'schedule': 10,  # in seconds, or timedelta(seconds=10)
     #     'args': (16, 16),
     # },
-    'service-check': {
+    'service-live-check': {
         'task': 'articles.tasks.article_tasks.test',
-        'schedule': 30,  # in seconds, or timedelta(seconds=10)
+        'schedule': crontab(minute=0, hour=0),
     },
 }
