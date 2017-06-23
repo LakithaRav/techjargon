@@ -19,7 +19,7 @@ pipelines:
             - pip install awscli
             - aws deploy push --application-name TechJargon --s3-location s3://fidenz-zookeeper-s3/techjargon-dev.zip --region us-east-1 --ignore-hidden-files
             - aws deploy create-deployment --application-name TechJargon --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name techjargon-devlopment --description "Automated Deployment" --s3-location bucket=fidenz-zookeeper-s3,bundleType=zip,key=techjargon-dev.zip --region us-east-1
-    celery_init:
+    feature/celery_init:
       - step:
           script: # Modify the commands below to build your repository.
             - pip install awscli
