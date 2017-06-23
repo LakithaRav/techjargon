@@ -18,6 +18,7 @@ from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import operator
 import hashlib
+from articles.tasks import article_tasks
 
 
 # Create your views here.
