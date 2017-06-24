@@ -278,7 +278,7 @@ CELERY_BROKER_URL = 'pyamqp://'
 # CELERY_ACCEPT_CONTENT = ['json']
 # CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BEAT_SYNC_EVERY = 10
+# CELERY_BEAT_SYNC_EVERY = 10
 CELERY_ENABLE_UTC = True
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BEAT_SCHEDULE = {
@@ -289,6 +289,6 @@ CELERY_BEAT_SCHEDULE = {
     # },
     'service-live-check': {
         'task': 'articles.tasks.article_tasks.test',
-        'schedule': crontab(minute=0, hour=0),
+        'schedule': crontab(minute=30),
     },
 }
