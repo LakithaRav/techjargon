@@ -1,10 +1,19 @@
 header {
-  // border-top: 3px solid $primary-color;
+  .navbar {
+    border-top: 3px solid $primary-color;
+
+  }
   .navbar-brand {
     height: auto;
     padding-top: 6px;
+    @include bp(xs) {
+      padding-top: 14px;
+    }
   }
   .navbar-nav {
+    @include bp(xs) {
+      background-color: #fff;
+    }
     li {
       padding: 15px;
     }

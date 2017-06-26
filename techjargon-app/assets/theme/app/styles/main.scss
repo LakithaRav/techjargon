@@ -1,8 +1,7 @@
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
-
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald|Slabo+27px');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald:300,400|Slabo+27px');
 
 @import "mixin";
 @import "constants";
@@ -10,9 +9,19 @@
 @import "header/header";
 @import "header/logo";
 
-@import "theme";
+@import "main/article-list";
+
+@import "typography";
 
 body {
   color: #000;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
+  padding-top: 140px;
+}
+
+::selection {
+  background: $primary-color; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: $primary-color; /* Gecko Browsers */
 }
