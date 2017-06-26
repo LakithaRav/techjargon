@@ -1,15 +1,25 @@
-@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
 
-$font-stack:    'Slabo 27px', serif;
+// $font-stack : 'Slabo 27px',
+// serif;
+// html {
+//   font-size: 62.5%;
+//   font-family: $font-stack !important;
+//   color: #000;
+// }
 
-html {
-    font-size: 62.5%;
-    font-family: $font-stack !important;
-    color: #000;
-}
+// a:link {
+//   color: $primary-color;
+// }
 
-a:link { color:#0271fb; }
-a:visited { color:#bd02fb; }
-a:hover, a:focus { color:#000; }
-a:active { color:#fb0e02; }
+// a:visited {
+//   color: darken($primary-color, 10%);
+// }
+
+// a:hover,
+// a:focus {
+//   color: #000;
+// }
+
+// a:active {
+//   color: #fb0e02;
+// }
