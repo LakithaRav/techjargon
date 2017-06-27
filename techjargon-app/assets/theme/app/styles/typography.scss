@@ -1,6 +1,5 @@
 h1,
 h2 {
-  font-family: "Oswald", sans-serif;
   font-weight: 400;
   position: relative;
   text-transform: uppercase;
@@ -9,7 +8,6 @@ h2 {
 h1 {
   font-size: 50px;
   // letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 h2 {
@@ -38,4 +36,10 @@ a {
   &:focus {
     text-decoration: none;
   }
+}
+
+p {
+  font-family: 'Open Sans', serif; 
+  font-size: 16px;
+  font-weight: 300;
 }

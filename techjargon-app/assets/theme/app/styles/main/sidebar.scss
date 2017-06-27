@@ -1,0 +1,17 @@
+.sidebar-left {
+  left: 15px;
+  position: fixed;
+  top: 118px;
+  width: calc(25% - 30px);
+
+  text-align: right;
+  @include bp(xs) {
+    margin-bottom: 60px;
+    position: static;
+    width: auto;
+  }
+}
+
+.sidebar-heading-align-top {
+  margin-top: 10px;
+}

@@ -1,7 +1,7 @@
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald:300,400|Slabo+27px');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald:300,400|Slabo+27px|Merriweather:300');
 
 @import "mixin";
 @import "constants";
@@ -11,7 +11,9 @@
 @import "header/logo";
 @import "footer/footer";
 
+@import "main/sidebar";
 @import "main/article-list";
+@import "main/article";
 
 @import "shame";
 
