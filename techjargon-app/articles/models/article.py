@@ -2,7 +2,8 @@ from django.db import models
 from datetime import datetime
 from .tag import Tag
 from rest_framework import serializers
-
+from django.contrib.contenttypes.fields import GenericRelation
+from trackings.models.impression import Impression
 
 # Create your models here.
 class Article(models.Model):
@@ -23,6 +24,7 @@ class Article(models.Model):
 
     # relations
     tags = models.ManyToManyField(Tag, related_name='%(class)s_tags')
+    impressions = GenericRelation(Impression)
 
     def __unicode__(self):
         return '%s' % self.title

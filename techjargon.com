@@ -13,6 +13,7 @@ server {
     location / {
         include proxy_params;
         proxy_pass http://unix:/var/www/techjargon/techjargon.sock;
+        proxy_set_header REMOTE_ADDR $remote_addr;
     }
 
     location  /robots.txt {

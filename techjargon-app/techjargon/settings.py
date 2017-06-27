@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import logging.config
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,7 @@ SECRET_KEY = 'hozd=m(om6kdqgu!sq!k*=(_b2@i_&!mikksv(_21-e8o!n^(^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'techjargon-dev.fidenz.info', 'www.techjargon-dev.fidenz.info', 'techjargon.fidenz.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'techjargon-dev.fidenz.info', 'techjargon.fidenz.com']
 
 
 # Application definition
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'django.contrib.humanize',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -110,14 +113,6 @@ DATABASES = {
     #     'USER': 'pgzookeeper',
     #     'PASSWORD': 'pgzookeeper911',
     #     'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
-    #     'PORT': '5432',
-    # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'techjargon',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': '172.16.10.18',
     #     'PORT': '5432',
     # }
 }
@@ -188,7 +183,7 @@ REST_FRAMEWORK = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
 #         'LOCATION': 'unique-snowflake',
-#         'TIMEOUT': 1,
+#         'TIMEOUT': 300,
 #     }
 # }
 
@@ -272,5 +267,29 @@ logging.config.dictConfig(LOGGING)
 AUTH_0 = {
     'CLIENT_ID': 'QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx',
     'CLIENT_SECRET': '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a',
-    'CALLBACK_URL': 'http://127.0.0.1:3000/authors/callback/'
+    'CALLBACK_URL': 'http://techjargon-dev.fidenz.info/authors/callback/'
+}
+
+# Celery settings
+
+CELERY_BROKER_URL = 'pyamqp://'
+# CELERY_RESULT_BACKEND = 'rpc://'
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-cache'
+# CELERY_BEAT_SYNC_EVERY = 10
+CELERY_ENABLE_UTC = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULE = {
+    # 'demo-task': {
+    #     'task': 'articles.tasks.article_tasks.update',
+    #     'schedule': 10,  # in seconds, or timedelta(seconds=10)
+    #     'args': (16, 16),
+    # },
+    'service-live-check': {
+        'task': 'articles.tasks.article_tasks.test',
+        'schedule': crontab(minute=30),
+    },
 }

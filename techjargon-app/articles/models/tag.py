@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 from django.db.models import F
 from rest_framework import serializers
+from django.contrib.contenttypes.fields import GenericRelation
+from trackings.models.impression import Impression
 
 # Create your models here.
 class Tag(models.Model):
@@ -11,6 +13,9 @@ class Tag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=True)
 
+    # relations
+    impressions = GenericRelation(Impression)
+    
     # private
 
     def increase_weight(self, type):

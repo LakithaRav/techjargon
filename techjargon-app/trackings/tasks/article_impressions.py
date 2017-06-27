@@ -15,7 +15,7 @@ def add(article_id, user_id, request_ip):
         if article is not None:
             nview = Impression(ip_address=request_ip, content_object=article, user_id=user_id)
             nview.save()
-            article.update(views=Impression.objects.filter(content_object=article).count())
+            Article.objects.filter(id=article.id).update(views=article.impressions.count())
         else:
             message.append("article not found")
 
@@ -26,4 +26,4 @@ def add(article_id, user_id, request_ip):
         message.append("View log added")
         flag = True
 
-    return flag, message
+    return flag

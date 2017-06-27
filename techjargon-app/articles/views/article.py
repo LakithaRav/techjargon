@@ -21,7 +21,7 @@ from trackings.models.impression import Impression
 from articles.forms.article import NewArticleForm
 from articles.forms.article import UpdateArticleForm
 # tasks
-from trackings.tasks import impression_counter as impressions
+from trackings.tasks import article_impressions as impressions
 
 
 # Create your views here.
