@@ -75,7 +75,7 @@ def rate(request):
 			_value = body['value']
 
 			_content = Content.objects.get(pk=_content_id)
-			_rating, _created = ContentRating.objects.get_or_create(content_id=_content_id, owner_id=_user.author.id)
+			_rating, _created = ContentRating.objects.get_or_create(content_id=_content_id, user_id=_user.id)
 			_rating.value = _value
 			_rating.save()
 			average = processRating(_content)
@@ -112,7 +112,7 @@ def processRating_dep(content):
 
 def processRating(content):
 	article = content.article
-	ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('owner_id', '-id').distinct('owner_id')
+	ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id')
 	_total = 0
 	for rating in ratings:
 		_total += rating.value

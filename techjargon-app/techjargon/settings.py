@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'techjargon-dev.fidenz.info', 'www.techjargon-dev.
 INSTALLED_APPS = [
     'authors.apps.AuthorsConfig',
     'articles.apps.ArticlesConfig',
+    'trackings.apps.TrackingsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
