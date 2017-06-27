@@ -5,13 +5,15 @@
 
 @import "mixin";
 @import "constants";
+@import "typography";
 
 @import "header/header";
 @import "header/logo";
+@import "footer/footer";
 
 @import "main/article-list";
 
-@import "typography";
+@import "shame";
 
 body {
   color: #000;

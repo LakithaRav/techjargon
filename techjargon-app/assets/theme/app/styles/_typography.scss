@@ -1,10 +1,21 @@
+h1,
 h2 {
   font-family: "Oswald", sans-serif;
-  font-size: 16px;
   font-weight: 400;
+  position: relative;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 50px;
+  // letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: 16px;
   letter-spacing: 0.2em;
   margin-bottom: 20px;
-  text-transform: uppercase;
 
   &::before {
     background-color: #000;
@@ -12,7 +23,7 @@ h2 {
     height: 2px;
     position: absolute;
     width: 25px;
-    top: 10px;
+    top: -10px;
   }
 }
 
