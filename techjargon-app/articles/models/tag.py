@@ -14,8 +14,8 @@ class Tag(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     # relations
-    impressions = GenericRelation(Impression)
-    
+    impressions = GenericRelation(Impression, related_query_name='tags')
+
     # private
 
     def increase_weight(self, type):

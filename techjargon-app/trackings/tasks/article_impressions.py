@@ -27,3 +27,6 @@ def add(article_id, user_id, request_ip):
         flag = True
 
     return flag
+
+# Impression.objects.values('content_type_id', 'object_id').annotate(count=Count('object_id')).order_by('-count')[0]['count']
+# Article.objects.filter(pk=1).aggregate(Count('impressions'))

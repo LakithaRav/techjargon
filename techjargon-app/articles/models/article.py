@@ -24,11 +24,10 @@ class Article(models.Model):
 
     # relations
     tags = models.ManyToManyField(Tag, related_name='%(class)s_tags')
-    impressions = GenericRelation(Impression)
+    impressions = GenericRelation(Impression, related_query_name='articles')
 
     def __unicode__(self):
         return '%s' % self.title
-
 
     def active_content(self):
         content = self.content_set.get(status=1)
