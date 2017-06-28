@@ -267,7 +267,7 @@ logging.config.dictConfig(LOGGING)
 AUTH_0 = {
     'CLIENT_ID': 'QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx',
     'CLIENT_SECRET': '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a',
-    'CALLBACK_URL': 'http://techjargon-dev.fidenz.info/authors/callback/'
+    'CALLBACK_URL': 'http://127.0.0.1:3000/authors/callback/'
 }
 
 # Celery settings
@@ -290,6 +290,18 @@ CELERY_BEAT_SCHEDULE = {
     # },
     'service-live-check': {
         'task': 'articles.tasks.article_tasks.test',
-        'schedule': crontab(minute=30),
+        'schedule': crontab(hour=0),
+    },
+    'tracking-article-impressions': {
+        'task': 'trackings.tasks.article_impressions.suggest_user_tags',
+        'schedule': crontab(minute=59),
+    },
+    'tracking-tag-impressions': {
+        'task': 'trackings.tasks.tag_impressions.suggest_user_tags',
+        'schedule': crontab(minute=59),
+    },
+    'tracking-rating-impressions': {
+        'task': 'trackings.tasks.rating_impressions.suggest_user_tags',
+        'schedule': crontab(minute=59),
     },
 }

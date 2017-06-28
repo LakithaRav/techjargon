@@ -17,6 +17,7 @@ from articles.models.tag import Tag
 from articles.models.content_meta import ContentMeta
 from articles.models.content_rating import ContentRating
 from trackings.models.impression import Impression
+from authors.models.user_tag import UserTag
 # forms
 from articles.forms.article import NewArticleForm
 from articles.forms.article import UpdateArticleForm
@@ -33,6 +34,11 @@ def index(request):
   _top_100 = Article.objects.order_by('-views')[:100]
 
   _tags = sorted(_tags, key=operator.attrgetter('created_at'))
+  _sugg_articles = []
+  if request.user.is_authenticated:
+      _sugg_tags = get_suggetion_tags(request.user.id)
+      _sugg_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:10]
+      _sugg_articles = sorted(_sugg_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
 
   _page_meta = {
     'keywords': '',
@@ -52,6 +58,7 @@ def index(request):
   _context = {
     'top_articles': _top_articles,
     'latest_articles': _latest_articles,
+    'suggested_articles': _sugg_articles,
     'tags': _tags,
     'meta': _page_meta,
   }
@@ -300,20 +307,30 @@ def __add_view_log(request, article):
         user_id = request.user.id
 
     impressions.add.delay(article.id, user_id, request.META.get('REMOTE_ADDR'))
-    # try:
-    #     # pdb.set_trace()
-    #     # nview = None
-    #     # if hasattr(request.user, 'author'):
-    #     #     nview = ArticleView(ip_address=request.META.get('REMOTE_ADDR'), article=article, author=request.user.author)
-    #     # else:
-    #     #     nview = ArticleView(ip_address=request.META.get('REMOTE_ADDR'), article=article, author=None)
-    #     #
-    #     # nview.save()
-    #     # Article.objects.filter(id=article.id).update(views=article.articleview_set.count())
-    #
-    # except IntegrityError as e:
-    #     message.append(e)
-    #     pass
-    # else:
-    #     message.append("View log added")
-    #     flag = True
+
+
+def get_suggetion_tags(user_id):
+    primary_tags = []
+    optional_tags = []
+
+    _article_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')
+    _tags_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')
+    _rating_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')
+
+    optional_tags += _article_tags
+    optional_tags += _tags_tags
+    optional_tags += _rating_tags
+
+    _article_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
+    _tags_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
+    _rating_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
+
+    primary_tags += _article_tags
+    primary_tags += _tags_tags
+    primary_tags += _rating_tags
+
+    tags = []
+    for tag in optional_tags:
+        tags.append(tag.tag_id)
+
+    return tags

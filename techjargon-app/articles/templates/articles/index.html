@@ -68,6 +68,14 @@
 	{% endfor %}
 </div>
 
+<div>
+	<ul>
+		{% for article in suggested_articles %}
+		<li><a href="{{ article.link }}">{{ article.title }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
 {% endblock %}
 
 {% block javascript %}
