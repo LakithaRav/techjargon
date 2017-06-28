@@ -12,6 +12,7 @@
 
   <!-- build:css styles/vendor.css -->
   <!-- bower:css -->
+  <link rel="stylesheet" href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars-o.css" />
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -54,9 +55,16 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
             <li><a href="#" class="active">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
+            <li>
+              <ul class="navbar-social">
+                <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+              </ul>
+            </li>
           </ul>
           <!--<form class="navbar-form navbar-right">
           <div class="form-group">
@@ -78,24 +86,31 @@
         <div class="sidebar-left">
           <h1 class="article-title">Python</h1>
           <ul class="article-info">
-            <li>
-              <ul class="article-ratings">
-                <li><span class="glyphicon glyphicon-star" aria-hidden="true"></span></li>
-                <li><span class="glyphicon glyphicon-star" aria-hidden="true"></span></li>
-                <li><span class="glyphicon glyphicon-star" aria-hidden="true"></span></li>
-                <li><span class="glyphicon glyphicon-star" aria-hidden="true"></span></li>
-              </ul>
+            <li class="article-ratings readonly">
+              <!--<ul class="article-ratings">
+                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+              </ul>-->
+              <select id="articleRatings">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
             </li>
-            <li data-toggle="tooltip" title="Ratings"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> 100</li>
-            <li data-toggle="tooltip" title="Views"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 210</li>
-            <li>
-
-            </li>
+            <!--<li data-toggle="tooltip" title="Ratings"><i class="fa fa-star-o" aria-hidden="true"></i></span> 100</li>
+            <li data-toggle="tooltip" title="Views"><i class="fa fa-eye" aria-hidden="true"></i> 210</li>-->
+            <li data-toggle="tooltip" title="Ratings">100 <span class="article-ratings__label">ratings</span></li>
+            <li data-toggle="tooltip" title="Views">210 <span class="article-ratings__label">views</span></li>
+            <li data-toggle="tooltip" title="Views">10, June 2017 <span class="article-ratings__label">updated</span></li>
           </ul>
         </div>
       </div>
       <div class="col-md-6">
-        <p class="article-content">
+        <p class="article-content bottom-buffer-20">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
           penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
           eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
@@ -103,20 +118,75 @@
           pretium. Integer tincidunt. Cras dapibu
         </p>
         <!--<div class="pull-right"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>-->
-        <ul class="article-resources">
+        <ul class="article-resources bottom-buffer-20">
           <li><span class="article-resources__label">wiki</span><a href="https://en.wikipedia.org/wiki/Python_(programming_language)"
               target="_blank">https://en.wikipedia.org/wiki/Python_(programming_language)</a></li>
           <li><span class="article-resources__label">wiki</span><a href="https://en.wikipedia.org/wiki/Python_(programming_language)"
               target="_blank">https://en.wikipedia.org/wiki/Python_(programming_language)</a></li>
         </ul>
 
-        <ul class="article-tags">
+        <ul class="article-tags bottom-buffer-20">
           <li><a href="#">python</a></li>
           <li><a href="#">frameworks</a></li>
         </ul>
+
+        <div class="clearfix">
+          <ul class="article-author bottom-buffer-20">
+            <li>
+              <div class="article-author__img" style="background-image: url('https://pbs.twimg.com/profile_images/1760653780/1190978563_2261111954595ugly_man.jpg');"></div>
+              <div class="article-author__info">
+                <a href="">edited 10, June 2017</a>
+                <a href="">Lakitha Samarasinghe</a>
+              </div>
+            </li>
+            <li>
+              <div class="article-author__img" style="background-image: url('https://pbs.twimg.com/profile_images/1760653780/1190978563_2261111954595ugly_man.jpg');"></div>
+              <div class="article-author__info">
+                <a href="">created 10, June 2017</a>
+                <a href="">Lakitha Samarasinghe</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <ul class="article-actions bottom-buffer-40">
+          <li>
+            <a href=""><strong class="prominent">improve this article</strong></a>
+          </li>
+          <li>
+            <a href="">history</a>
+          </li>
+        </ul>
+
+        <div class="article-signin bottom-buffer-20">
+          <a href=""><strong>sign in</strong></a> to rate this article
+        </div>
+
+        <div class="article-signin article-ratings">
+          <span class="article-signin__label">How helpful was this answer for you ?</span>
+          <select id="rateArticle">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+
       </div>
       <div class="col-md-3">
-        <h2 class="sidebar-heading-align-top">Related Articles</h2>
+        <ul style="list-style: none; padding: 0;" class="sidebar-h2-align-top bottom-buffer-40">
+          <li>
+            <ul class="article-share">
+              <li><a href=""><i class="fa fa-at" aria-hidden="true"></i></a></li>
+              <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+              <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+              <li><a href=""><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+              <li><a href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+            </ul>
+          </li>
+        </ul>
+        <h2 class="sidebar-h2-align-top">Related</h2>
         <ul class="articles-related">
           <li><span class="articles-related__count highlighted">100</span><a href="#">Django</a></li>
           <li><span class="articles-related__count">65</span><a href="#">Flask</a></li>
@@ -149,6 +219,7 @@
   <!-- bower:js -->
   <script src="/bower_components/jquery/dist/jquery.js"></script>
   <script src="/bower_components/modernizr/modernizr.js"></script>
+  <script src="/bower_components/jquery-bar-rating/jquery.barrating.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 

@@ -1,7 +1,10 @@
-$icon-font-path: '../fonts/bootstrap';
+$icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
+$fa-font-path: '../bower_components/font-awesome/fonts';
 
 $primary-color: #4169E1;
 $primary-highlight: lighten($primary-color, 10%);
+$primary-highlighter: lighten($primary-color, 20%);
+$primary-highlightest: lighten($primary-color, 37%);
 
 $yellow: #EDB867;
 $green: #0e9d10;

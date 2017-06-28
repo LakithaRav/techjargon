@@ -2,8 +2,11 @@
   "name": "techjargon",
   "private": true,
   "dependencies": {
+    "jquery": "^3.2.1",
     "bootstrap-sass": "~3.3.5",
-    "modernizr": "~2.8.1"
+    "modernizr": "~2.8.1",
+    "font-awesome": "^4.7.0",
+    "jquery-bar-rating": "^1.2.2"
   },
   "overrides": {
     "bootstrap-sass": {
@@ -11,6 +14,12 @@
         "assets/stylesheets/_bootstrap.scss",
         "assets/fonts/bootstrap/*",
         "assets/javascripts/bootstrap.js"
+      ]
+    },
+    "jquery-bar-rating": {
+      "main": [
+        "dist/themes/fontawesome-stars-o.css",
+        "jquery.barrating.js"
       ]
     }
   },

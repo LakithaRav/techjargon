@@ -1,7 +1,9 @@
 header {
   .navbar {
     border-top: 3px solid $primary-color;
-
+    @include bp(xs) {
+      background-color: #fff;
+    }
   }
   .navbar-brand {
     height: auto;
@@ -15,7 +17,7 @@ header {
       background-color: #fff;
     }
     li {
-      padding: 15px;
+      padding: 15px 10px;
     }
     a {
       color: #000;
@@ -25,7 +27,6 @@ header {
       padding: 0;
       position: relative;
       text-transform: uppercase;
-      transition: color 300ms ease-in-out;
       @include bp(xs) {
         font-size: 16px;
         text-align: center;
@@ -49,12 +50,37 @@ header {
         }
       }
     }
+    .navbar-newarticle {
+      background-color: #000;
+      color: #fff !important;
+      padding: 0 8px !important;
+      &:hover {
+        background-color: $primary-color !important;
+      }
+      &:active,
+      &:focus,
+      &:visited {
+        background-color: #000;
+      }
+    }
   }
   .navbar-toggle {
     color: #000;
     margin-top: 15px;
     span {
       background-color: #000;
+    }
+  }
+  .navbar-social {
+    list-style: none;
+    padding: 0;
+    li {
+      display: inline-block;
+      padding: 0 8px !important;
+      i {
+        font-size: 14px;
+        vertical-align: text-top;
+      }
     }
   }
 }

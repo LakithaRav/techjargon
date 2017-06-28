@@ -3,15 +3,14 @@
   position: fixed;
   top: 118px;
   width: calc(25% - 30px);
-
   text-align: right;
   @include bp(xs) {
-    margin-bottom: 60px;
+    margin-bottom: 20px;
     position: static;
     width: auto;
   }
 }
 
-.sidebar-heading-align-top {
-  margin-top: 10px;
+.sidebar-h2-align-top {
+  margin-top: 6px;
 }
