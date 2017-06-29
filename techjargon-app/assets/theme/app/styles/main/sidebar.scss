@@ -1,13 +1,19 @@
 .sidebar-left {
   left: 15px;
   position: fixed;
-  top: 118px;
   width: calc(25% - 30px);
-  text-align: right;
   @include bp(xs) {
     margin-bottom: 20px;
     position: static;
     width: auto;
+  }
+  &.article {
+    text-align: right;
+    top: 112px;
+  }
+  &.home {
+    top: 264px;
+    width: calc(16.6666666667% - 30px);
   }
 }
 

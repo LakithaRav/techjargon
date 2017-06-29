@@ -55,9 +55,16 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
             <li><a href="#" class="active">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
+            <li>
+              <ul class="navbar-social">
+                <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+              </ul>
+            </li>
           </ul>
           <!--<form class="navbar-form navbar-right">
           <div class="form-group">
@@ -81,52 +88,78 @@
     </div>
     <div class="row">
       <div class="col-md-2">
-        <h1 class="article-title"></h1>
+        <div class="search-suggestions sidebar-left home">
+          <ul class="no-ul">
+            <li><a onclick="scrollTo('#trendingArticles')">Trending Articles</a></li>
+            <li><a onclick="scrollTo('#latestArticle')">Latest Articles</a></li>
+          </ul>
+        </div>
       </div>
       <div class="col-md-6">
-        <h2>Trending Articles</h2>
-        <ul class="article-list">
-          <li><a href="#">Apache Spark</a></li>
-          <li><a href="#">Django</a></li>
-          <li><a href="#">hdfs</a></li>
-          <li><a href="#">Marathon-LB</a></li>
-          <li><a href="#">Dart</a></li>
-          <li><a href="#">Amazon Cloud</a></li>
-          <li><a href="#">Circuitebreaker Pattern</a></li>
-          <li><a href="#">Event Outsourcing</a></li>
-          <li><a href="#">Apache Headloop</a></li>
-          <li><a href="#">Kibana</a></li>
-          <li><a href="#">npm</a></li>
-          <li><a href="#">RabbitMQ</a></li>
-          <li><a href="#">HAproxy</a></li>
-          <li><a href="#">Apache Habse</a></li>
-          <li><a href="#">Apache Pig</a></li>
-          <li><a href="#">Could Native</a></li>
-          <li><a href="#">Vagrant</a></li>
-          <li><a href="#">Andromeda OS</a></li>
-          <li><a href="#">Kurbanetees</a></li>
-          <li><a href="#">Nagios</a></li>
-          <li><a href="#">grpc</a></li>
-          <li><a href="#">Theano</a></li>
-          <li><a href="#">Pytorch</a></li>
-          <li><a href="#">Messos</a></li>
-          <li><a href="#">Ecm</a></li>
-          <li><a href="#">Mojo</a></li>
-          <li><a href="#">Django</a></li>
-          <li><a href="#">Ruby</a></li>
-          <li><a href="#">Javascript</a></li>
-          <li><a href="#">AngularJS</a></li>
-          <li><a href="#">Python</a></li>
-          <li><a href="#">Django</a></li>
-          <li><a href="#">Ruby</a></li>
-          <li><a href="#">Javascript</a></li>
-          <li><a href="#">AngularJS</a></li>
-          <li><a href="#">Python</a></li>
-          <li><a href="#">Django</a></li>
-          <li><a href="#">Ruby</a></li>
-          <li><a href="#">Javascript</a></li>
-          <li><a href="#">AngularJS</a></li>
-        </ul>
+        <div id="trendingArticles">
+          <h2>Trending Articles</h2>
+          <ul class="article-list no-ul">
+            <li><span class="articles-related__count">100</span><a href="#">Apache Spark</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">hdfs</a></li>
+            <li><a href="#">Marathon-LB</a></li>
+            <li><a href="#">Dart</a></li>
+            <li><a href="#">Amazon Cloud</a></li>
+            <li><a href="#">Circuitebreaker Pattern</a></li>
+            <li><a href="#">Event Outsourcing</a></li>
+            <li><a href="#">Apache Headloop</a></li>
+            <li><a href="#">Kibana</a></li>
+            <li><a href="#">npm</a></li>
+            <li><a href="#">RabbitMQ</a></li>
+            <li><a href="#">HAproxy</a></li>
+            <li><a href="#">Apache Habse</a></li>
+            <li><a href="#">Apache Pig</a></li>
+            <li><a href="#">Could Native</a></li>
+            <li><a href="#">Vagrant</a></li>
+            <li><a href="#">Andromeda OS</a></li>
+            <li><a href="#">Kurbanetees</a></li>
+            <li><a href="#">Nagios</a></li>
+            <li><a href="#">grpc</a></li>
+            <li><a href="#">Theano</a></li>
+            <li><a href="#">Pytorch</a></li>
+            <li><a href="#">Messos</a></li>
+            <li><a href="#">Ecm</a></li>
+            <li><a href="#">Mojo</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+          </ul>
+        </div>
+        <div id="latestArticle">
+          <h2>Latest Articles</h2>
+          <ul class="article-list no-ul">
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

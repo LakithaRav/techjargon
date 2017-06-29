@@ -1,0 +1,17 @@
+.article-list {
+  margin-bottom: 160px;
+  li {
+    margin-bottom: 8px;
+  }
+  a {
+    color: #000 !important;
+    display: inline-block;
+    font-size: 50px;
+    line-height: 1.2em;
+    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+    // transform-origin: left;
+    // &:hover {
+    //   transform: scale(1.2);
+    // }
+  }
+}

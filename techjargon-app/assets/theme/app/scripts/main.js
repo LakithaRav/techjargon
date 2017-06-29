@@ -17,6 +17,10 @@ $(document).ready(function () {
     theme: 'fontawesome-stars-o',
     initialRating: 0,
   });
-
-
 });
+
+function scrollTo(attr) {
+  $('html, body').animate({
+    scrollTop: $(attr).offset().top - 70
+  }, 500);
+}
