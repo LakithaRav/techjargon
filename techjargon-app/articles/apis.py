@@ -10,7 +10,8 @@ from .models.content import Content
 from .models.content_rating import ContentRating
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import json
-
+# tasks
+from articles.tasks import article_tasks
 
 # help : https://docs.djangoproject.com/en/1.11/ref/contrib/postgres/search/
 def search(request):
@@ -78,7 +79,8 @@ def rate(request):
 			_rating, _created = ContentRating.objects.get_or_create(content_id=_content_id, user_id=_user.id)
 			_rating.value = _value
 			_rating.save()
-			average = processRating(_content)
+			# average = processRating(_content)
+			article_tasks.rate(_content.article.id)
 		except Content.DoesNotExist:
 			return HttpResponse(status=404)
 			pass
@@ -90,34 +92,9 @@ def rate(request):
 			response = {
 				'status': True,
 				'value': _value,
-				'average': average,
+				'average': _content.article.rating,
 				'count': _content.contentrating_set.count()
 			}
 			return JsonResponse(response, status=200)
 	else:
 		return HttpResponse(status=404)
-
-
-# private
-def processRating_dep(content):
-	ratings = content.contentrating_set.all()
-	_total = 0
-	for rating in ratings:
-		_total += rating.value
-
-	_average = _total / ratings.count()
-	content.article.rating = _average
-	content.article.save()
-	return _average
-
-def processRating(content):
-	article = content.article
-	ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id')
-	_total = 0
-	for rating in ratings:
-		_total += rating.value
-
-	_average = _total / ratings.count()
-	content.article.rating = _average
-	content.article.save()
-	return _average
