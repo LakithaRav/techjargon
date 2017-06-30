@@ -18,7 +18,7 @@ class Article(models.Model):
     status = models.PositiveSmallIntegerField(choices=STATUS, default=_DEFAULT_STATUS)
     slug = models.SlugField(unique=True, max_length=150)
     views = models.BigIntegerField(default=0)
-    rating = models.BigIntegerField(default=0)
+    rating = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=True)
 
