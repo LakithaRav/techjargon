@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hozd=m(om6kdqgu!sq!k*=(_b2@i_&!mikksv(_21-e8o!n^(^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'techjargon-dev.fidenz.info', 'www.techjargon-dev.fidenz.info', 'techjargon.fidenz.com']
 
@@ -163,16 +163,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "assets/theme/"),
-    os.path.join(BASE_DIR, "assets/css/"),
-    os.path.join(BASE_DIR, "assets/js/"),
-    os.path.join(BASE_DIR, "assets/res/"),
+    # os.path.join(BASE_DIR, "assets/theme/"),
+    os.path.join(BASE_DIR, "assets/static/"),
+    # os.path.join(BASE_DIR, "assets/js/"),
+    # os.path.join(BASE_DIR, "assets/res/"),
 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/assets/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'assets')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'assets/')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
