@@ -19,53 +19,49 @@
 
 {% block content %}
 
-<!-- <div class="row">
-	<div class="col-md-10 col-md-offset-1 text-center">
-		<div class="intro-box">
-			<input type="hidden" id="article-titles" value="{{ meta.titles }}">
-			<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
-			<h1 id="top-articles" class="lead"></h1>
-			<form action="{% url 'articles:search'%}" method="get">
-				<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
-			</form>
-			<div class="text-muted animated fadeInDown">
-				<i class="fa fa-arrow-up" aria-hidden="true"></i>
-			</div>
-			<div class="animated fadeInDown">
-				<span class="text-muted">{ tap to search }</span>
-			</div>
+<div class="row">
+		<div class="col-md-6 col-md-offset-2">
+				<input id="txt-search" type="text" class="search" placeholder="">
 		</div>
-	</div>
-</div> -->
-
-<div class="intro-box text-center">
-	<input type="hidden" id="article-titles" value="{{ meta.titles }}">
-	<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
-	<!-- <h1 id="top-articles" class="lead"></h1> -->
-	<form action="{% url 'articles:search'%}" method="get">
-		<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
-	</form>
-	<div class="text-muted animated fadeInDown">
-		<i class="fa fa-arrow-up" aria-hidden="true"></i>
-	</div>
-	<div class="animated fadeInDown">
-		<span class="text-muted">{ tap to search }</span>
-	</div>
 </div>
-
-<!-- <div class="row">
-	<hr>
-  <div class="col-sm-12 text-center tagcloud animated slideInUp" id="tags">
-    {% for tag in tags %}
-    <a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
-    {% endfor %}
-  </div>
-</div> -->
-
-<div class="text-center tagcloud animated slideInUp" id="tags">
-	{% for tag in tags %}
-	<a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
-	{% endfor %}
+<div class="row">
+		<div class="col-md-2">
+				<div class="search-suggestions sidebar-left home">
+						<ul class="no-ul">
+								<li><a onclick='scrollTo("#trendingArticles")'>Trending Articles</a></li>
+								<li><a onclick='scrollTo("#latestArticle")'>Latest Articles</a></li>
+						</ul>
+				</div>
+		</div>
+		<div class="col-md-6">
+				<div id="trendingArticles">
+						<h2>Trending Articles</h2>
+						<ul class="article-list no-ul">
+								{% for article in top_articles %}
+								<li><a href="#">Apache Spark</a></li>
+								{% endfor %}
+						</ul>
+				</div>
+				<div id="latestArticle">
+						<h2>Latest Articles</h2>
+						<ul class="article-list no-ul">
+								<li><a href="#">Django</a></li>
+								<li><a href="#">Ruby</a></li>
+								<li><a href="#">Javascript</a></li>
+								<li><a href="#">AngularJS</a></li>
+								<li><a href="#">Python</a></li>
+								<li><a href="#">Django</a></li>
+								<li><a href="#">Ruby</a></li>
+								<li><a href="#">Javascript</a></li>
+								<li><a href="#">AngularJS</a></li>
+								<li><a href="#">Python</a></li>
+								<li><a href="#">Django</a></li>
+								<li><a href="#">Ruby</a></li>
+								<li><a href="#">Javascript</a></li>
+								<li><a href="#">AngularJS</a></li>
+						</ul>
+				</div>
+		</div>
 </div>
 
 {% endblock %}
