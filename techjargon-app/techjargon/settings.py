@@ -165,6 +165,7 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),
     # os.path.join(BASE_DIR, "assets/theme/"),
     os.path.join(BASE_DIR, "assets/static/"),
+    os.path.join(BASE_DIR, "assets/theme/dist/"),
     # os.path.join(BASE_DIR, "assets/js/"),
     # os.path.join(BASE_DIR, "assets/res/"),
 
