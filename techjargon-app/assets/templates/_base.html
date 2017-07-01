@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>techjargon</title>
+    <title>{% block title %}{% endblock %} TechJargon</title>
 
     <link rel="search" type="application/opensearchdescription+xml" title="TechJargon" href="{% static 'res/opensearch.xml' %}">
 
@@ -15,6 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="TechJargon" />
     <meta name="keywords" content="technoloy, jargons, news, tech terms, dictionary, wiki, trending technologies">
     <meta property='og:site_name' value='TechJargon'/>
+
+    {% block meta %}{% endblock %}
 
     <link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}">
     <link rel="stylesheet" href="{% static 'styles/vendor.css' %}">
@@ -29,7 +31,7 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="/">
                         <div class="jargon-logo"><strong>Tech</strong>Jargon</div>
                     </a>
                 </div>
@@ -65,6 +67,11 @@
     <script src="{% static 'scripts/vendor.js' %}" src="scripts/vendor.js"></script>
     <script src="{% static 'scripts/plugins.js' %}" src="scripts/plugins.js"></script>
     <script src="{% static 'scripts/main.js' %}" src="scripts/main.js"></script>
+
+    <!-- custom page specific js -->
+    {% block javascript %}
+    {% endblock %}
+
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 
 $(function () {
-  var typed = $("#txt-search").typed({
-    strings: ["sample", "sample2", "sample3"],
+  var typed = $('#txt-search').typed({
+    strings: ['sample', 'sample2', 'sample3'],
     typeSpeed: 100,
     startDelay: 10,
     shuffle: true,
@@ -12,9 +12,9 @@ $(function () {
     backDelay: 1800
   });
 
-  $("#txt-search").on('click', function () {
+  $('#txt-search').on('click', function () {
     $(this).data('typed').reset();
-    $(this).attr("placeholder", "Search")
+    $(this).attr('placeholder', 'Search')
     $(this).val(null);
   });
 
