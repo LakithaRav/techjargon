@@ -1,0 +1,33 @@
+body {
+  background-color: $off-white;
+  color: #000;
+  font-family: 'Oswald', sans-serif;
+  padding-bottom: 40px;
+  padding-top: 140px;
+  @include bp(xs) {
+    padding-top: 60px;
+  }
+}
+
+// Selection color
+::selection {
+  background: $primary-color; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: $primary-color; /* Gecko Browsers */
+}
+
+// Layout spacing
+.bottom-buffer-20 {
+  margin-bottom: 20px;
+}
+
+.bottom-buffer-40 {
+  margin-bottom: 40px;
+}
+
+// Resets
+.no-ul {
+  list-style: none;
+  padding: 0;
+}

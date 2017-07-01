@@ -1,0 +1,86 @@
+header {
+  .navbar {
+    border-top: 3px solid $primary-color;
+    @include bp(xs) {
+      background-color: #fff;
+    }
+  }
+  .navbar-brand {
+    height: auto;
+    padding-top: 6px;
+    @include bp(xs) {
+      padding-top: 14px;
+    }
+  }
+  .navbar-nav {
+    @include bp(xs) {
+      background-color: #fff;
+    }
+    li {
+      padding: 15px 10px;
+    }
+    a {
+      color: #000;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      padding: 0;
+      position: relative;
+      text-transform: uppercase;
+      @include bp(xs) {
+        font-size: 16px;
+        text-align: center;
+      }
+      &:hover {
+        background-color: transparent;
+        color: $primary-highlight;
+      }
+      &.active {
+        &::before {
+          background-color: #000;
+          bottom: 0;
+          content: '';
+          height: 2px;
+          left: 0;
+          position: absolute;
+          right: 0;
+          @include bp(xs) {
+            height: 0;
+          }
+        }
+      }
+    }
+    .navbar-newarticle {
+      background-color: #000;
+      color: #fff !important;
+      padding: 0 8px !important;
+      &:hover {
+        background-color: $primary-color !important;
+      }
+      &:active,
+      &:focus,
+      &:visited {
+        background-color: #000;
+      }
+    }
+  }
+  .navbar-toggle {
+    color: #000;
+    margin-top: 15px;
+    span {
+      background-color: #000;
+    }
+  }
+  .navbar-social {
+    list-style: none;
+    padding: 0;
+    li {
+      display: inline-block;
+      padding: 0 8px !important;
+      i {
+        font-size: 14px;
+        vertical-align: text-top;
+      }
+    }
+  }
+}

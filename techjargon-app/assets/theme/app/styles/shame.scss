@@ -1,0 +1,13 @@
+// Main search placeholder
+.search {
+  background-color: transparent;
+  border: none;
+  font-size: 55px;
+  margin: 0 auto 50px auto;
+  padding: 0;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
