@@ -20,7 +20,7 @@ def add(article_id, user_id, request_ip):
         # pdb.set_trace()
         article = Article.objects.get(pk=article_id)
         if article is not None:
-            nview = Impression(ip_address='127.0.0.1', content_object=article, user_id=user_id)
+            nview = Impression(ip_address=request_ip, content_object=article, user_id=user_id)
             nview.save()
             Article.objects.filter(id=article.id).update(views=article.impressions.count())
         else:
