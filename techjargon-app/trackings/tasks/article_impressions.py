@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
 import pdb
 from datetime import datetime, timedelta, timezone
+from django.db import IntegrityError
 # models
 from trackings.models.impression import Impression
 from articles.models.article import Article
