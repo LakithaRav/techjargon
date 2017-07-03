@@ -11,6 +11,7 @@ from articles.models.content_rating import ContentRating
 from django.contrib.auth.models import User
 from authors.models.user_tag import UserTag
 
+@shared_task
 def suggest_user_tags():
     flag = False
 
