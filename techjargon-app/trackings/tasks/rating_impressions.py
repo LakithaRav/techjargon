@@ -19,7 +19,7 @@ def suggest_user_tags():
     _source = UserTag.SOURCE_TYPE[2][0]
     _today = datetime.now().replace(tzinfo=timezone.utc)
     _before_day = _today - timedelta(days=30)
-    pdb.set_trace()
+    # pdb.set_trace()
     try:
         users = User.objects.filter(is_staff=False, is_active=True)
         for user in users:
