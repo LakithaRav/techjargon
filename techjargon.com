@@ -17,11 +17,11 @@ server {
     }
 
     location  /robots.txt {
-        alias  /var/www/techjargon/techjargon-app/assets/res/robots.txt;
+        alias  /var/www/techjargon/techjargon-app/assets/static/res/robots.txt;
     }
 
     location  /sitemap.xml {
-        alias  /var/www/techjargon/techjargon-app/assets/res/sitemap.xml;
+        alias  /var/www/techjargon/techjargon-app/assets/static/res/sitemap.xml;
     }
 
     # Error pages
