@@ -306,7 +306,8 @@ def __add_view_log(request, article):
     if request.user.is_authenticated:
         user_id = request.user.id
 
-    impressions.add.delay(article.id, user_id, request.META.get('REMOTE_ADDR'))
+    # impressions.add.delay(article.id, user_id, request.META.get('REMOTE_ADDR'))
+    impressions.add.delay(article.id, user_id, '')
 
 
 def get_suggetion_tags(user_id):
