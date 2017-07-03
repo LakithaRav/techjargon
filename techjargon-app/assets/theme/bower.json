@@ -10,7 +10,8 @@
     "typed.js": "^1.1.7",
     "jssocials": "^1.5.0",
     "auth0.js": "^8.8.0",
-    "Flowtype.js": "^1.1.0"
+    "Flowtype.js": "^1.1.0",
+    "selectize": "^0.12.4"
   },
   "overrides": {
     "bootstrap-sass": {

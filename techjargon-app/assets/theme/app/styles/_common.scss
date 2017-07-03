@@ -31,3 +31,23 @@ body {
   list-style: none;
   padding: 0;
 }
+
+// Forms
+label {
+  font-weight: 400;
+}
+
+.form-control,
+.selectize-input {
+  border-radius: 0;
+  box-shadow: none;
+  color: #000;
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+  height: auto;
+  padding: 10px 12px;
+  &:focus {
+    border-color: #000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+}

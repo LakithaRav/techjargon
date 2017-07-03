@@ -40,8 +40,7 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-            aria-expanded="false">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -83,96 +82,39 @@
   </header>
 
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-2">
-        <input id="txt-search" type="text" class="search" placeholder="">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">
-        <div class="search-suggestions sidebar-left home">
-          <ul class="no-ul">
-            <li><a onclick="scrollTo('#trendingArticles')">Trending Articles</a></li>
-            <li><a onclick="scrollTo('#latestArticle')">Latest Articles</a></li>
-          </ul>
+    <form>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>Create New Article</h2>
+        </div>
+        <div class="col-md-5 col-md-offset-1">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title">
+          </div>
+          <div class="form-group">
+            <label for="content">Content</label>
+            <textarea name="content" rows="8" class="form-control"></textarea>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="tags">Tags</label>
+            <input name="tags" id="tags"></input>
+          </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div id="trendingArticles">
-          <h2>Trending Articles</h2>
-          <ul class="article-list no-ul">
-            <li><span class="articles-related__count">100</span><a href="#">Apache Spark</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">hdfs</a></li>
-            <li><a href="#">Marathon-LB</a></li>
-            <li><a href="#">Dart</a></li>
-            <li><a href="#">Amazon Cloud</a></li>
-            <li><a href="#">Circuitebreaker Pattern</a></li>
-            <li><a href="#">Event Outsourcing</a></li>
-            <li><a href="#">Apache Headloop</a></li>
-            <li><a href="#">Kibana</a></li>
-            <li><a href="#">npm</a></li>
-            <li><a href="#">RabbitMQ</a></li>
-            <li><a href="#">HAproxy</a></li>
-            <li><a href="#">Apache Habse</a></li>
-            <li><a href="#">Apache Pig</a></li>
-            <li><a href="#">Could Native</a></li>
-            <li><a href="#">Vagrant</a></li>
-            <li><a href="#">Andromeda OS</a></li>
-            <li><a href="#">Kurbanetees</a></li>
-            <li><a href="#">Nagios</a></li>
-            <li><a href="#">grpc</a></li>
-            <li><a href="#">Theano</a></li>
-            <li><a href="#">Pytorch</a></li>
-            <li><a href="#">Messos</a></li>
-            <li><a href="#">Ecm</a></li>
-            <li><a href="#">Mojo</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-          </ul>
-        </div>
-        <div id="latestArticle">
-          <h2>Latest Articles</h2>
-          <ul class="article-list no-ul">
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    </form>
   </div>
 
   <footer>© 2017 TechJargon by Lakitha and Sons(future)</footer>
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
   <script>
-    (function (b, o, i, l, e, r) {
+    (function(b, o, i, l, e, r) {
       b.GoogleAnalyticsObject = l;
       b[l] || (b[l] =
-        function () {
+        function() {
           (b[l].q = b[l].q || []).push(arguments)
         });
       b[l].l = +new Date;
@@ -183,7 +125,6 @@
     }(window, document, 'script', 'ga'));
     ga('create', 'UA-XXXXX-X');
     ga('send', 'pageview');
-
   </script>
 
   <!-- build:js scripts/vendor.js -->
@@ -218,7 +159,7 @@
 
   <!-- build:js scripts/main.js -->
   <script src="scripts/main.js"></script>
-  <script src="scripts/index.js"></script>
+  <script src="scripts/create.js"></script>
   <!-- endbuild -->
 </body>
 
