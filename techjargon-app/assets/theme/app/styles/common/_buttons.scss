@@ -1,0 +1,44 @@
+.btn {
+  background-color: $grey-light;
+  border: none;
+  border-radius: 0;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  outline: none !important;
+  text-transform: uppercase;
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+  &:active {
+    box-shadow: none;
+  }
+}
+
+.btn-black {
+  background-color: #000;
+  color: #fff;
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    color: #fff !important;
+  }
+  &:hover {
+    background-color: $primary-color;
+  }
+}
+
+.btn-plus {
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 0;
+  margin-left: 6px;
+  padding: 1px 4px;
+  text-align: right;
+  // position: absolute;
+  // right: 10px;
+  // top: 50%;
+  // transform: translateY(-50%);
+}
+
+.btn-empty {
+  background-color: transparent;
+}
