@@ -46,37 +46,23 @@ def check_article_exists(request):
 		return JsonResponse(_articles_seri.data, status=200, safe=False)
 	else:
 		return HttpResponse(status=404)
-
-
-def tag_search(request):
-	if request.method == 'POST':
-		body_unicode = request.body.decode('utf-8')
-		body = json.loads(body_unicode)
-		_query = body['query']
-
-		# advance search
-		tags = Tag.objects.filter(name__search=_query)
-		# rank_sorted_articles = sorted(articles.all(), key=lambda a: a.views)
-
-		_tags_seri = Tag.TagSerializer(tags, many=True)
-		return JsonResponse(_tags_seri.data, status=200, safe=False)
-	else:
-		return HttpResponse(status=404)
-
+	
 
 @login_required
-def rate(request):
+def rate(request, article_id, content_id):
 	_user = request.user
 	# pdb.set_trace()
-	if request.method == 'POST':
+	if request.method == 'GET':
 		try:
-			body_unicode = request.body.decode('utf-8')
-			body = json.loads(body_unicode)
-			_content_id = body['content_id']
-			_value = body['value']
 
-			_content = Content.objects.get(pk=_content_id)
-			_rating, _created = ContentRating.objects.get_or_create(content_id=_content_id, user_id=_user.id)
+			_value = request.GET.get('page')
+			# body_unicode = request.body.decode('utf-8')
+			# body = json.loads(body_unicode)
+			# _content_id = body['content_id']
+			# _value = body['value']
+
+			_content = Content.objects.get(pk=content_id)
+			_rating, _created = ContentRating.objects.get_or_create(content_id=_content.id, user_id=_user.id)
 			_rating.value = _value
 			_rating.save()
 			# average = processRating(_content)

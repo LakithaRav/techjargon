@@ -13,7 +13,7 @@ import pdb
 from authors.models.author import Author
 from articles.models.article import Article
 from articles.models.content import Content
-from articles.models.tag import Tag
+from tags.models.tag import Tag
 from articles.models.content_meta import ContentMeta
 from articles.models.content_rating import ContentRating
 from trackings.models.impression import Impression

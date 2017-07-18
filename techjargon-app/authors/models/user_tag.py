@@ -3,7 +3,7 @@ from rest_framework import serializers
 from datetime import datetime, timedelta
 # models
 from django.contrib.auth.models import User
-from articles.models.tag import Tag
+from tags.models.tag import Tag
 
 # Create your models here.
 class UserTag(models.Model):

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 import pdb
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # models
-from articles.models.tag import Tag
+from tags.models.tag import Tag
 from articles.models.article import Article
 from articles.models.content import Content
 # tasks

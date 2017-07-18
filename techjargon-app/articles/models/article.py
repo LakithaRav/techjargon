@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from .tag import Tag
+from tags.models.tag import Tag
 from rest_framework import serializers
 from django.contrib.contenttypes.fields import GenericRelation
 from trackings.models.impression import Impression

@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 # models
 from trackings.models.impression import Impression
 from django.contrib.auth.models import User
-from articles.models.tag import Tag
+from tags.models.tag import Tag
 from authors.models.user_tag import UserTag
 
 @shared_task
