@@ -1,0 +1,204 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>techjargon</title>
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars-o.css" />
+  <link rel="stylesheet" href="/bower_components/jssocials/dist/jssocials.css" />
+  <link rel="stylesheet" href="/bower_components/selectize/dist/css/selectize.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+
+  <!-- build:js scripts/vendor/modernizr.js -->
+  <script src="/bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
+</head>
+
+<body>
+  <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+  <!-- YOUR HTML GOES HERE -->
+
+  <header>
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+          <a class="navbar-brand" href="#">
+            <div class="jargon-logo">
+              <strong>Tech</strong>Jargon
+            </div>
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li>
+              <ul class="navbar-social">
+                <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+              </ul>
+            </li>
+          </ul>
+          <!--<form class="navbar-form navbar-right">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>-->
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+    <!-- /Nav Bar -->
+  </header>
+
+  <div class="container-fluid">
+    <form>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>Create New Article</h2>
+          <div class="row">
+            <div class="col-md-7">
+              <!--
+                `form-group` modifications:
+                  `has-error`: For Errors
+                  `disabled`: To disable text field
+               -->
+              <div class="form-group has-error">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" value="Django" disabled>
+                <ul class="has-error__messages">
+                  <li>Title cannot be empty.</li>
+                </ul>
+                <div class="article-create-title__suggestion clearfix">
+                  <ul>
+                    <li>Did you mean?</li>
+                    <li><a href="">Django</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <label for="tags">Tags</label>
+                <input id="tags"></input>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-7">
+              <div class="form-group">
+                <label for="content">Content</label>
+                <textarea id="content" rows="8" class="form-control"></textarea>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <label>Meta</label>
+                <ul class="article-create-meta">
+                  <li class="clearfix">
+                    <div class="article-create-meta__dropdown">
+                      <select id="meta"></select>
+                    </div>
+                    <div class="article-create-meta__text">
+                      <input type="text" class="form-control">
+                    </div>
+                    <button type="button" class="btn btn-plus btn-empty article-create-meta__remove"><i class="fa fa-times" aria-hidden="true"></i></button>
+                  </li>
+                </ul>
+                <button type="button" class="btn btn-plus btn-empty pull-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-black">Publish</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <footer>© 2017 TechJargon by Lakitha and Sons(future)</footer>
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <script>
+    (function(b, o, i, l, e, r) {
+      b.GoogleAnalyticsObject = l;
+      b[l] || (b[l] =
+        function() {
+          (b[l].q = b[l].q || []).push(arguments)
+        });
+      b[l].l = +new Date;
+      e = o.createElement(i);
+      r = o.getElementsByTagName(i)[0];
+      e.src = 'https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e, r)
+    }(window, document, 'script', 'ga'));
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
+  </script>
+
+  <!-- build:js scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/modernizr/modernizr.js"></script>
+  <script src="/bower_components/jquery-bar-rating/jquery.barrating.js"></script>
+  <script src="/bower_components/typed.js/dist/typed.min.js"></script>
+  <script src="/bower_components/jssocials/dist/jssocials.js"></script>
+  <script src="/bower_components/auth0.js/build/auth0.js"></script>
+  <script src="/bower_components/Flowtype.js/flowtype.js"></script>
+  <script src="/bower_components/sifter/sifter.js"></script>
+  <script src="/bower_components/microplugin/src/microplugin.js"></script>
+  <script src="/bower_components/selectize/dist/js/selectize.js"></script>
+  <script src="/bower_components/vue/dist/vue.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js scripts/plugins.js -->
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/main.js -->
+  <script src="scripts/main.js"></script>
+  <script src="scripts/create.js"></script>
+  <!-- endbuild -->
+</body>
+
+</html>

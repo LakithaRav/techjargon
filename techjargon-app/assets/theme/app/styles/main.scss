@@ -7,8 +7,11 @@
 // endbower
 
 @import "mixin";
-@import "typography";
-@import "common";
+
+@import "common/common";
+@import "common/typography";
+@import "common/buttons";
+@import "common/forms";
 
 @import "header/header";
 @import "header/logo";
@@ -17,7 +20,10 @@
 @import "main/sidebar";
 @import "main/articles/article-list";
 @import "main/articles/article";
+@import "main/articles/create";
 
 @import "main/search/search";
+
+@import "main/history/history";
 
 @import "shame";

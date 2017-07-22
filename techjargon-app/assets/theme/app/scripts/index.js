@@ -1,4 +1,3 @@
-
 $(function () {
   var typed = $('#txt-search').typed({
     strings: ['sample', 'sample2', 'sample3'],
@@ -17,5 +16,12 @@ $(function () {
     $(this).attr('placeholder', 'Search')
     $(this).val(null);
   });
-
+  
+  // Add VueJS
+  // var app = new Vue({
+  //   el: '#app',
+  //   data: {
+  //     message: 'Hello Vue!'
+  //   }
+  // });
 });
