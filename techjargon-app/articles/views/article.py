@@ -219,7 +219,7 @@ def __save_article(post, user, metas):
         _slug = slugify(post['title'])
         _article = Article(title=post['title'], slug=_slug, status=Article._DEFAULT_STATUS)
         _content = Content(body=post['content'], status=Content._DEFAULT_STATUS, author=user.author)
-
+        pdb.set_trace()
         _article.save()
 
         article_tags = []

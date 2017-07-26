@@ -14,9 +14,7 @@
     <meta name="description" content="TechJargon is a leading technology index wiki, dedicated to obsessively new technical terms, reviewing new tech products, and breaking tech products and solutions.">
     <meta name="apple-mobile-web-app-title" content="TechJargon" />
     <meta name="keywords" content="technoloy, jargons, news, tech terms, dictionary, wiki, trending technologies">
-    <meta property='og:site_name' value='TechJargon'/>
-
-    {% block meta %}{% endblock %}
+    <meta property='og:site_name' value='TechJargon' /> {% block meta %}{% endblock %}
 
     <link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}">
     <link rel="stylesheet" href="{% static 'styles/vendor.css' %}">
@@ -37,7 +35,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
+                        <li><a href="/new" class="navbar-newarticle">+ New Article</a></li>
                         <li><a href="#" class="active">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
@@ -52,25 +50,32 @@
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
-      {% block content %}
-      {% endblock %}
+    <div class="container-fluid" id="app">
+        {% block content %} {% endblock %}
     </div>
     <footer>© 2017 TechJargon by Lakitha and Sons(future)</footer>
-    <script>
-        ! function(e, t, a, n, c, o) {
-            e.GoogleAnalyticsObject = n, e[n] || (e[n] = function() {
-                (e[n].q = e[n].q || []).push(arguments)
-            }), e[n].l = +new Date, c = t.createElement(a), o = t.getElementsByTagName(a)[0], c.src = "https://www.google-analytics.com/analytics.js", o.parentNode.insertBefore(c, o)
-        }(window, document, "script", "ga"), ga("create", "UA-XXXXX-X"), ga("send", "pageview")
-    </script>
-    <script src="{% static 'scripts/vendor.js' %}" src="scripts/vendor.js"></script>
-    <script src="{% static 'scripts/plugins.js' %}" src="scripts/plugins.js"></script>
-    <script src="{% static 'scripts/main.js' %}" src="scripts/main.js"></script>
 
+    <script src="{% static 'scripts/vendor.js' %}"></script>
+    <script src="{% static 'scripts/plugins.js' %}"></script>
+    <script src="{% static 'scripts/main.js' %}"></script>
+
+    <script>
+        var VueaApp = Vue.extend({
+            el: '#app',
+            delimiters: ['@{', '}'],
+            data: {
+                message: 'Hello Vue!',
+            },
+            ready: function() {},
+            methods: {
+                test: function(e) {
+                    alert("Test Vue.js")
+                }
+            }
+        });
+    </script>
     <!-- custom page specific js -->
-    {% block javascript %}
-    {% endblock %}
+    {% block javascript %} {% endblock %}
 
 </body>
 

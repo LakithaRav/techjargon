@@ -44,9 +44,6 @@
                 </li>
                 <!--<li data-toggle="tooltip" title="Ratings"><i class="fa fa-star-o" aria-hidden="true"></i></span> 100</li>
 				<li data-toggle="tooltip" title="Views"><i class="fa fa-eye" aria-hidden="true"></i> 210</li>-->
-                <li data-toggle="tooltip" title="Ratings">{{ total_ratings | intcomma }} <span class="article-ratings__label">ratings</span></li>
-                <li data-toggle="tooltip" title="Views">{{ article.views | intcomma }} <span class="article-ratings__label">views</span></li>
-                <li data-toggle="tooltip" title="Views">{{ article.updated_at | naturaltime }} <span class="article-ratings__label">updated</span></li>
             </ul>
         </div>
     </div>
@@ -119,6 +116,13 @@
 
     </div>
     <div class="col-md-3">
+        <ul class="article-info">
+            <!--<li data-toggle="tooltip" title="Ratings"><i class="fa fa-star-o" aria-hidden="true"></i></span> 100</li>
+            <li data-toggle="tooltip" title="Views"><i class="fa fa-eye" aria-hidden="true"></i> 210</li>-->
+            <li data-toggle="tooltip" title="Ratings">{{ total_ratings | intcomma }} <span class="article-ratings__label">ratings</span></li>
+            <li data-toggle="tooltip" title="Views">{{ article.views | intcomma }} <span class="article-ratings__label">views</span></li>
+            <li data-toggle="tooltip" title="Views">{{ article.updated_at | naturaltime }} <span class="article-ratings__label">updated</span></li>
+        </ul>
         <ul class="no-ul sidebar-h2-align-top bottom-buffer-40">
             <div id="share" class="article-share"></div>
             <!-- <li>
