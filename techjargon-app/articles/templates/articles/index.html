@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-2" id="search">
         <form action="{% url 'articles:search'%}" method="get">
-            <input v-model="query" name="q" id="txt-search-1" type="text" class="search" placeholder="" autocomplete="off">
+            <input v-model="query" ref="q" name="q" v-on:click="resetSearch" id="txt-search-1" type="text" class="search" placeholder="" autocomplete="off">
         </form>
     </div>
 </div>
@@ -24,7 +24,7 @@
     <div class="col-md-2">
         <div class="search-suggestions sidebar-left home">
             <ul class="no-ul">
-                <li><a onclick='scrollTo("#search")'>search</a></li>
+                <li><a onclick='scrollTo("#search")' v-on:click="resetSearch">search</a></li>
                 <li><a onclick='scrollTo("#trendingArticles")'>Trending Articles</a></li>
                 <li><a onclick='scrollTo("#latestArticle")'>Recommnded</a></li>
             </ul>
@@ -55,40 +55,43 @@
 <script>
     app = new VueaApp({
         data: {
-            query: "",
-            message: 'Hello Vue!',
+            query: null,
+            articles: []
         },
-        ready: function() {},
-        methods: {}
+        created: function() {
+            var articles_str = '{{ meta.article_titles }}';
+            this.articles = articles_str.split(",");
+        },
+        mounted: function() {
+            init(this);
+        },
+        methods: {
+            resetSearch: function(e) {
+                var _el = $('#txt-search-1');
+                $(_el).data('typed').reset();
+                $(_el).attr("placeholder", "Search...");
+                $(_el).val(null);
+                _el.focus();
+            }
+        }
     });
-</script>
 
-<script>
-    $(function() {
-
-        var articles_str = '{{ meta.article_titles }}';
-        var articles = articles_str.split(",");
-
+    function init(app) {
         var typed = $("#txt-search-1").typed({
-            strings: articles,
+            strings: app.articles,
             typeSpeed: 100,
             startDelay: 10,
-            shuffle: true,
+            shuffle: false,
             loop: true,
             loopCount: null,
             showCursor: false,
             backSpeed: 10,
-            backDelay: 1800
+            backDelay: 1800,
+            onStringTyped: (arrayPos, self) => {
+                app.query = app.articles[arrayPos];
+            }
         });
-
-        $("#txt-search-1").on('click', function() {
-            $(this).data('typed').reset();
-            $(this).attr("placeholder", "Search")
-            $(this).val(null);
-            // $('#top-articles').replaceWith('<input type="text"  name="q" size="25"  id="top-articles" value=""/>');
-            // $("#top-articles").focus();
-        });
-
-    });
+    }
 </script>
+
 {% endblock %}

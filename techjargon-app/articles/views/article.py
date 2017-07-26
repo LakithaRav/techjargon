@@ -98,7 +98,7 @@ def detail(request, slug):
     action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
     related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')[:10]
 
-    _total_ratins = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
+    _total_ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
     _my_rating = 0
     if hasattr(request.user, 'author'):
         try:
@@ -116,7 +116,7 @@ def detail(request, slug):
         'content': article.active_content,
         'related_articles': related_articles,
         'my_rating': _my_rating,
-        'total_ratins': _total_ratins,
+        'total_ratings': _total_ratings,
         'full_url_path': request.build_absolute_uri()
     }
 

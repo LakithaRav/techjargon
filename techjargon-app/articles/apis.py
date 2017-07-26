@@ -55,7 +55,7 @@ def rate(request, article_id, content_id):
 	if request.method == 'GET':
 		try:
 
-			_value = request.GET.get('page')
+			_value = request.GET.get('v')
 			# body_unicode = request.body.decode('utf-8')
 			# body = json.loads(body_unicode)
 			# _content_id = body['content_id']
@@ -71,7 +71,11 @@ def rate(request, article_id, content_id):
 			return HttpResponse(status=404)
 			pass
 		except IntegrityError as e:
-			_message.append(e)
+			response = {
+				'status': False,
+				'message': e
+			}
+			return JsonResponse(response, status=500)
 			pass
 		else:
 			# _todo_seri = ToDo.ToDoSerializer(_todo)

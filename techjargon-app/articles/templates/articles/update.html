@@ -50,9 +50,7 @@
                 <div class="col-md-7">
                     <div class="form-group">
                         <label for="content">Content</label>
-                        <textarea name="{{uform.content.html_name}}" id="content" rows="8" class="form-control">
-                          {{ uform.content.value|default_if_none:'' }}
-                        </textarea>
+                        <textarea name="{{uform.content.html_name}}" id="content" rows="8" class="form-control">{{ uform.content.value|default_if_none:'' }}</textarea>
                         <ul class="has-error__messages">
                             {% for error in uform.content.errors %}
                             <li>{{error}}</li>
