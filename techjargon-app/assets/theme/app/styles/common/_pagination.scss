@@ -1,0 +1,24 @@
+.pagination {
+  &__container {
+    text-align: center;
+  }
+  li {
+    &.active {
+      a {
+        background-color: $primary-highlightest !important;
+      }
+    }
+    a {
+      border: none !important;
+      color: $primary-color !important;
+      &:hover {
+        background-color: $primary-highlightest !important;
+      }
+      &:active,
+      &:focus,
+      &:visited {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
