@@ -136,6 +136,11 @@ def history(request, slug, content_id):
 
     return render(request, 'articles/history.html', _context)
 
+def about(request):
+    _context = {
+    }
+    return render(request, 'about.html', _context)
+
 @login_required
 def add(request):
     if request.method == 'POST':

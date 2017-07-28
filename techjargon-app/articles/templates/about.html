@@ -1,0 +1,50 @@
+{% extends "_base.html" %} {% load static %} {% load humanize %} {% load range_filter %} {% block title %} #{{tag.name}} {% endblock %} {% block meta %}
+<meta name="article_keywords" content="{{ tag.name }}, tags, search">
+
+<!-- Open Graph Protocol Meta -->
+<meta property='og:title' content='{{ tag.name }}' />
+<meta property='og:url' content='{{ full_url_path }}' />
+<meta property='og:image' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:url' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:image:type' content='image/jpeg' />
+<meta property='og:description' content='{{ article.active_content.body }}' />
+<!-- END Open Graph Protocol Meta -->
+{% endblock %} {% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar-left article">
+            <h1 class="article-title">About</h1>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="about-content">
+            <p class="about-content__featured bottom-buffer-40 text-justify">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras
+                dapibu
+            </p>
+            <!-- <h2>Rdda</h2> -->
+            <p class="text-justify">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras
+                dapibu
+            </p>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+
+{% endblock %} {% block javascript %}
+
+<script>
+    $(document).ready(function() {
+        mixpanel.track('tag', {
+            name: "{{tag.name}}"
+        });
+    });
+</script>
+{% endblock %}

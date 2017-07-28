@@ -68,14 +68,16 @@
     </div>
 
     <div class="col-md-3">
-        <h2 class="sidebar-h2-align-top"># tags</h2>
-        <ul class="article-tags clearfix bottom-buffer-20">
-            {% if tags %} {% for tag in tags %}
-            <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
-            {% endfor %} {% else %}
-            <p class="text-muted">no tags found</p>
-            {% endif %}
-        </ul>
+        <div class="sidebar-right fixed">
+            <h2 class="sidebar-h2-align-top"># tags</h2>
+            <ul class="article-tags clearfix bottom-buffer-20">
+                {% if tags %} {% for tag in tags %}
+                <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
+                {% endfor %} {% else %}
+                <p class="text-muted">no tags found</p>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -85,7 +87,7 @@
 <script>
     app = new VueaApp({
         data: {
-            query: null,
+            query: "sss",
         },
         created: function() {
             this.query = '{{query}}';
@@ -103,5 +105,9 @@
             query: app.query
         });
     }
+
+    $(document).ready(function() {
+        headerSeachBar.openSearch($("#searchNavbar").find('input'));
+    });
 </script>
 {% endblock %}

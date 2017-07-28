@@ -81,24 +81,26 @@
     </div>
 
     <div class="col-md-3">
-        <h2 class="sidebar-h2-align-top"># related</h2>
-        <ul class="article-tags clearfix bottom-buffer-40">
-            {% if ralated_tags %} {% for tag in ralated_tags %}
-            <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
-            {% endfor %} {% else %}
-            <p class="text-muted">no tags found</p>
-            {% endif %}
-        </ul>
+        <div class="sidebar-right fixed">
+            <h2 class="sidebar-h2-align-top"># related</h2>
+            <ul class="article-tags clearfix bottom-buffer-40">
+                {% if ralated_tags %} {% for tag in ralated_tags %}
+                <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
+                {% endfor %} {% else %}
+                <p class="text-muted">no tags found</p>
+                {% endif %}
+            </ul>
 
-        <h2 class="sidebar-h2-align-top">Latest</h2>
-        <ul class="articles-related">
-            {% for article in new_articles %}
-            <li>
-                <span class="articles-related__count {% if article.views > 100 %} highlighted {% endif %}">{{article.views}}</span>
-                <a href="{% url 'articles:detail' slug=article.slug%}">{{ article.title }}</a>
-            </li>
-            {% endfor %}
-        </ul>
+            <h2 class="sidebar-h2-align-top">Latest</h2>
+            <ul class="articles-related">
+                {% for article in new_articles %}
+                <li>
+                    <span class="articles-related__count {% if article.views > 100 %} highlighted {% endif %}">{{article.views}}</span>
+                    <a href="{% url 'articles:detail' slug=article.slug%}">{{ article.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 

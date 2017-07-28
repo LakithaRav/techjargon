@@ -36,8 +36,8 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/new" class="navbar-newarticle">+ New Article</a></li>
-                        <li><a href="#" class="active">Home</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="/" class="active">Home</a></li>
+                        <li><a href="/about">About</a></li>
                         <li><a href="#">Contact</a></li>
                         <li>
                             <ul class="navbar-social">
@@ -47,9 +47,28 @@
                         </li>
                     </ul>
                     <form class="navbar-form navbar-right" action="{% url 'articles:search'%}" method="get">
-                        <div class="search search__navbar" id="searchNavbar">
-                            <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off" value="{{ query }}">
-                            <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+                        <div class="search__container" id="searchapp">
+                            <div class="search search__navbar" id="searchNavbar">
+                                <input v-model="query" v-on:keyup="searchArticles" name="q" type="text" class="form-control" placeholder="Search" autocomplete="off" value="{{ query }}">
+                                <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                            <div id="search-box-autocomplete-suggestions" class="search__result" v-if="got_results">
+                                <a v-for="article in results" v-bind:href="article.link">
+                                    <div class="box">
+                                        <!-- <h4 class="text-capitalize">@{ article.title }</h4> -->
+                                        <h4 class="text-capitalize">@{ article.title }</h4>
+                                        <!-- <span class="text-muted" v-html="article.description_short"></span> -->
+                                        <span class="text-muted search__result-description" v-html="article.description_short"></span>
+                                    </div>
+                                </a>
+                                <a href="{% url 'articles:add' %}">
+                                    <div class="box text-info">
+                                        <h4 class="text-capitalize">+ Add @{ query }</h4>
+                                        <span class="text-muted">Add @{ query } article to techJargor</span>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -59,7 +78,10 @@
     <div class="container-fluid" id="app">
         {% block content %} {% endblock %}
     </div>
-    <footer>© 2017 TechJargon by Lakitha and Sons(future)</footer>
+    <footer>
+        <span>© 2017 TechJargon</span>
+        <span>Powered by <a href="http://fidenz.com" target="_blank">Fidenz</a></span>
+    </footer>
 
     <script src="{% static 'scripts/vendor.js' %}"></script>
     <script src="{% static 'scripts/plugins.js' %}"></script>
@@ -70,14 +92,84 @@
             el: '#app',
             delimiters: ['@{', '}'],
             data: {
-                message: 'Hello Vue!',
+
             },
-            ready: function() {},
+            ready: function() {
+
+            },
+            mounted: function() {
+
+            },
             methods: {
                 test: function(e) {
                     alert("Test Vue.js")
                 }
             }
+        });
+
+        var searchapp = new Vue({
+            el: '#searchapp',
+            delimiters: ['@{', '}'],
+            data: {
+                query: "",
+                results: [],
+                got_results: false,
+            },
+            ready: function() {
+
+            },
+            mounted: function() {
+
+            },
+            methods: {
+                searchArticles: debounce(search, 300, false)
+            }
+        });
+
+        function search() {
+            //mixpanel.track('search', {
+            //    query: search.query
+            //});
+
+            var csrftoken = Cookies.get('csrftoken');
+
+            axios({
+                    method: 'post',
+                    url: '/articles/api/search/',
+                    data: {
+                        'query': searchapp.query
+                    },
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(function(response) {
+                    searchapp.got_results = true;
+                    searchapp.results = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function() {
+                var context = this,
+                    args = arguments;
+                var later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        };
+
+        $('body').on('click', function() {
+            searchapp.got_results = false;
         });
     </script>
     <!-- custom page specific js -->
