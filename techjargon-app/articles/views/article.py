@@ -68,6 +68,7 @@ def search(request):
     # pdb.set_trace()
     _query = request.GET.get('q')
     _page = request.GET.get('page')
+    # _page = int(_page)
 
     _articles = Article.objects.annotate(search=SearchVector('title', 'tags__name'),).filter(search=_query).distinct('id')
     _tags = Tag.objects.filter(name__contains=_query).order_by('-weight')[:20]
@@ -85,7 +86,8 @@ def search(request):
     _context = {
         'query': _query,
         'articles': _paginated_artciles,
-        'tags': _tags
+        'tags': _tags,
+        'cpage': _page
     }
     return render(request, 'articles/search.html', _context)
 

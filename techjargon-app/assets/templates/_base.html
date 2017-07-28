@@ -46,6 +46,12 @@
                             </ul>
                         </li>
                     </ul>
+                    <form class="navbar-form navbar-right" action="{% url 'articles:search'%}" method="get">
+                        <div class="search search__navbar" id="searchNavbar">
+                            <input name="q" type="text" class="form-control" placeholder="Search" autocomplete="off" value="{{ query }}">
+                            <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </nav>

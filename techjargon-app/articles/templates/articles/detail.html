@@ -106,8 +106,8 @@
 
         {% if user.is_authenticated %}
         <div class="article-signin article-ratings">
-            <span class="article-signin__label">How helpful was this answer for you ?</span>
-            <select id="rateArticle" data-current-rating="@{ my_rating }">
+            <span class="article-signin__label" v-html="rating_feedback"></span>
+            <select id="rateArticle" data-current-rating="@{ my_rating }" v-if="show_rating">
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>
@@ -143,9 +143,7 @@
         <ul class="articles-related">
             {% for article in related_articles %}
             <li>
-                {% if article.views > 100 %}
-                <span class="articles-related__count highlighted">{{article.views}}</span> {% else %}
-                <span class="articles-related__count">{{article.views}}</span> {% endif %}
+                <span class="articles-related__count {% if article.views > 100 %} highlighted {% endif %}">{{article.views}}</span>
                 <a href="{% url 'articles:detail' slug=article.slug%}">{{ article.title }}</a>
             </li>
             {% endfor %}
@@ -159,7 +157,9 @@
     app = new VueaApp({
         data: {
             rating: parseFloat('{{ article.rating }}'),
-            my_rating: '{{ my_rating }}'
+            my_rating: '{{ my_rating }}',
+            show_rating: true,
+            rating_feedback: 'How helpful was this answer for you ?'
         },
         mounted: function() {
             init(this);
@@ -195,9 +195,7 @@
             }
         });
     }
-</script>
 
-<script>
     function rateArticle(value) {
         var csrftoken = Cookies.get('csrftoken');
         axios({
@@ -211,13 +209,14 @@
                 }
             })
             .then(function(response) {
-                $('#overall-rating').barrating('set', response.data.average);
-                $('#overall-rating-count').html(response.data.count);
-                $('#my-rating-title').html("Thank you!");
+                app.rating = response.data.average;
+                app.rating_feedback = "Thank you!";
+                app.show_rating = false;
             })
             .catch(function(error) {
                 console.log(error);
             });
     }
 </script>
+
 {% endblock %}

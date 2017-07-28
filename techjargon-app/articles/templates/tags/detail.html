@@ -1,12 +1,4 @@
-{% extends "_base.html" %}
-
-{% load static %}
-
-{% load range_filter %}
-
-{% block title %} #{{tag.name}} {% endblock %}
-
-{% block meta %}
+{% extends "_base.html" %} {% load static %} {% load humanize %} {% load range_filter %} {% block title %} #{{tag.name}} {% endblock %} {% block meta %}
 <meta name="article_keywords" content="{{ tag.name }}, tags, search">
 
 <!-- Open Graph Protocol Meta -->
@@ -19,144 +11,104 @@
 <meta property='og:image:type' content='image/jpeg' />
 <meta property='og:description' content='{{ article.active_content.body }}' />
 <!-- END Open Graph Protocol Meta -->
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
 <div class="row">
-	<div class="col-sm-7 col-sm-offset-1">
-
-    <div class="row">
-			<div class="col-sm-12">
-      	<h1 class="text-info"><u>#{{ tag.name }}</u></h1>
-			</div>
+    <div class="col-md-3">
+        <div class="sidebar-left article">
+            <h1 class="article-title">#{{ tag.name }}</h1>
+            <ul class="article-info">
+                <li data-toggle="tooltip" title="Ratings"> <span class="article-ratings__label">{{ hit_count | intcomma }} hits</span></li>
+            </ul>
+        </div>
     </div>
-    <hr>
+    <div class="col-md-6">
+        <div>
+            {% if articles %} {% for article in articles %}
+            <div class="search-result__item">
+                <a href="{{ article.link }}">
+                    <div>
+                        <span class="search-result__count {% if article.views > 100 %} highlighted {% endif %}">{{ article.views }}</span>
+                        <h1>{{ article.title }}</h1>
+                    </div>
+                </a>
+                <p class="article-content history-content bottom-buffer-20">
+                    {{ article.description_short|safe }}
+                </p>
+                <ul class="article-tags history-tags clearfix bottom-buffer-20">
+                    {% for tag in article.tags.all %}
+                    <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                <div class="clearfix">
+                    <ul class="article-author clearfix bottom-buffer-40">
+                        <li>
+                            <div class="article-author__img" style="background-image: url('https://pbs.twimg.com/profile_images/1760653780/1190978563_2261111954595ugly_man.jpg');"></div>
+                            <div class="article-author__info">
+                                <a href="">on {{ article.created_at |  date:"d, N Y" }}</a>
+                                <a href="">by {{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %} {% else %}
+            <h4>Nothing found..</h4>
+            {% endif %}
+        </div>
 
-    <div class="col-sm-12">
-      {% for article in articles %}
-			<div class="box text-justify">
-				<div class="row">
-					<div class="col-md-12">
-						<h4>
-							{% if article.views > 100 %}
-							<span class="view-count btn-success">{{article.views}}</span>
-							{% else %}
-							<span class="view-count view-count-gray">{{article.views}}</span>
-							{% endif %}
-							<a href="{{ article.link }}"><h3 class="text-capitalize">{{ article.title }}</h3></a>
-						</h4>
-
-						<span class="text-left text-muted">{{ article.description_short|safe }}</span>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-md-12">
-						{% for tag in article.tags.all %}
-						<a class="tag" href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a>
-						{% endfor %}
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<span class="text-right">
-							<small>
-								<p>
-									<small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
-									<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
-								</p>
-							</small>
-						</span>
-					</div>
-				</div>
-			</div>
-      <hr>
-      {% endfor %}
-    </div>
-
-		<div class="col-sm-12">
-			<nav aria-label="Page navigation">
-			  <ul class="pagination">
-					{% if articles.has_previous %}
-					<li>
-						<a href="?page={{ articles.previous_page_number }}" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-	        {% endif %}
-
-			    {% for page in 1|range:articles.paginator.num_pages %}
-					<li><a href="?page={{ page }}">{{ page }}</a></li>
-					{% endfor %}
-
-					{% if articles.has_next %}
-						<li>
-						 <a href="?page={{ articles.next_page_number }}" aria-label="Next">
-							 <span aria-hidden="true">&raquo;</span>
-						 </a>
-					 </li>
-					 {% endif %}
-
-			  </ul>
-			</nav>
-		</div>
-
-  </div>
-
-  <div class="col-sm-3">
-    <div class="row">
-      <h2 class="text-left">{{ hit_count }}</h2>
-			{% if hit_count > 1 %}
-      	<span>articles tagged</span>
-			{% else %}
-				<span>article tagged</span>
-			{% endif %}
-    </div>
-    <br>
-
-    <div class="row">
-      <h4 class="text-left text-muted"><i class="fa fa-hashtag" aria-hidden="true"></i> Related</h4>
-      <div class="text-justify">
-        {% for tag in ralated_tags %}
-        <a class="tag" href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }} {{ tag.article_set.count }}</a>
-        {% endfor %}
-      </div>
-    </div>
-    <br>
-
-    <div class="row">
-      <h4 class="text-left text-muted"><i class="fa fa-folder-open" aria-hidden="true"></i> New</h4>
-      <div class="text-justify">
-        {% for article in new_articles %}
-				<div class="related-articles">
-					<a href="{% url 'articles:detail' slug=article.slug%}">
-						<h4>
-							{% if article.views > 100 %}
-							<span class="view-count btn-success">{{article.views}}</span>
-							{% else %}
-							<span class="view-count view-count-gray">{{article.views}}</span>
-							{% endif %}
-							{{ article.title | title }}
-						</h4>
-					</a>
-				</div>
-        {% endfor %}
-      </div>
+        <nav class="pagination__container">
+            <ul class="pagination">
+                {% if articles.has_previous %}
+                <li>
+                    <a href="?q={{query}}&page={{ articles.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %} {% for page in 1|range:articles.paginator.num_pages %}
+                <li class="{% if page == cpage %} active {% endif %}">
+                    <a href="?q={{query}}&page={{ page }}">{{ page }}</a>
+                </li>
+                {% endfor %} {% if articles.has_next %}
+                <li>
+                    <a href="?q={{query}}&page={{ articles.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 
-  </div>
+    <div class="col-md-3">
+        <h2 class="sidebar-h2-align-top"># related</h2>
+        <ul class="article-tags clearfix bottom-buffer-40">
+            {% if ralated_tags %} {% for tag in ralated_tags %}
+            <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
+            {% endfor %} {% else %}
+            <p class="text-muted">no tags found</p>
+            {% endif %}
+        </ul>
 
+        <h2 class="sidebar-h2-align-top">Latest</h2>
+        <ul class="articles-related">
+            {% for article in new_articles %}
+            <li>
+                <span class="articles-related__count {% if article.views > 100 %} highlighted {% endif %}">{{article.views}}</span>
+                <a href="{% url 'articles:detail' slug=article.slug%}">{{ article.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
-
-
-{% endblock %}
-
-{% block javascript %}
+{% endblock %} {% block javascript %}
 
 <script>
-	$(document).ready(function() {
-		mixpanel.track('tag', {name: "{{tag.name}}"});
-	});
+    $(document).ready(function() {
+        mixpanel.track('tag', {
+            name: "{{tag.name}}"
+        });
+    });
 </script>
 {% endblock %}
