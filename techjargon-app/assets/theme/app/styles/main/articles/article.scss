@@ -3,7 +3,7 @@
 }
 
 .article-content {
-  font-family: 'Merriweather', serif;
+  font-family: $font-desc;
   font-size: 22px;
   line-height: 1.6em;
   text-align: justify;
@@ -53,7 +53,7 @@
 
 .article-resources {
   // border-top: 1px solid $grey-dark;
-  font-family: 'Merriweather', serif;
+  font-family: $font-desc;
   font-size: 12px;
   list-style: none;
   padding: 0;
@@ -118,7 +118,7 @@
   }
   &__info {
     display: inline-block;
-    font-family: 'Merriweather', serif;
+    font-family: $font-desc;
     font-size: 12px;
     vertical-align: top;
     a {
@@ -173,7 +173,7 @@
 }
 
 .article-actions {
-  font-family: 'Merriweather', serif;
+  font-family: $font-desc;
   list-style: none;
   padding: 0;
   li {
@@ -186,7 +186,7 @@
 }
 
 .article-signin {
-  font-family: 'Merriweather', serif;
+  font-family: $font-desc;
   &__label {
     margin-right: 10px;
   }

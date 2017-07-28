@@ -57,10 +57,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
             <li><a href="#" class="active">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
-            <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
             <li>
               <ul class="navbar-social">
                 <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
@@ -68,31 +68,12 @@
               </ul>
             </li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <div class="search__container">
-              <div class="search search__navbar" id="searchNavbar">
-                <input type="text" class="form-control" placeholder="Search">
-                <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-              </div>
-              <div id="search-box-autocomplete-suggestions" class="search__result">
-                <a v-for="article in results" v-bind:href="article.link">
-                  <div class="box">
-                    <!-- <h4 class="text-capitalize">@{ article.title }</h4> -->
-                    <h4 class="text-capitalize">Python</h4>
-                    <!-- <span class="text-muted" v-html="article.description_short"></span> -->
-                    <span class="text-muted search__result-description" v-html="article.description_short">Python is shit. liek literally shit. Python is shit. liek literally shit. Python is shit. liek literally shit.</span>
-                  </div>
-                </a>
-                <a href="{% url 'articles:add' %}">
-                  <div class="box text-info">
-                    <h4 class="text-capitalize">+ Add @{ query }</h4>
-                    <span class="text-muted">Add @{ query } article to techJargor</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-          </form>
+          <!--<form class="navbar-form navbar-right">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>-->
         </div>
         <!-- /.navbar-collapse -->
       </div>
@@ -103,93 +84,36 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6 col-md-offset-2">
-        <input id="txt-search" type="text" class="search" placeholder="">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">
-        <div class="search-suggestions sidebar-left home">
-          <ul class="no-ul">
-            <li><a onclick="scrollTo('#txt-search')">Search</a></li>
-            <li><a onclick="scrollTo('#trendingArticles')">Trending Articles</a></li>
-            <li><a onclick="scrollTo('#latestArticle')">Latest Articles</a></li>
-          </ul>
+      <div class="col-md-3">
+        <div class="sidebar-left article">
+          <h1 class="article-title">About</h1>
         </div>
       </div>
       <div class="col-md-6">
-        <div id="trendingArticles">
-          <h2>Trending Articles</h2>
-          <ul class="article-list no-ul">
-            <li><a href="#">Apache Spark</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">hdfs</a></li>
-            <li><a href="#">Marathon-LB</a></li>
-            <li><a href="#">Dart</a></li>
-            <li><a href="#">Amazon Cloud</a></li>
-            <li><a href="#">Circuitebreaker Pattern</a></li>
-            <li><a href="#">Event Outsourcing</a></li>
-            <li><a href="#">Apache Headloop</a></li>
-            <li><a href="#">Kibana</a></li>
-            <li><a href="#">npm</a></li>
-            <li><a href="#">RabbitMQ</a></li>
-            <li><a href="#">HAproxy</a></li>
-            <li><a href="#">Apache Habse</a></li>
-            <li><a href="#">Apache Pig</a></li>
-            <li><a href="#">Could Native</a></li>
-            <li><a href="#">Vagrant</a></li>
-            <li><a href="#">Andromeda OS</a></li>
-            <li><a href="#">Kurbanetees</a></li>
-            <li><a href="#">Nagios</a></li>
-            <li><a href="#">grpc</a></li>
-            <li><a href="#">Theano</a></li>
-            <li><a href="#">Pytorch</a></li>
-            <li><a href="#">Messos</a></li>
-            <li><a href="#">Ecm</a></li>
-            <li><a href="#">Mojo</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-          </ul>
+        <div class="about-content">
+          <p class="about-content__featured bottom-buffer-40">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+            penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+            eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
+            eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis
+            pretium. Integer tincidunt. Cras dapibu
+          </p>
+          <h2>Rdda</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+            penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
+            eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
+            eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis
+            pretium. Integer tincidunt. Cras dapibu
+          </p>
         </div>
-        <div id="latestArticle">
-          <h2>Latest Articles</h2>
-          <ul class="article-list no-ul">
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">Django</a></li>
-            <li><a href="#">Ruby</a></li>
-            <li><a href="#">Javascript</a></li>
-            <li><a href="#">AngularJS</a></li>
-          </ul>
-        </div>
+      </div>
+      <div class="col-md-3">
       </div>
     </div>
   </div>
 
-  <footer>
-    <span>© 2017 TechJargon</span>
-    <span>Fidenz</span>
-  </footer>
+  <footer>© 2017 TechJargon by Lakitha and Sons(future)</footer>
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
   <script>
     (function (b, o, i, l, e, r) {
@@ -242,8 +166,6 @@
 
   <!-- build:js scripts/main.js -->
   <script src="scripts/main.js"></script>
-  <script src="scripts/index.js"></script>
-  <script src="scripts/create.js"></script>
   <!-- endbuild -->
 </body>
 

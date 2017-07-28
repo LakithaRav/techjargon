@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald:300,400|Slabo+27px|Merriweather:300');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald:300,400|Slabo+27px|Merriweather:300|Quicksand:400,500');
 @import "constants";
 
 // bower:scss
@@ -24,6 +24,7 @@
 @import "main/articles/article-list";
 @import "main/articles/article";
 @import "main/articles/create";
+@import "main/about/about";
 
 @import "main/search/search";
 
