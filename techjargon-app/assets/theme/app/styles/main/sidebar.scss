@@ -17,6 +17,18 @@
   }
 }
 
+.sidebar-right {
+  &.fixed {
+    right: 15px;
+    position: fixed;
+    width: calc(25% - 30px);
+    @include bp(xs) {
+      position: static;
+      width: 100%;
+    }
+  }
+}
+
 .sidebar-h2-align-top {
   margin-top: 6px;
 }

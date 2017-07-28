@@ -7,6 +7,7 @@ footer {
   left: 15px;
   letter-spacing: 0.05em;
   position: fixed;
+  right: 15px;
   text-transform: uppercase;
 
   @include bp(xs) {
@@ -14,5 +15,21 @@ footer {
     padding: 15px;
     position: static;
     text-align: center;
+  }
+
+  span {
+    display: block;
+  }
+  span:first-child {
+    float: left;
+    @include bp(xs) {
+      float: none;
+    }
+  }
+  span:last-child {
+    float: right;
+    @include bp(xs) {
+      float: none;
+    }
   }
 }
