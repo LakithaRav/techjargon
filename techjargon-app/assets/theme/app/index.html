@@ -69,10 +69,29 @@
             </li>
           </ul>
           <form class="navbar-form navbar-right">
-            <div class="search search__navbar" id="searchNavbar">
-              <input type="text" class="form-control" placeholder="Search">
-              <button type="button" class="btn btn-default" ><i class="fa fa-search" aria-hidden="true"></i></button>
+            <div class="search__container">
+              <div class="search search__navbar" id="searchNavbar">
+                <input type="text" class="form-control" placeholder="Search">
+                <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </div>
+              <div id="search-box-autocomplete-suggestions" class="search__result">
+                <a v-for="article in results" v-bind:href="article.link">
+                  <div class="box">
+                    <!-- <h4 class="text-capitalize">@{ article.title }</h4> -->
+                    <h4 class="text-capitalize">Python</h4>
+                    <!-- <span class="text-muted" v-html="article.description_short"></span> -->
+                    <span class="text-muted search__result-description" v-html="article.description_short">Python is shit. liek literally shit. Python is shit. liek literally shit. Python is shit. liek literally shit.</span>
+                  </div>
+                </a>
+                <a href="{% url 'articles:add' %}">
+                  <div class="box text-info">
+                    <h4 class="text-capitalize">+ Add @{ query }</h4>
+                    <span class="text-muted">Add @{ query } article to techJargor</span>
+                  </div>
+                </a>
+              </div>
             </div>
+
           </form>
         </div>
         <!-- /.navbar-collapse -->

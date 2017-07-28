@@ -16,7 +16,7 @@ $(function () {
     $(this).attr('placeholder', 'Search')
     $(this).val(null);
   });
-  
+
   // Add VueJS
   // var app = new Vue({
   //   el: '#app',
@@ -24,25 +24,4 @@ $(function () {
   //     message: 'Hello Vue!'
   //   }
   // });
-  search.init('#searchNavbar');
 });
-
-var search = {
-  hasOpened: false,
-  init: function (el) {
-    var self = this;
-    $(el).find('button').on('click', function () {
-      if (!self.hasOpened) {
-        self.openSearch($(el).find('input'));
-        self.hasOpened = true;
-      } else {
-        // Go to search screen logic
-      }
-    })
-  },
-  openSearch: function (el) {
-    $(el).animate({width: 300, opacity: 1}, 200, function () {
-      $(this).focus();
-    });
-  }
-};

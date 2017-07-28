@@ -22,10 +22,14 @@
       background-color: transparent !important;
     }
   }
+  &__container {
+    position: relative;
+  }
   &__navbar {
     font-size: 16px;
     margin: 0;
     input.form-control {
+      background-color: transparent !important;
       border-bottom-width: 1px;
       border-left: none;
       border-right: none;
@@ -46,5 +50,33 @@
     button {
       font-size: 18px;
     }
+  }
+  &__result {
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    // display: none;
+    left: 0;
+    position: absolute;
+    right: 0;
+    a {
+      border-bottom: 1px solid $grey-light;
+      cursor: pointer;
+      display: block;
+      padding: 10px;
+      &:hover {
+        background-color: $primary-highlightest;
+      }
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    h4 {
+      margin-bottom: 4px;
+      margin-top: 0;
+    }
+  }
+  &__result-description {
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
   }
 }
