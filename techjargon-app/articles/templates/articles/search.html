@@ -30,7 +30,7 @@
                 <div class="clearfix">
                     <ul class="article-author clearfix bottom-buffer-40">
                         <li>
-                            <div class="article-author__img" style="background-image: url('https://pbs.twimg.com/profile_images/1760653780/1190978563_2261111954595ugly_man.jpg');"></div>
+                            <div class="article-author__img" style="background-image: url('{{ article.active_content.author.profil_pic.url }}');"></div>
                             <div class="article-author__info">
                                 <a href="">on {{ article.created_at |  date:"d, N Y" }}</a>
                                 <a href="">by {{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>

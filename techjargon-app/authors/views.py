@@ -10,7 +10,8 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.conf import settings
-
+import requests
+import tempfile
 
 
 # Create your views here.
@@ -85,6 +86,7 @@ def __check_n_register(userj):
             if _user.author:
                 # _user.author.profil_pic.path = userj['picture']
                 _user.author.save()
+                _user.author.get_remote_file(userj['picture'])
 
         except Author.DoesNotExist as e:
             _author = Author(role=Author._DEFAULT_TYPE)
