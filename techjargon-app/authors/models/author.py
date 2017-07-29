@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from datetime import datetime, timedelta
+from django.core import files
+from io import BytesIO
+import requests
+import os
 
 
 # Create your models here.
@@ -38,3 +42,12 @@ class Author(models.Model):
     def role_value(self):
         _enum = self.ROLE_TYPE[self.role]
         return _enum[1]
+
+    def get_remote_file(self, url):
+        url = url.replace('https://', 'http://', 1)
+        resp = requests.get(url)
+        if resp.status_code == requests.codes.ok:
+            fp = BytesIO()
+            fp.write(resp.content)
+            file_name = os.path.basename(url)
+            self.profil_pic.save(file_name, files.File(fp))

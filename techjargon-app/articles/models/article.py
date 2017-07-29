@@ -1,8 +1,9 @@
 from django.db import models
 from datetime import datetime
-from .tag import Tag
+from tags.models.tag import Tag
 from rest_framework import serializers
-
+from django.contrib.contenttypes.fields import GenericRelation
+from trackings.models.impression import Impression
 
 # Create your models here.
 class Article(models.Model):
@@ -17,16 +18,16 @@ class Article(models.Model):
     status = models.PositiveSmallIntegerField(choices=STATUS, default=_DEFAULT_STATUS)
     slug = models.SlugField(unique=True, max_length=150)
     views = models.BigIntegerField(default=0)
-    rating = models.BigIntegerField(default=0)
+    rating = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     # relations
     tags = models.ManyToManyField(Tag, related_name='%(class)s_tags')
+    impressions = GenericRelation(Impression, related_query_name='articles')
 
     def __unicode__(self):
         return '%s' % self.title
-
 
     def active_content(self):
         content = self.content_set.get(status=1)

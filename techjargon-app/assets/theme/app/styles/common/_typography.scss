@@ -1,0 +1,47 @@
+h1,
+h2 {
+  font-weight: 400;
+  position: relative;
+  text-transform: uppercase;
+  word-break: break-all;
+}
+
+h1 {
+  font-size: 50px;
+  // letter-spacing: 0.1em;
+}
+
+h2 {
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+
+  &::before {
+    background-color: #000;
+    content: '';
+    height: 2px;
+    position: absolute;
+    width: 25px;
+    top: -10px;
+  }
+}
+
+a {
+  color: #000;
+  transition: color 150ms ease-in-out, background-color 150ms ease-in-out;
+  &:hover {
+    color: $primary-color;
+    text-decoration: none;
+  }
+  &:visited,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+p {
+  font-family: 'Open Sans', serif; 
+  font-size: 16px;
+  font-weight: 300;
+}

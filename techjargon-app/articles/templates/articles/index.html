@@ -1,8 +1,4 @@
-{% extends "_base.html" %}
-
-{% load static %}
-
-{% block meta %}
+{% extends "_base.html" %} {% load static %} {% block meta %}
 <meta name="keywords" content="{{ meta.keywords }}">
 <!-- Open Graph Protocol Meta -->
 <meta property='og:title' content='techjargon' />
@@ -15,99 +11,87 @@
 <meta property='og:image:type' content='image/jpeg' />
 <meta property='og:description' content='TechJargon is a leading technology index wiki, dedicated to obsessively new technical terms, reviewing new tech products, and breaking tech products and solutions.' />
 <!-- END Open Graph Protocol Meta -->
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
-
-<!-- <div class="row">
-	<div class="col-md-10 col-md-offset-1 text-center">
-		<div class="intro-box">
-			<input type="hidden" id="article-titles" value="{{ meta.titles }}">
-			<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
-			<h1 id="top-articles" class="lead"></h1>
-			<form action="{% url 'articles:search'%}" method="get">
-				<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
-			</form>
-			<div class="text-muted animated fadeInDown">
-				<i class="fa fa-arrow-up" aria-hidden="true"></i>
-			</div>
-			<div class="animated fadeInDown">
-				<span class="text-muted">{ tap to search }</span>
-			</div>
-		</div>
-	</div>
-</div> -->
-
-<div class="intro-box text-center">
-	<input type="hidden" id="article-titles" value="{{ meta.titles }}">
-	<p class="lead text-default text-center">Getting information off the Internet is like taking a drink from a fire hydrant</p>
-	<!-- <h1 id="top-articles" class="lead"></h1> -->
-	<form action="{% url 'articles:search'%}" method="get">
-		<input type="text" name="q" id="top-articles" placeholder="" autocomplete="off"/>
-	</form>
-	<div class="text-muted animated fadeInDown">
-		<i class="fa fa-arrow-up" aria-hidden="true"></i>
-	</div>
-	<div class="animated fadeInDown">
-		<span class="text-muted">{ tap to search }</span>
-	</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-2" id="search">
+        <form action="{% url 'articles:search'%}" method="get">
+            <input v-model="query" ref="q" name="q" v-on:click="resetSearch" id="txt-search-1" type="text" class="search" placeholder="" autocomplete="off">
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="search-suggestions sidebar-left home">
+            <ul class="no-ul">
+                <li><a onclick='scrollTo("#search")' v-on:click="resetSearch">search</a></li>
+                <li><a onclick='scrollTo("#trendingArticles")'>Trending Articles</a></li>
+                <li><a onclick='scrollTo("#latestArticle")'>Recommnded</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="trendingArticles">
+            <h2>Trending Articles </h2>
+            <ul class="article-list no-ul">
+                {% for article in top_articles %}
+                <li><a href="{{ article.link }}">{{ article.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="latestArticle">
+            <h2>Recommnded</h2>
+            <ul class="article-list no-ul">
+                {% for article in suggested_articles %}
+                <li><a href="{{ article.link }}">{{ article.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
 
-<!-- <div class="row">
-	<hr>
-  <div class="col-sm-12 text-center tagcloud animated slideInUp" id="tags">
-    {% for tag in tags %}
-    <a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
-    {% endfor %}
-  </div>
-</div> -->
-
-<div class="text-center tagcloud animated slideInUp" id="tags">
-	{% for tag in tags %}
-	<a class="" href="{% url 'articles:tags_detail' tag.slug %}" rel="{{ tag.weight }}">{{ tag.name }}</a>
-	{% endfor %}
-</div>
-
-{% endblock %}
-
-{% block javascript %}
-<!-- jquery.tagcloud 0.0.1 -->
-<script src="{% static 'jquery.tagcloud.js' %}"></script>
+{% endblock %} {% block javascript %}
 
 <script>
-	$.fn.tagcloud.defaults = {
-		size: {start: 9, end: 20, unit: 'pt'},
-		color: {start: '#5bc0de', end: '#428bca'}
-	};
+    app = new VueaApp({
+        data: {
+            query: null,
+            articles: []
+        },
+        created: function() {
+            var articles_str = '{{ meta.article_titles }}';
+            this.articles = articles_str.split(",");
+        },
+        mounted: function() {
+            init(this);
+        },
+        methods: {
+            resetSearch: function(e) {
+                var _el = $('#txt-search-1');
+                $(_el).data('typed').reset();
+                $(_el).attr("placeholder", "Search...");
+                $(_el).val(null);
+                _el.focus();
+            }
+        }
+    });
 
-	$(function () {
-		$('#tags a').tagcloud();
-
-		$('#search-box').css("visibility","hidden");
-
-		var articles_str = '{{ meta.article_titles }}';
-		var articles = articles_str.split(",");
-
-		var typed = $("#top-articles").typed({
-			strings: articles,
-			typeSpeed: 100,
-			startDelay: 10,
-			shuffle: true,
-			loop: true,
-			loopCount: null,
-			showCursor: false,
-			backSpeed: 10,
-			backDelay: 1800
-		});
-
-		$("#top-articles").on('click', function () {
-			$(this).data('typed').reset();
-			$(this).attr("placeholder", "Search")
-			$(this).val(null);
-      // $('#top-articles').replaceWith('<input type="text"  name="q" size="25"  id="top-articles" value=""/>');
-      // $("#top-articles").focus();
-		});
-
-	});
+    function init(app) {
+        var typed = $("#txt-search-1").typed({
+            strings: app.articles,
+            typeSpeed: 100,
+            startDelay: 10,
+            shuffle: false,
+            loop: true,
+            loopCount: null,
+            showCursor: false,
+            backSpeed: 10,
+            backDelay: 1800,
+            onStringTyped: (arrayPos, self) => {
+                app.query = app.articles[arrayPos];
+            }
+        });
+    }
 </script>
+
 {% endblock %}

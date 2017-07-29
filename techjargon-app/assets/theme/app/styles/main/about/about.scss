@@ -1,0 +1,9 @@
+.about-content {
+  p {
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    &.about-content__featured {
+      font-size: 18px;
+    }
+  }
+}

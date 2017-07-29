@@ -1,0 +1,25 @@
+.jargon-logo {
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    line-height: 1.75em;
+    margin: 0;
+    text-transform: uppercase;
+    &::before {
+        background-color: #000;
+        content: '';
+    }
+    strong {
+        color: $primary-color;
+        font-weight: 400;
+    }
+}
+
+.jargon-logo h1 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 300;
+    margin-top: 5px;
+}

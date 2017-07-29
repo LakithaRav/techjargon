@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from articles.models.tag import Tag
+import pdb
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# models
+from tags.models.tag import Tag
 from articles.models.article import Article
 from articles.models.content import Content
-import pdb;
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# tasks
+from trackings.tasks import tag_impressions as impressions
 
 
 def detail(request, slug):
@@ -41,7 +44,18 @@ def detail(request, slug):
         'full_url_path': request.build_absolute_uri()
     }
 
-    # weghy
+    # weight
     _tag.increase_weight(0)
+    __add_view_log(request, _tag)
 
     return render(request, 'tags/detail.html', _context)
+
+
+# private
+
+def __add_view_log(request, tag):
+    user_id = None
+    if request.user.is_authenticated:
+        user_id = request.user.id
+
+    impressions.add.delay(tag.id, user_id, request.META.get('REMOTE_ADDR'))

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import logging.config
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,7 @@ SECRET_KEY = 'hozd=m(om6kdqgu!sq!k*=(_b2@i_&!mikksv(_21-e8o!n^(^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '107.23.119.95', 'techjargon-dev.fidenz.info', 'www.techjargon-dev.fidenz.info', 'techjargon.fidenz.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'techjargon-dev.fidenz.info', 'techjargon.fidenz.com']
 
 
 # Application definition
@@ -34,6 +35,8 @@ ALLOWED_HOSTS = ['127.0.0.1', '107.23.119.95', 'techjargon-dev.fidenz.info', 'ww
 INSTALLED_APPS = [
     'authors.apps.AuthorsConfig',
     'articles.apps.ArticlesConfig',
+    'tags.apps.TagsConfig',
+    'trackings.apps.TrackingsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'django.contrib.humanize',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +69,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+            (os.path.join(BASE_DIR, "templates")),
             (os.path.join(BASE_DIR, "assets/templates/")),
         ],
         'APP_DIRS': True,
@@ -94,29 +100,21 @@ DATABASES = {
     #     'PORT': '5432',
     # }
     # development
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'techjargon_dev',
-    #     'USER': 'pgzookeeper',
-    #     'PASSWORD': 'pgzookeeper911',
-    #     'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
-    #     'PORT': '5432',
-    # }
-    # production
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'techjargon',
+        'NAME': 'techjargon_dev',
         'USER': 'pgzookeeper',
         'PASSWORD': 'pgzookeeper911',
         'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
+    # production
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'techjargon',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': '172.16.10.18',
+    #     'USER': 'pgzookeeper',
+    #     'PASSWORD': 'pgzookeeper911',
+    #     'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
     #     'PORT': '5432',
     # }
 }
@@ -163,16 +161,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "assets/theme/"),
-    os.path.join(BASE_DIR, "assets/css/"),
-    os.path.join(BASE_DIR, "assets/js/"),
-    os.path.join(BASE_DIR, "assets/res/"),
+    os.path.join(BASE_DIR, "assets/templates/"),
+    os.path.join(BASE_DIR, "assets/static/"),
+    os.path.join(BASE_DIR, "assets/theme/dist/"),
+    # os.path.join(BASE_DIR, "assets/js/"),
+    # os.path.join(BASE_DIR, "assets/res/"),
 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/assets/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'assets')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'assets/')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -182,6 +181,7 @@ REST_FRAMEWORK = {
     ]
 }
 
+# production
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -189,6 +189,13 @@ CACHES = {
         'TIMEOUT': 300,
     }
 }
+
+# development
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+#     }
+# }
 
 # LOGGING_CONFIG = None
 LOGGING = {
@@ -263,5 +270,41 @@ logging.config.dictConfig(LOGGING)
 AUTH_0 = {
     'CLIENT_ID': 'QADeAHqjls_NxG6lnY_MQiqJ2wErFUpx',
     'CLIENT_SECRET': '00I5NqJtwLDZBBUBXQLTYLL195BvPMDZ3uFqc6OcnunuOsyuYvI7cCQ0tORWre4a',
-    'CALLBACK_URL': 'http://techjargon.fidenz.com/authors/callback/'
+    'CALLBACK_URL': 'http://techjargon-dev.fidenz.info/authors/callback/'
+}
+
+# Celery settings
+
+CELERY_BROKER_URL = 'pyamqp://'
+# CELERY_RESULT_BACKEND = 'rpc://'
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_BEAT_SYNC_EVERY = 10
+CELERY_ENABLE_UTC = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULE = {
+    # 'demo-task': {
+    #     'task': 'articles.tasks.article_tasks.update',
+    #     'schedule': 10,  # in seconds, or timedelta(seconds=10)
+    #     'args': (16, 16),
+    # },
+    'service-live-check': {
+        'task': 'articles.tasks.article_tasks.test',
+        'schedule': crontab(hour=0),
+    },
+    'tracking-article-impressions': {
+        'task': 'trackings.tasks.article_impressions.suggest_user_tags',
+        'schedule': crontab(minute=59),
+    },
+    'tracking-tag-impressions': {
+        'task': 'trackings.tasks.tag_impressions.suggest_user_tags',
+        'schedule': crontab(minute=59),
+    },
+    'tracking-rating-impressions': {
+        'task': 'trackings.tasks.rating_impressions.suggest_user_tags',
+        'schedule': crontab(minute=59),
+    },
 }

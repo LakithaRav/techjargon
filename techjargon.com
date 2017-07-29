@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name 107.23.119.95 techjargon.fidenz.com www.techjargon.fidenz.com;
+    server_name techjargon-dev.fidenz.info www.techjargon-dev.fidenz.info;
 
     access_log /var/www/techjargon/techjargon-app/log/nginx-access.log;
     error_log /var/www/techjargon/techjargon-app/log/nginx-error.log;
@@ -13,14 +13,15 @@ server {
     location / {
         include proxy_params;
         proxy_pass http://unix:/var/www/techjargon/techjargon.sock;
+        proxy_set_header REMOTE_ADDR $remote_addr;
     }
 
     location  /robots.txt {
-        alias  /var/www/techjargon/techjargon-app/assets/res/robots.txt;
+        alias  /var/www/techjargon/techjargon-app/static/res/robots.txt;
     }
 
     location  /sitemap.xml {
-        alias  /var/www/techjargon/techjargon-app/assets/res/sitemap.xml;
+        alias  /var/www/techjargon/techjargon-app/static/res/sitemap.xml;
     }
 
     # Error pages

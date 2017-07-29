@@ -1,0 +1,36 @@
+.history-content {
+  font-size: 18px;
+}
+
+// .history-tags {
+//   a {
+//     font-size: 12px;
+//     padding: 2px 4px;
+//   }
+// }
+
+// .history-resources {
+//   li {
+//     padding: 4px 0;
+//   }
+// }
+
+.history-message {
+  margin-top: 40px;
+  opacity: 0.6;
+}
+
+.history-author {
+  float: none;
+  margin: 0;
+  li {
+    padding: 0 0 10px 0;
+  }
+  span {
+    display: block;
+  }
+  &__date {
+    font-size: 16px;
+    line-height: 1em;
+  }
+}

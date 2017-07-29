@@ -1,78 +1,63 @@
-{% extends "_base.html" %}
-
-{% load static %}
-
-{% load article_meta_filter %}
-
-{% block title %} {{article.title}} |{% endblock %}
-
-{% block content %}
+{% extends "_base.html" %} {% load static %} {% load article_meta_filter %} {% block title %} {{article.title}} |{% endblock %} {% block content %}
 
 <div class="row">
-	<div class="col-sm-7 col-sm-offset-1">
-		
-		<div class="row">
-			<a href=""><i class="fa fa-arrow-left" aria-hidden="true"></i> back</a>
-		  	<h1>{{ article.title|title }}</h1>
-		</div>
+    <div class="col-md-3">
+        <div class="sidebar-left article">
+            <h1 class="article-title">{{ article.title }}</h1>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <p class="article-content history-content bottom-buffer-20">
+            {{ content.body|safe }}
+        </p>
+        <!--<div class="pull-right"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>-->
+        <ul class="article-resources history-resources bottom-buffer-20">
+            {% for meta in content.contentmeta_set.all %}
+            <li><span class="article-resources__label">{{ meta.name }}</span>{{ meta.data|article_meta|safe }}</li>
+            {% endfor %}
+        </ul>
 
-		<div class="row">
-			<p class="lead text-justify">{{ content.body|safe }}</p>
-		</div>
+        <ul class="article-tags history-tags clearfix bottom-buffer-20">
+            {% for tag in article.tags.all %}
+            <li><a href="#">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
 
-		<div class="row">
-			<table class="table table-condensed table-responsive">
-				<tbody>
-					{% for meta in content.contentmeta_set.all %}
-					<tr>
-						<td width="100">{{ meta.name }}</td>
-	        			<td>{{ meta.data|article_meta|safe }}</td>
-        			</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+        <!--<div class="history-message bottom-buffer-20">
+            <h4>Revision Message</h4>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,</p>
+        </div>
+        -->
 
-		<div class="row">
-			{% for tag in article.tags.all %}
-			<a class="tag">{{ tag.name }}</a>
-			{% endfor %}
-		</div>
+        <div class="clearfix">
+            <ul class="article-author clearfix bottom-buffer-40">
+                <li>
+                    <div class="article-author__img" {% if content.author.profil_pic %} style="background-image: url('{{ article.active_content.author.profil_pic.url }}');" {% endif %}></div>
+                    <div class="article-author__info">
+                        <a href="">edited {{ content.created_at |  date:"d, N Y" }}</a>
+                        <a href="">{{ content.author.user.first_name }} {{ content.author.user.last_name }}</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <h2 class="sidebar-h2-align-top">Revisions</h2>
+        <ul class="article-author history-author clearfix bottom-buffer-40">
+            {% for history in article.content_set.all %}
+            <li>
+                <a href="{% url 'articles:history' slug=article.slug content_id=history.id %}">
+                    <div class="article-author__img" {% if history.author.profil_pic %} style="background-image: url('{{ history.author.profil_pic.url }}');" {% endif %}></div>
+                    <div class="article-author__info">
+                        <span class="history-author__date">{{ history.updated_at |  date:"d l, N Y" }}</span>
+                        <span>{{ history.author.user.username }}</span>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
 
-		<div class="row">
-			<span class="text-right">
-				<p><small> on {{ article.updated_at |  date:"d, N Y" }}</small><br>
-				<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
-				</p>
-			</span>
-		</div>
-
-	</div>
-
-	<div class="col-sm-3">
-		<div class="row">
-			<h5 class="text-right">History</h5>
-		</div>
-		<div class="row" style="max-height: 600px; overflow-y: auto;">
-			{% for history in article.content_set.all %}
-			<div class="col-sm-10 col-sm-offset-2 text-right">
-				<span>
-					<small>
-					<a href="{% url 'articles:history' slug=article.slug content_id=history.id %}">{{ history.updated_at |  date:"d l, N Y" }} <i class="fa fa-link" aria-hidden="true"></i></a>
-					</small>
-				</span>
-				<br>
-				<span><small>Edit by <a href="#">{{ history.author.user.username }}</a></small></span>
-				<hr>
-			</div>
-			{% endfor %}
-		</div>
-	</div>
-
-
+        </ul>
+    </div>
 </div>
 
-{% endblock %}
-
-{% block javascript %}
-{% endblock %}
+{% endblock %} {% block javascript %} {% endblock %}

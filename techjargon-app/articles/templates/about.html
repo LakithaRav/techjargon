@@ -1,0 +1,48 @@
+{% extends "_base.html" %} {% load static %} {% load humanize %} {% load range_filter %} {% block title %} About |{% endblock %} {% block meta %}
+<meta name="article_keywords" content="tj, techjargon, company, about, fidenz">
+
+<!-- Open Graph Protocol Meta -->
+<meta property='og:title' content='about' />
+<meta property='og:url' content='{{ full_url_path }}' />
+<meta property='og:image' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:url' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:image:type' content='image/jpeg' />
+<meta property='og:description' content='TechJargon give you an understanding about a “Technical term” within less than a minute. And keep you up-to-date with the latest tech trends.' />
+<!-- END Open Graph Protocol Meta -->
+{% endblock %} {% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar-left article">
+            <h1 class="article-title">About</h1>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="about-content">
+            <p class="about-content__featured bottom-buffer-40 text-justify">
+                TechJargon tries to give you an understanding about a “Technical term” within less than a minute. Further it provides way to be up to speed with emerging technologies and related matter.
+            </p>
+            <!-- <h2>Rdda</h2> -->
+            <p class="text-justify">
+                History of technology is changing at a rate it hasn’t ever been changed before. Even within a narrow domain of technology so many new things emerge everyday and there was no way to keep up to date with all these technologies. Most of the time, even without
+                having expert knowledge on the matter but to have a meaningful discussion with someone who have a reasonable background about that subject matter allows you gain on social capital. So we thought there should be a place where individuals
+                could find a definition for a technical term but not to spend much time reading it. Techjargon provide a list of trending terms in the domain so anyone interested could be up to date.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+
+{% endblock %} {% block javascript %}
+
+<script>
+    $(document).ready(function() {
+        mixpanel.track('tag', {
+            name: "{{tag.name}}"
+        });
+    });
+</script>
+{% endblock %}

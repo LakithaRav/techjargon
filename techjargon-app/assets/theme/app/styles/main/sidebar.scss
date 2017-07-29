@@ -1,0 +1,34 @@
+.sidebar-left {
+  left: 15px;
+  position: fixed;
+  width: calc(25% - 30px);
+  @include bp(xs) {
+    margin-bottom: 20px;
+    position: static;
+    width: auto;
+  }
+  &.article {
+    text-align: right;
+    top: 112px;
+  }
+  &.home {
+    top: 264px;
+    width: calc(16.6666666667% - 30px);
+  }
+}
+
+.sidebar-right {
+  &.fixed {
+    right: 15px;
+    position: fixed;
+    width: calc(25% - 30px);
+    @include bp(xs) {
+      position: static;
+      width: 100%;
+    }
+  }
+}
+
+.sidebar-h2-align-top {
+  margin-top: 6px;
+}

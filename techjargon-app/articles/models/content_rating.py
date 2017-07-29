@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from .content import Content
-from authors.models.author import Author
+from django.contrib.auth.models import User
 
 # Create your models here.
 class ContentRating(models.Model):
@@ -11,7 +11,7 @@ class ContentRating(models.Model):
 
     # relations
     content = models.ForeignKey(Content, on_delete=models.CASCADE, null=False)
-    owner = models.ForeignKey(Author, null=False)
+    user = models.ForeignKey(User, null=False)
 
     class Meta:
     	ordering = ['id']

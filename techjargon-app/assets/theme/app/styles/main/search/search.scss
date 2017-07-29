@@ -1,0 +1,30 @@
+.search-result {
+  &__item {
+    h1 {
+      display: inline-block;
+      font-size: 26px;
+      margin-top: 0;
+      text-transform: none;
+      vertical-align: middle;
+    }
+    p {
+      font-size: 13px;
+    }
+  }
+  &__count {
+    border: 1px $grey-light solid;
+    color: $grey-light;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1em;
+    margin-right: 8px;
+    padding: 4px;
+    text-align: center;
+    width: 40px;
+    &.highlighted {
+      border-color: $green;
+      color: $green;
+    }
+  }
+}

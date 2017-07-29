@@ -1,180 +1,283 @@
-{% extends "_base.html" %}
+{% extends "_base.html" %} {% load static %} {% block title %} Update |{% endblock %} {% block content %}
 
-{% load static %}
-
-{% block title %} Update |{% endblock %}
-
-{% block content %}
-<div class="row">
-  <div class="col-sm-6 col-sm-offset-3">
-    <form action="{% url 'articles:update' slug=article.slug article_id=article.id%}" method="post" id="article-form">
-      {% csrf_token %}
-      {% for error in errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
-      <input type="hidden" name="{{uform.article_id.html_name}}" value="{{uform.article_id.value}}">
-      <div class="form-group">
-        <h1>{{ article.title|title }}</h1>
-      </div>
-      <div class="form-group">
-        <label>Content</label>
-        <textarea rows="10" id="article-content" name="{{uform.content.html_name}}" class="form-control" rows="3">{{ uform.content.value|default_if_none:'' }}</textarea>
-        <p class="text-right" id="article-content-length-msg">500</p>
-        {% for error in uform.content.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
-      </div>
-      <div class="form-group">
-          <label>Meta</label><button type="button" class="btn btn-link btn-plus" onclick="addMeta()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-      </div>
-
-      {% for meta in article.active_content.contentmeta_set.all %}
-      <div class="form-group" id="ext-meta-tag-{{ meta.id }}">
-        <div class="row">
-            <div class="col-sm-3">
-              <select class="select-gear" name="{{uform.meta_keys.html_name}}">
-                <option value="{{ meta.name }}" selected="">{{ meta.name }}</option>
-                <option value="home">home</option>
-                <option value="wiki">wiki</option>
-                <option value="github">github</option>
-                <option value="install">install</option>
-                <option value="other">other</option>
-              </select>
-            </div>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" name="{{uform.meta_values.html_name}}" value="{{ meta.data }}">
-            </div>
-
-            <div class="col-sm-1">
-              <button type="button" class="btn btn-link btn-remove" aria-hidden="true" onclick="removeExtMeta('#ext-meta-tag-{{ meta.id }}')">
-                <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
-              </button>
-            </div>
-
-        </div>
-      </div>
-      {% endfor %}
-
-      <div id="article-metas"></div>
-
-      <div class="form-group">
-        <label>Tags</label>
-        <input name="{{uform.tags.html_name}}" type="text" class="" id="article-tags" value="{{ uform.tags.value|default_if_none:'' }}">
-        {% for error in uform.tags.errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
-      </div>
-
-      <button type="submit" class="btn btn-default">Update</button>
-    </form>
-  </div>
-</div>
-
-<!-- templates -->
-<template id="article-meta-template">
-  <div class="form-group">
+<form action="{% url 'articles:update' slug=article.slug article_id=article.id%}" method="post" id="article-form">
+    {% csrf_token %} {% for error in errors %}<span class=" text-danger">{{error}}</span>{% endfor %}
+    <input type="hidden" name="{{uform.article_id.html_name}}" value="{{uform.article_id.value}}">
+    <input type="hidden" name="{{uform.content_hash.html_name}}" value="{{uform.content_hash.value}}">
     <div class="row">
-        <div class="col-sm-3">
-          <select class="select-gear" name="{{uform.meta_keys.html_name}}">
-            <option value="reference">link</option>
-            <option value="reference">reference</option>
-            <option value="resource">resource</option>
+        <div class="col-md-10 col-md-offset-1">
+            <h2>Update Article</h2>
+            <div class="row">
+                <div class="col-md-7">
+                    <!--
+                `form-group` modifications:
+                  `has-error`: For Errors
+                  `disabled`: To disable text field
+               -->
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" value="{{ article.title }}" disabled>
+                        <ul class="has-error__messages">
+                            {% for error in uform.title.errors %}
+                            <li>{{error}}</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="article-create-title__suggestion clearfix" v-if="articles.length">
+                            <ul>
+                                <li>Did you mean?</li>
+                                <li v-for="article in articles">
+                                    <a v-bind:href="article.link" class="text-capitalize">
+                                        <span class="">@{ article.title }</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <input name="{{uform.tags.html_name}}" id="article-tags" value="{{ uform.tags.value|default_if_none:'' }}"></input>
+                        <ul class="has-error__messages">
+                            {% for error in uform.tags.errors %}
+                            <li>{{error}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea name="{{uform.content.html_name}}" id="content" rows="8" class="form-control">{{ uform.content.value|default_if_none:'' }}</textarea>
+                        <ul class="has-error__messages">
+                            {% for error in uform.content.errors %}
+                            <li>{{error}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label>Meta</label>
+                        <ul class="article-create-meta" id="article-meta">
+                            {% for meta in article.active_content.contentmeta_set.all %}
+                            <li class="clearfix" id="meta-{{ meta.id }}">
+                                <div class="article-create-meta__dropdown">
+                                    <select id="meta" class="meta-tags" name="{{uform.meta_keys.html_name}}">
+                                      <option value="{{ meta.name }}" selected="">{{ meta.name }}</option>
+                                      <option value="home">home</option>
+                                      <option value="wiki">wiki</option>
+                                      <option value="github">github</option>
+                                      <option value="install">install</option>
+                                      <option value="other">other</option>
+                                    </select>
+                                </div>
+                                <div class="article-create-meta__text">
+                                    <input name="{{uform.meta_values.html_name}}" value="{{ meta.data }}" type="text" class="form-control">
+                                </div>
+                                <button v-on:click="removeMeta('meta-{{ meta.id }}')" type="button" class="btn btn-plus btn-empty article-create-meta__remove"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            </li>
+                            {% endfor %}
+                            <article-meta-tag v-for="meta in metas" v-bind:object="meta"></article-meta-tag>
+                        </ul>
+                        <button type="button" class="btn btn-plus btn-empty pull-right" v-on:click="addMeta"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-black">Update</button>
+        </div>
+    </div>
+</form>
+
+<!-- meta-template -->
+<script type="text/x-template" id="article-meta-template">
+    <li class="clearfix" v-bind:id="object">
+        <div class="article-create-meta__dropdown">
+            <select id="meta" class="meta-tags" name="{{uform.meta_keys.html_name}}">
+            <option value="home">home</option>
+            <option value="wiki">wiki</option>
+            <option value="github">github</option>
+            <option value="install">install</option>
             <option value="other">other</option>
           </select>
         </div>
-        <div class="col-sm-8">
-          <input type="text" class="form-control" name="{{uform.meta_values.html_name}}" value="{{ uform.meta_values.value|default_if_none:'' }}">
+        <div class="article-create-meta__text">
+            <input name="{{uform.meta_values.html_name}}" value="{{ uform.meta_values.value|default_if_none:'' }}" type="text" class="form-control">
         </div>
+        <button v-on:click="remove" type="button" class="btn btn-plus btn-empty article-create-meta__remove"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </li>
+</script>
 
-        <div class="col-sm-1">
-          <button type="button" class="btn btn-link btn-remove" aria-hidden="true">
-            <i class="fa fa-minus-circle text-danger" aria-hidden="true"></i>
-          </button>
-        </div>
-
-    </div>
-  </div>
-</template>
-
-{% endblock %}
-
-{% block javascript %}
+{% endblock %} {% block javascript %}
 <script>
-  $(document).ready(function() {
-    $('.select-gear').selectize({
-      create: true
-    });
-
-    var csrftoken = Cookies.get('csrftoken');
-
-    $('#article-tags').selectize({
-        delimiter: ',',
-        copyClassesToDropdown: true,
-        persist: false,
-        create: true,
-        options: [],
-        valueField: 'name',
-        labelField: 'name',
-        searchField: 'name',
-        load: function(query, callback) {
-            if (!query.length) return callback();
-
-            axios({
-              method:'post',
-              url:'/api/tags/search/',
-              data: {
-                'query': query
-              },
-              headers: {'X-CSRFToken': csrftoken}
-            })
-            .then(function (response) {
-              callback(response.data);
-            })
-            .catch(function (error) {
-              console.log(error);
-              callback();
+    //component
+    var template = $('#article-meta-template').html();
+    var meta_tag_com = {
+        template: template,
+        props: ["object"],
+        data: {
+            object: null
+        },
+        methods: {
+            remove: function(e) {
+                this.$parent.removeMeta(this.object);
+            },
+        },
+        mounted: function() {
+            $('select').selectize({
+                create: true
             });
+        },
+    }
+
+    app = new VueaApp({
+        data: {
+            title: "",
+            articles: [],
+            metas: []
+        },
+        components: {
+            'article-meta-tag': meta_tag_com
+        },
+        ready: function() {},
+        methods: {
+            searchArticles: debounce(article_search, 300, false),
+            addMeta: function() {
+                var _obj = "meta-" + this.metas.length + 1;
+                console.log("New Obj: " + _obj);
+                this.metas.push(_obj.toString());
+            },
+            removeMeta: function(object) {
+                $("#" + object).remove();
+                //var index = this.metas.indexOf(object);
+                //this.metas.splice(index, 1);
+                //console.log(this.metas);
+            }
         }
     });
 
-    $("#article-content").on('keydown', function(e){
-      var _remaing = (500 - $(this).val().length);
-      $("#article-content-length-msg").text("characters left: " + _remaing);
-      $("#article-content").keydown(function(e){
-          if(_remaing <= 0){
-              e.preventDefault();
-          }
-      });
-    });
-
-    $("#article-content").bind("paste", function(e){
-      var _remaing = $(this).val().length;
-      var pastedData = e.originalEvent.clipboardData.getData('text');
-      var _tot_remaing = (500 - ( _remaing + pastedData.length));
-      if(_tot_remaing <= 0){
-          e.preventDefault();
-      } else {
-        $("#article-content-length-msg").text("characters left: " + _tot_remaing);
-      }
-    });
-
-  });
-
-  var meta_index = 0;
-
-  function addMeta() {
-
-    var template = $('#article-meta-template').html();
-    _div_id = "meta-box-" + meta_index++;
-    template = $( template ).attr("id", _div_id);
-    $( template ).find(".btn-remove").click({div: "#" + _div_id}, removeMeta);
-    $('#article-metas').append(template);
-    $('select').selectize({
-      create: true
-    });
-
-    function removeMeta(event) {
-      $(event.data.div).remove();
+    function article_search() {
+        var csrftoken = Cookies.get('csrftoken');
+        axios({
+                method: 'post',
+                url: '/api/exists/',
+                data: {
+                    'query': app.title
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken
+                }
+            })
+            .then(function(response) {
+                app.articles = response.data;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
-  };
 
-  function removeExtMeta(el) {
-    $(el).remove();
-  }
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this,
+                args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+</script>
 
+<script>
+    $(document).ready(function() {
+
+        $('select').selectize({
+            create: true
+        });
+
+        var csrftoken = Cookies.get('csrftoken');
+
+        $('#article-tags').selectize({
+            delimiter: ',',
+            plugins: ['remove_button'],
+            copyClassesToDropdown: true,
+            persist: false,
+            create: true,
+            options: [],
+            valueField: 'name',
+            labelField: 'name',
+            searchField: 'name',
+            load: function(query, callback) {
+                if (!query.length) return callback();
+
+                axios({
+                        method: 'post',
+                        url: '/tags/api/search/',
+                        data: {
+                            'query': query
+                        },
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        }
+                    })
+                    .then(function(response) {
+                        callback(response.data);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        callback();
+                    });
+            }
+        });
+
+        $("#content").on('keydown', function(e) {
+            var _remaing = (500 - $(this).val().length);
+            $("#article-content-length-msg").text("characters left: " + _remaing);
+            $("#article-content").keydown(function(e) {
+                if (_remaing <= 0) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        $("#content").bind("paste", function(e) {
+            var _remaing = $(this).val().length;
+            var pastedData = e.originalEvent.clipboardData.getData('text');
+            var _tot_remaing = (500 - (_remaing + pastedData.length));
+            if (_tot_remaing <= 0) {
+                e.preventDefault();
+            } else {
+                $("#article-content-length-msg").text("characters left: " + _tot_remaing);
+            }
+        });
+
+    });
+
+    /*var meta_index = 0;
+
+    function addMeta() {
+
+        var template = $('#article-meta-template').html();
+        _div_id = "meta-box-" + meta_index++;
+        template = $(template).attr("id", _div_id);
+        $(template).find(".article-create-meta__remove").click({
+            div: "#" + _div_id
+        }, removeMeta);
+        $('#article-meta').append(template);
+        $('select').selectize({
+            create: true
+        });
+
+        function removeMeta(event) {
+            $(event.data.div).remove();
+        }
+    };*/
 </script>
 {% endblock %}

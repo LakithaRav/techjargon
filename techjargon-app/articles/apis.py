@@ -10,7 +10,8 @@ from .models.content import Content
 from .models.content_rating import ContentRating
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 import json
-
+# tasks
+from articles.tasks import article_tasks
 
 # help : https://docs.djangoproject.com/en/1.11/ref/contrib/postgres/search/
 def search(request):
@@ -45,67 +46,45 @@ def check_article_exists(request):
 		return JsonResponse(_articles_seri.data, status=200, safe=False)
 	else:
 		return HttpResponse(status=404)
-
-
-def tag_search(request):
-	if request.method == 'POST':
-		body_unicode = request.body.decode('utf-8')
-		body = json.loads(body_unicode)
-		_query = body['query']
-
-		# advance search
-		tags = Tag.objects.filter(name__search=_query)
-		# rank_sorted_articles = sorted(articles.all(), key=lambda a: a.views)
-
-		_tags_seri = Tag.TagSerializer(tags, many=True)
-		return JsonResponse(_tags_seri.data, status=200, safe=False)
-	else:
-		return HttpResponse(status=404)
-
+	
 
 @login_required
-def rate(request):
+def rate(request, article_id, content_id):
 	_user = request.user
 	# pdb.set_trace()
-	if request.method == 'POST':
+	if request.method == 'GET':
 		try:
-			body_unicode = request.body.decode('utf-8')
-			body = json.loads(body_unicode)
-			_content_id = body['content_id']
-			_value = body['value']
 
-			_content = Content.objects.get(pk=_content_id)
-			_rating, _created = ContentRating.objects.get_or_create(content_id=_content_id, owner_id=_user.author.id)
+			_value = request.GET.get('v')
+			# body_unicode = request.body.decode('utf-8')
+			# body = json.loads(body_unicode)
+			# _content_id = body['content_id']
+			# _value = body['value']
+
+			_content = Content.objects.get(pk=content_id)
+			_rating, _created = ContentRating.objects.get_or_create(content_id=_content.id, user_id=_user.id)
 			_rating.value = _value
 			_rating.save()
-			average = processRating(_content)
+			# average = processRating(_content)
+			article_tasks.rate(_content.article.id)
 		except Content.DoesNotExist:
 			return HttpResponse(status=404)
 			pass
 		except IntegrityError as e:
-			_message.append(e)
+			response = {
+				'status': False,
+				'message': e
+			}
+			return JsonResponse(response, status=500)
 			pass
 		else:
 			# _todo_seri = ToDo.ToDoSerializer(_todo)
 			response = {
 				'status': True,
 				'value': _value,
-				'average': average,
+				'average': _content.article.rating,
 				'count': _content.contentrating_set.count()
 			}
 			return JsonResponse(response, status=200)
 	else:
 		return HttpResponse(status=404)
-
-
-# private
-def processRating(content):
-	ratings = content.contentrating_set.all()
-	_total = 0
-	for rating in ratings:
-		_total += rating.value
-
-	_average = _total / ratings.count()
-	content.article.rating = _average
-	content.article.save()
-	return _average

@@ -1,0 +1,35 @@
+footer {
+  bottom: 15px;
+  color: #000;
+  font-family: "Oswald", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  left: 15px;
+  letter-spacing: 0.05em;
+  position: fixed;
+  right: 15px;
+  text-transform: uppercase;
+
+  @include bp(xs) {
+    margin-top: 20px;
+    padding: 15px;
+    position: static;
+    text-align: center;
+  }
+
+  span {
+    display: block;
+  }
+  span:first-child {
+    float: left;
+    @include bp(xs) {
+      float: none;
+    }
+  }
+  span:last-child {
+    float: right;
+    @include bp(xs) {
+      float: none;
+    }
+  }
+}

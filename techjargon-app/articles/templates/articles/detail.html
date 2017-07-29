@@ -1,13 +1,4 @@
-{% extends "_base.html" %}
-
-{% load static %}
-
-{% load article_meta_filter %}
-{% load humanize %}
-
-{% block title %} {{article.title}} |{% endblock %}
-
-{% block meta %}
+{% extends "_base.html" %} {% load static %} {% load article_meta_filter %} {% load humanize %} {% block title %} {{article.title}} |{% endblock %} {% block meta %}
 <meta name="author" content="{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}, TechJargon">
 <meta name="article_keywords" content="{{ article.tags_str }}">
 
@@ -29,217 +20,203 @@
 <meta property='og:image:type' content='image/jpeg' />
 <meta property='og:description' content='{{ article.active_content.body }}' />
 <!-- END Open Graph Protocol Meta -->
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <div class="row">
-	<div class="col-sm-7 col-sm-offset-1">
+    <div class="col-md-3">
+        <div class="sidebar-left article">
+            <h1 class="article-title">{{ article.title }}</h1>
+            <ul class="article-info">
+                <li class="article-ratings readonly">
+                    <!--<ul class="article-ratings">
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+					</ul>-->
+                    <select id="articleRatings">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+                </li>
+                <!--<li data-toggle="tooltip" title="Ratings"><i class="fa fa-star-o" aria-hidden="true"></i></span> 100</li>
+				<li data-toggle="tooltip" title="Views"><i class="fa fa-eye" aria-hidden="true"></i> 210</li>-->
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <p class="article-content bottom-buffer-20" id="article-body">
+            {{ article.active_content.body | safe }}
+        </p>
+        <!--<div class="pull-right"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></div>-->
+        <ul class="article-resources bottom-buffer-20">
+            {% for meta in article.active_content.contentmeta_set.all %}
+            <li>
+                <span class="article-resources__label">{{ meta.name }}</span>{{ meta.data|article_meta|safe}}
+            </li>
+            {% endfor %}
+        </ul>
 
-		<div class="row">
-		  <h1 id="article-title">{{ article.title|title }}</h1>
-		</div>
+        <ul class="article-tags bottom-buffer-20 clearfix">
+            {% for tag in article.tags.all %}
+            <li><a href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
 
-		<div class="row">
-			<p class="lead text-justify" id="article-body">{{ article.active_content.body | safe }}</p>
-		</div>
+        <div class="clearfix">
+            <ul class="article-author bottom-buffer-20">
+                {% if article.content_set.count > 1 %}
+                <li>
+                    <div class="article-author__img" {% if article.active_content.author.profil_pic %} style="background-image: url('{{ article.active_content.author.profil_pic.url }}');" {% endif %}></div>
+                    <div class="article-author__info">
+                        <a href="">edited {{ article.active_content.created_at |  date:"d, N Y" }}</a>
+                        <a href="">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="article-author__img" {% if article.history_content.last.author.profil_pic %} style="background-image: url('{{ article.history_content.last.author.profil_pic.url }}');" {% endif %}></div>
+                    <div class="article-author__info">
+                        <a href="">created {{ article.created_at |  date:"d, N Y" }}</a>
+                        <a href="">{{ article.history_content.last.author.user.first_name }} {{ article.history_content.last.author.user.last_name }}</a>
+                    </div>
+                </li>
+                {% else %}
+                <li>
+                    <div class="article-author__img" {% if article.active_content.author.profil_pic %} style="background-image: url('{{ article.active_content.author.profil_pic.url }}');" {% endif %}></div>
+                    <div class="article-author__info">
+                        <a href="">created {{ article.created_at |  date:"d, N Y" }}</a>
+                        <a href="">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
 
-		<div class="row">
-			{% if article.active_content.contentmeta_set.count > 0 %}
-			<span class="pull-right"><i class="fa fa-list" aria-hidden="true"></i></span>
-			{% endif %}
-			<table class="table table-condensed table-responsive">
-				<tbody>
-					{% for meta in article.active_content.contentmeta_set.all %}
-					<tr>
-						<td width="100">{{ meta.name }}</td>
-	        			<td>{{ meta.data|article_meta|safe}}</td>
-        			</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+        <ul class="article-actions bottom-buffer-40">
+            <li>
+                <a href="{% url 'articles:update' slug=article.slug article_id=article.id %}"><strong class="prominent">improve this article</strong></a>
+            </li>
+            <li>
+                <a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">history</a>
+            </li>
+        </ul>
 
-		<div class="row">
-			{% for tag in article.tags.all %}
-			<a class="tag" href="{% url 'articles:tags_detail' tag.slug %}">{{ tag.name }}</a>
-			{% endfor %}
-		</div>
-
-		<div class="row">
-			<span class="text-right">
-				<p><small> <a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">edited {{ article.active_content.created_at |  date:"d, N Y" }}</a></small><br>
-				<a href="#">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
-				</p>
-			</span>
-		</div>
-
-		<div class="row article-info-panel">
-			<ul class="list-inline">
-			  <li><a href="{% url 'articles:update' slug=article.slug article_id=article.id %}" class=""><b>improve this article</b></a></li>
-				<li><a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">history </a></li>
-				<!-- <li class="pull-right"><a href="#" class="text-danger">report <i class="fa fa-bullhorn text-danger" aria-hidden="true"></i></a></li> -->
-			</ul>
-		</div>
-
-		<div class="row rating-bar">
-			<br>
-			{% if user.is_authenticated %}
-			<div class="my-rating-box">
-				{% if my_rating > 0 %}
-				<span class="text-muted ">You rated</span>
-				{% else %}
-				<span class="text-muted " id="my-rating-title">How helpful was this answer for you ?</span>
-				{% endif %}
-
-				<select id="my-rating" name="rating" autocomplete="off" data-current-rating="{{ my_rating }}">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-			</div>
-			{% else %}
-			<div class="">
-				<span class="text-muted"><b><a href="{% url 'authors:signin' %}">sign-in</a></b> to rate this article</span>
-			</div>
-			{% endif %}
-
-		</div>
-
-	</div>
-
-	<div class="col-sm-3">
-			<div class="col-sm-10 col-sm-offset-2">
-				<div class="row">
-					<select id="overall-rating" name="rating" autocomplete="off"``>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-				</div>
-				<div class="row article-stats">
-					<h4 class=""><small>ratings</small> <span id="overall-rating-count">{{ article.active_content.contentrating_set.count | intcomma }}</span></h4>
-					<h4 class=""><small>views</small> <span>{{ article.views | intcomma }}</span></h4>
-					<h4 class=""><small>added</small> <span>{{ article.created_at | naturaltime }}</span></h4>
-				</div>
-			</div>
-
-			<div class="col-sm-10 col-sm-offset-2">
-				<div class="row">
-					<div id="share" class="article-share"></div>
-				</div>
-			</div>
-
-			<div class="col-sm-10 col-sm-offset-2">
-				<div class="row">
-					<h3 class="text-muted">Related</h3>
-				</div>
-				<div class="row">
-					{% for article in related_articles %}
-					<div class="related-articles">
-						<a href="{% url 'articles:detail' slug=article.slug%}">
-							<h4>
-								{% if article.views > 100 %}
-								<span class="view-count btn-success">{{article.views}}</span>
-								{% else %}
-								<span class="view-count view-count-gray">{{article.views}}</span>
-								{% endif %}
-								{{ article.title | title }}
-							</h4>
-						</a>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-	</div>
-
-	<div class="col-sm-2" style="display:none;">
-		<div class="row">
-			<h5 class="text-right">History</h5>
-		</div>
-		<div class="row" style="max-height: 400px; overflow: scroll;">
-			{% for history in article.history_content.all %}
-			<div class="col-sm-10 col-sm-offset-2 text-right">
-				<span>
-					<small>
-					<a href="{% url 'articles:history' slug=article.slug content_id=history.id %}">{{ history.updated_at |  date:"d l, N Y" }}</a>
-					</small>
-				</span>
-				<br>
-				<span><small>Edit by <a href="#">{{ history.author.user.username }}</a></small></span>
-				<hr>
-			</div>
-			{% endfor %}
-		</div>
-	</div>
+        {% if user.is_authenticated %}
+        <div class="article-signin article-ratings">
+            <span class="article-signin__label" v-html="rating_feedback"></span>
+            <select id="rateArticle" data-current-rating="@{ my_rating }" v-if="show_rating">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+        </div>
+        {% else %}
+        <div class="article-signin bottom-buffer-20">
+            <a href="{% url 'authors:signin' %}"><strong>sign in</strong></a> to rate this article
+        </div>
+        {% endif %}
 
 
+
+
+    </div>
+    <div class="col-md-3">
+        <ul class="article-info">
+            <!--<li data-toggle="tooltip" title="Ratings"><i class="fa fa-star-o" aria-hidden="true"></i></span> 100</li>
+            <li data-toggle="tooltip" title="Views"><i class="fa fa-eye" aria-hidden="true"></i> 210</li>-->
+            <li data-toggle="tooltip" title="Ratings"><span class="article-ratings__label">ratings</span> {{ total_ratings | intcomma }}</li>
+            <li data-toggle="tooltip" title="Views"><span class="article-ratings__label">views</span> {{ article.views | intcomma }}</li>
+            <li data-toggle="tooltip" title="Views"><span class="article-ratings__label">updated</span> {{ article.active_content.updated_at | naturaltime }}</li>
+
+        </ul>
+        <ul class="no-ul sidebar-h2-align-top bottom-buffer-40">
+            <li>
+                <div id="share" class="article-share"></div>
+            </li>
+        </ul>
+        <h2 class="sidebar-h2-align-top">Related</h2>
+        <ul class="articles-related">
+            {% for article in related_articles %}
+            <li>
+                <span class="articles-related__count {% if article.views > 100 %} highlighted {% endif %}">{{article.views}}</span>
+                <a href="{% url 'articles:detail' slug=article.slug%}">{{ article.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
-{% endblock %}
+{% endblock %} {% block javascript %}
 
-{% block javascript %}
 <script>
-	$(document).ready(function() {
-	  // $('a').webuiPopover();
+    app = new VueaApp({
+        data: {
+            rating: parseFloat('{{ article.rating }}'),
+            my_rating: '{{ my_rating }}',
+            show_rating: true,
+            rating_feedback: 'How helpful was this answer for you ?'
+        },
+        mounted: function() {
+            init(this);
+        },
+        methods: {
 
-		// $('#article-title').flowtype();
-		$('#article-body').flowtype();
-
-		$('.dropdown-toggle').dropdown();
-
-		$('#overall-rating').barrating({
-			theme: 'bootstrap-stars',
-			initialRating: {{ article.rating }},
-			readonly: true
-		});
-
-		$("#share").jsSocials({
-			url: window.location.origin + '{{ article.link }}',
-			text: "{{ artciel.title }}",
-			showLabel: false,
-			showCount: "inside",
-			shares: ["email", "twitter", "facebook", "googleplus", "linkedin"]
+        }
     });
 
-		var my_rating = $('#my-rating').data('current-rating');
+    function init(app) {
+        //$('#article-body').flowtype();
 
-		$('#my-rating').barrating({
-			initialRating: my_rating,
-      theme: 'bootstrap-stars',
-      showSelectedRating: true,
-			onSelect: function(value, text) {
-				rateArticle(value);
-      }
-    });
+        $('#articleRatings').barrating({
+            theme: 'fontawesome-stars-o',
+            initialRating: app.rating,
+            readonly: true
+        });
 
-	});
+        $("#share").jsSocials({
+            url: window.location.origin + '{{ article.link }}',
+            text: "{{ artciel.title }}",
+            showLabel: false,
+            showCount: "inside",
+            shares: ["email", "twitter", "facebook", "googleplus", "linkedin"]
+        });
 
-	function rateArticle(value) {
-		var csrftoken = Cookies.get('csrftoken');
+        $('#rateArticle').barrating({
+            initialRating: app.my_rating,
+            theme: 'fontawesome-stars-o',
+            showSelectedRating: true,
+            onSelect: function(value, text) {
+                rateArticle(value);
+            }
+        });
+    }
 
-		axios({
-			method:'post',
-			url:'/api/rate/',
-			data: {
-				'content_id': {{ article.active_content.id }},
-				'value': value
-			},
-			headers: {'X-CSRFToken': csrftoken}
-		})
-		.then(function (response) {
-			$('#overall-rating').barrating('set', response.data.average);
-			$('#overall-rating-count').html(response.data.count);
-			$('#my-rating-title').html("Thank you!");
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	}
-
+    function rateArticle(value) {
+        var csrftoken = Cookies.get('csrftoken');
+        axios({
+                method: 'get',
+                url: '/articles/api/{{ article.id }}/content/{{ article.active_content.id }}/rate',
+                params: {
+                    'v': value
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken
+                }
+            })
+            .then(function(response) {
+                app.rating = response.data.average;
+                app.rating_feedback = "Thank you!";
+                app.show_rating = false;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
 </script>
+
 {% endblock %}
