@@ -77,7 +77,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="article-author__img" {% if article.history_content.author.profil_pic %} style="background-image: url('{{ article.history_content.author.profil_pic.url }}');" {% endif %}></div>
+                    <div class="article-author__img" {% if article.history_content.last.author.profil_pic %} style="background-image: url('{{ article.history_content.last.author.profil_pic.url }}');" {% endif %}></div>
                     <div class="article-author__info">
                         <a href="">created {{ article.created_at |  date:"d, N Y" }}</a>
                         <a href="">{{ article.history_content.last.author.user.first_name }} {{ article.history_content.last.author.user.last_name }}</a>
