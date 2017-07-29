@@ -14,9 +14,7 @@
     <meta name="description" content="TechJargon is a leading technology index wiki, dedicated to obsessively new technical terms, reviewing new tech products, and breaking tech products and solutions.">
     <meta name="apple-mobile-web-app-title" content="TechJargon" />
     <meta name="keywords" content="technoloy, jargons, news, tech terms, dictionary, wiki, trending technologies">
-    <meta property='og:site_name' value='TechJargon'/>
-
-    {% block meta %}{% endblock %}
+    <meta property='og:site_name' value='TechJargon' /> {% block meta %}{% endblock %}
 
     <link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}">
     <link rel="stylesheet" href="{% static 'styles/vendor.css' %}">
@@ -32,7 +30,9 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
                     <a class="navbar-brand" href="/">
-                        <div class="jargon-logo"><strong>Tech</strong>Jargon</div>
+                        <div class="jargon-logo">
+                            <h1><strong>Tech</strong>Jargon</h1>
+                        </div>
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -53,8 +53,7 @@
         </nav>
     </header>
     <div class="container-fluid">
-      {% block content %}
-      {% endblock %}
+        {% block content %} {% endblock %}
     </div>
     <footer>© 2017 TechJargon by Lakitha and Sons(future)</footer>
     <script>
@@ -69,8 +68,7 @@
     <script src="{% static 'scripts/main.js' %}" src="scripts/main.js"></script>
 
     <!-- custom page specific js -->
-    {% block javascript %}
-    {% endblock %}
+    {% block javascript %} {% endblock %}
 
 </body>
 
