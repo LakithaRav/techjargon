@@ -70,14 +70,14 @@
             <ul class="article-author bottom-buffer-20">
                 {% if article.content_set.count > 1 %}
                 <li>
-                    <div class="article-author__img" style="background-image: url('{{ article.active_content.author.profil_pic.url }}');"></div>
+                    <div class="article-author__img" {% if article.active_content.author.profil_pic %} style="background-image: url('{{ article.active_content.author.profil_pic.url }}');" {% endif %}></div>
                     <div class="article-author__info">
                         <a href="">edited {{ article.active_content.created_at |  date:"d, N Y" }}</a>
                         <a href="">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
                     </div>
                 </li>
                 <li>
-                    <div class="article-author__img" style="background-image: url('{{ article.history_content.author.profil_pic.url }}');"></div>
+                    <div class="article-author__img" {% if article.history_content.author.profil_pic %} style="background-image: url('{{ article.history_content.author.profil_pic.url }}');" {% endif %}></div>
                     <div class="article-author__info">
                         <a href="">created {{ article.created_at |  date:"d, N Y" }}</a>
                         <a href="">{{ article.history_content.last.author.user.first_name }} {{ article.history_content.last.author.user.last_name }}</a>
@@ -85,7 +85,7 @@
                 </li>
                 {% else %}
                 <li>
-                    <div class="article-author__img" style="background-image: url('{{ article.active_content.author.profil_pic.url }}');"></div>
+                    <div class="article-author__img" {% if article.active_content.author.profil_pic %} style="background-image: url('{{ article.active_content.author.profil_pic.url }}');" {% endif %}></div>
                     <div class="article-author__info">
                         <a href="">created {{ article.created_at |  date:"d, N Y" }}</a>
                         <a href="">{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}</a>
