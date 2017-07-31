@@ -6,6 +6,7 @@ from django.db import IntegrityError
 from django.db.models import F
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.postgres.search import TrigramSimilarity
 import operator
 import hashlib
 import pdb
@@ -70,7 +71,12 @@ def search(request):
     _page = request.GET.get('page')
     # _page = int(_page)
 
-    _articles = Article.objects.annotate(search=SearchVector('title', 'tags__name'),).filter(search=_query).distinct('id')
+    # advance search
+    vector = SearchVector('title', weight='A') + SearchVector('tags__name', weight='B')
+    search_query = SearchQuery(_query)
+    trigram_similarity = TrigramSimilarity('title', _query) + TrigramSimilarity('tags__name', _query)
+
+    _articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3).order_by('id', '-similarity').distinct('id')[:10]
     _tags = Tag.objects.filter(name__contains=_query).order_by('-weight')[:20]
 
     paginator = Paginator(_articles, 5)

@@ -14,7 +14,7 @@
                -->
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input v-model="title" v-on:keyup="searchArticles" name="{{form.title.html_name}}" type="text" class="form-control" id="title" value="{{ form.title.value|default_if_none:'' }}">
+                        <input v-model="title" v-on:keyup="searchArticles" name="{{form.title.html_name}}" type="text" class="form-control" id="title" value="{{ form.title.value|default_if_none:'' }}" autocomplete="off">
                         <ul class="has-error__messages">
                             {% for error in form.title.errors %}
                             <li>{{error}}</li>

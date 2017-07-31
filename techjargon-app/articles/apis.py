@@ -9,6 +9,7 @@ from .models.tag import Tag
 from .models.content import Content
 from .models.content_rating import ContentRating
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.postgres.search import TrigramSimilarity
 import json
 # tasks
 from articles.tasks import article_tasks
@@ -23,9 +24,11 @@ def search(request):
 		# advance search
 		vector = SearchVector('title', weight='A') + SearchVector('tags__name', weight='B')
 		search_query = SearchQuery(_query)
+		trigram_similarity = TrigramSimilarity('title', _query) + TrigramSimilarity('tags__name', _query)
 
-		articles = Article.objects.annotate(rank=SearchRank(vector, search_query)).filter(rank__gte=0.2).order_by('id').distinct('id')[:10]
+		articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3).order_by('id', '-similarity').distinct('id')[:10]
 		rank_sorted_articles = sorted(articles.all(), key=lambda a: a.rank)
+
 		# articles = Article.objects.annotate(search=SearchVector('title', 'tags__name'),).filter(search=_query).distinct('id')
 		_articles_seri = Article.ArticleSerializer(articles, many=True)
 		return JsonResponse(_articles_seri.data, status=200, safe=False)
@@ -40,7 +43,8 @@ def check_article_exists(request):
 		_query = body['query']
 
 		# advance search
-		articles = Article.objects.filter(title__search=_query)
+		# articles = Article.objects.filter(title__search=_query)
+		articles = Article.objects.filter(title__unaccent__trigram_similar=_query)
 
 		_articles_seri = Article.ArticleSerializer(articles, many=True)
 		return JsonResponse(_articles_seri.data, status=200, safe=False)
