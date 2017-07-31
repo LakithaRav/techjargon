@@ -16,7 +16,7 @@ def search(request):
 		_query = body['query']
 
 		# advance search
-		tags = Tag.objects.filter(name__search=_query)
+		tags = Tag.objects.filter(name__unaccent__trigram_similar=_query)
 		# rank_sorted_articles = sorted(articles.all(), key=lambda a: a.views)
 
 		_tags_seri = Tag.TagSerializer(tags, many=True)
