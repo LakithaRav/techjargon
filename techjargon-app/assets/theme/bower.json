@@ -1,43 +1,43 @@
 {
-    "name": "techjargon",
-    "private": true,
-    "dependencies": {
-        "jquery": "^3.2.1",
-        "bootstrap-sass": "~3.3.5",
-        "modernizr": "~2.8.1",
-        "font-awesome": "^4.7.0",
-        "jquery-bar-rating": "^1.2.2",
-        "typed.js": "^1.1.7",
-        "jssocials": "^1.5.0",
-        "auth0.js": "^8.8.0",
-        "Flowtype.js": "^1.1.0",
-        "selectize": "^0.12.4",
-        "vue": "^2.4.2",
-        "js-cookie": "^2.1.4",
-        "axios": "^0.16.2"
+  "name": "techjargon",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "bootstrap-sass": "~3.3.5",
+    "modernizr": "~2.8.1",
+    "font-awesome": "^4.7.0",
+    "jquery-bar-rating": "^1.2.2",
+    "typed.js": "^1.1.7",
+    "jssocials": "^1.5.0",
+    "auth0.js": "^8.8.0",
+    "Flowtype.js": "^1.1.0",
+    "selectize": "^0.12.4",
+    "vue": "^2.4.2",
+    "js-cookie": "^2.1.4",
+    "axios": "^0.16.2"
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss",
+        "assets/fonts/bootstrap/*",
+        "assets/javascripts/bootstrap.js"
+      ]
     },
-    "overrides": {
-        "bootstrap-sass": {
-            "main": [
-                "assets/stylesheets/_bootstrap.scss",
-                "assets/fonts/bootstrap/*",
-                "assets/javascripts/bootstrap.js"
-            ]
-        },
-        "jquery-bar-rating": {
-            "main": [
-                "dist/themes/fontawesome-stars-o.css",
-                "jquery.barrating.js"
-            ]
-        },
-        "vue": {
-            "main": [
-                "dist/vue.js"
-            ]
-        }
+    "jquery-bar-rating": {
+      "main": [
+        "dist/themes/fontawesome-stars-o.css",
+        "jquery.barrating.js"
+      ]
     },
-    "devDependencies": {
-        "chai": "^4.0.2",
-        "mocha": "^3.4.2"
+    "vue": {
+      "main": [
+        "dist/vue.js"
+      ]
     }
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2"
+  }
 }
