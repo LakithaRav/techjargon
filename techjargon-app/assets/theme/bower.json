@@ -12,7 +12,9 @@
     "auth0.js": "^8.8.0",
     "Flowtype.js": "^1.1.0",
     "selectize": "^0.12.4",
-    "vue": "^2.4.2"
+    "vue": "^2.4.2",
+    "js-cookie": "^2.1.4",
+    "axios": "^0.16.2"
   },
   "overrides": {
     "bootstrap-sass": {
