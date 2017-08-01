@@ -1,82 +1,84 @@
 .search {
-  background-color: transparent;
-  border: none;
-  font-size: 55px;
-  margin: 0 auto 50px auto;
-  padding: 0;
-  position: relative;
-  width: 100%;
-  &:focus {
-    outline: none;
-  }
-  button {
     background-color: transparent;
+    border: none;
+    font-size: 55px;
+    margin: 0 auto 50px auto;
     padding: 0;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: transparent !important;
-    }
-  }
-  &__container {
     position: relative;
-  }
-  &__navbar {
-    font-size: 16px;
-    margin: 0;
-    input.form-control {
-      background-color: transparent !important;
-      border-bottom-width: 1px;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      font-size: 16px;
-      padding: 5px 23px 5px 0;
-      // padding-right: 23px;
-      opacity: 0;
-      width: 0px;
-      &:focus {
-        border-bottom-width: 2px;
-        border-left: none;
-        border-right: none;
-        border-top: none;
-        box-shadow: none;
-      }
+    width: 100%;
+    &:focus {
+        outline: none;
     }
     button {
-      font-size: 18px;
+        background-color: transparent;
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: transparent !important;
+        }
     }
-  }
-  &__result {
-    background-color: #fff;
-    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
-    // display: none;
-    left: 0;
-    position: absolute;
-    right: 0;
-    a {
-      border-bottom: 1px solid $grey-light;
-      cursor: pointer;
-      display: block;
-      padding: 10px;
-      &:hover {
-        background-color: $primary-highlightest;
-      }
-      &:last-child {
-        border-bottom: none;
-      }
+    &__container {
+        position: relative;
     }
-    h4 {
-      margin-bottom: 4px;
-      margin-top: 0;
+    &__navbar {
+        font-size: 16px;
+        margin: 0;
+        input.form-control {
+            background-color: transparent !important;
+            border-bottom-width: 1px;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            font-size: 16px;
+            padding: 5px 23px 5px 0;
+            // padding-right: 23px;
+            opacity: 0;
+            width: 0px;
+            &:focus {
+                border-bottom-width: 2px;
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                box-shadow: none;
+            }
+        }
+        button {
+            font-size: 18px;
+        }
     }
-  }
-  &__result-description {
-    font-family: $font-desc;
-    font-size: 12px;
-  }
+    &__result {
+        background-color: #fff;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+        // display: none;
+        left: 0;
+        position: absolute;
+        right: 0;
+        max-height: 420px;
+        overflow-y: scroll;
+        a {
+            border-bottom: 1px solid $grey-light;
+            cursor: pointer;
+            display: block;
+            padding: 10px;
+            &:hover {
+                background-color: $primary-highlightest;
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        h4 {
+            margin-bottom: 4px;
+            margin-top: 0;
+        }
+    }
+    &__result-description {
+        font-family: $font-desc;
+        font-size: 12px;
+    }
 }

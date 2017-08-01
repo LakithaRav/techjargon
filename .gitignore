@@ -94,3 +94,4 @@ ENV/
 .ropeproject
 
 techjargon-app/static/
+techjargon-app/assets/uploads/
