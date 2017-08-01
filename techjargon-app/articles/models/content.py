@@ -37,3 +37,7 @@ class Content(models.Model):
         body = serializers.CharField(max_length=500)
         created_at = serializers.DateTimeField()
         updated_at = serializers.DateTimeField()
+
+
+    def __str__(self):
+        return '%s - %s' % (self.article.title, self.body[:100])

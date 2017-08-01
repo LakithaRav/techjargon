@@ -11,5 +11,8 @@ class ContentMeta(models.Model):
     # relations
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return '%s - %s' % (self.content.article.title, self.name)
+
     class Meta:
     	ordering = ['id']
