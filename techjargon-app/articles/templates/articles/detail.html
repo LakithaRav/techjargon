@@ -1,4 +1,5 @@
 {% extends "_base.html" %} {% load static %} {% load article_meta_filter %} {% load humanize %} {% block title %} {{article.title}} |{% endblock %} {% block meta %}
+<meta name="description" content="{{ article.active_content.body }}">
 <meta name="author" content="{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}, TechJargon">
 <meta name="article_keywords" content="{{ article.tags_str }}">
 
