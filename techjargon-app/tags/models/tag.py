@@ -16,6 +16,9 @@ class Tag(models.Model):
     # relations
     impressions = GenericRelation(Impression, related_query_name='tags')
 
+    def __str__(self):
+        return '%s' % self.name
+
     # private
 
     def increase_weight(self, type):

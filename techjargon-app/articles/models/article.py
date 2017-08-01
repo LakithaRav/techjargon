@@ -29,6 +29,9 @@ class Article(models.Model):
     def __unicode__(self):
         return '%s' % self.title
 
+    def __str__(self):
+        return '%s' % self.title
+
     def active_content(self):
         content = self.content_set.get(status=1)
         return content
