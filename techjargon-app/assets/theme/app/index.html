@@ -48,7 +48,9 @@
       </button>
                     <a class="navbar-brand" href="#">
                         <div class="jargon-logo">
-                            <h1><strong>Tech</strong>Jargon</h1>
+                            <h1><strong>Tech</strong>Jargon
+                                <p>Definitions in 30 seconds</p>
+                            </h1>
                         </div>
                     </a>
                 </div>
@@ -74,11 +76,11 @@
                                 <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
                             <div id="search-box-autocomplete-suggestions" class="search__result">
-                                <a v-for="article in results" v-bind:href="article.link">
+                                <!-- 
+                                    <a v-for="article in results" v-bind:href="article.link">
                                     <div class="box">
-                                        <!-- <h4 class="text-capitalize">@{ article.title }</h4> -->
+
                                         <h4 class="text-capitalize">Python</h4>
-                                        <!-- <span class="text-muted" v-html="article.description_short"></span> -->
                                         <span class="text-muted search__result-description" v-html="article.description_short">Python is shit. liek literally shit. Python is shit. liek literally shit. Python is shit. liek literally shit.</span>
                                     </div>
                                 </a>
@@ -88,6 +90,7 @@
                                         <span class="text-muted">Add @{ query } article to techJargor</span>
                                     </div>
                                 </a>
+                                -->
                             </div>
                         </div>
 
@@ -101,8 +104,9 @@
     </header>
 
     <div class="container-fluid">
+
         <div class="row">
-            <div class="col-md-6 col-md-offset-2">
+            <div class="col-md-4 col-md-offset-2">
                 <input id="txt-search" type="text" class="search" placeholder="">
             </div>
         </div>
@@ -116,7 +120,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div id="trendingArticles">
                     <h2>Trending Articles</h2>
                     <ul class="article-list no-ul">
@@ -182,6 +186,7 @@
                     </ul>
                 </div>
             </div>
+
         </div>
     </div>
 
