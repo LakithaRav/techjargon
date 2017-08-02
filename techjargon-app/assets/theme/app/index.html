@@ -2,254 +2,270 @@
 <html class="no-js" lang="">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>techjargon</title>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>techjargon</title>
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Place favicon.ico in the root directory -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
 
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars-o.css" />
-    <link rel="stylesheet" href="/bower_components/jssocials/dist/jssocials.css" />
-    <link rel="stylesheet" href="/bower_components/selectize/dist/css/selectize.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars-o.css" />
+  <link rel="stylesheet" href="/bower_components/jssocials/dist/jssocials.css" />
+  <link rel="stylesheet" href="/bower_components/selectize/dist/css/selectize.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
 
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
 
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
+  <!-- build:js scripts/vendor/modernizr.js -->
+  <script src="/bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
 </head>
 
 <body>
-    <!--[if IE]>
+  <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- YOUR HTML GOES HERE -->
+  <!-- YOUR HTML GOES HERE -->
 
-    <header>
-        <!-- Nav Bar -->
-        <nav class="navbar navbar-fixed-top">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-                    <a class="navbar-brand" href="#">
-                        <div class="jargon-logo">
-                            <h1><strong>Tech</strong>Jargon
-                                <p>Definitions in 30 seconds</p>
-                            </h1>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#" class="active">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
-                        <li>
-                            <ul class="navbar-social">
-                                <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-right">
-                        <div class="search__container">
-                            <div class="search search__navbar" id="searchNavbar">
-                                <input type="text" class="form-control" placeholder="Search">
-                                <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-                            </div>
-                            <div id="search-box-autocomplete-suggestions" class="search__result">
-                                <!-- 
-                                    <a v-for="article in results" v-bind:href="article.link">
-                                    <div class="box">
-
-                                        <h4 class="text-capitalize">Python</h4>
-                                        <span class="text-muted search__result-description" v-html="article.description_short">Python is shit. liek literally shit. Python is shit. liek literally shit. Python is shit. liek literally shit.</span>
-                                    </div>
-                                </a>
-                                <a href="{% url 'articles:add' %}">
-                                    <div class="box text-info">
-                                        <h4 class="text-capitalize">+ Add @{ query }</h4>
-                                        <span class="text-muted">Add @{ query } article to techJargor</span>
-                                    </div>
-                                </a>
-                                -->
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-                <!-- /.navbar-collapse -->
+  <header>
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+            aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <div class="jargon-logo">
+              <h1><strong>Tech</strong>Jargon </h1>
             </div>
-            <!-- /.container-fluid -->
-        </nav>
-        <!-- /Nav Bar -->
-    </header>
-
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-4 col-md-offset-2">
-                <input id="txt-search" type="text" class="search" placeholder="">
-            </div>
+          </a>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="search-suggestions sidebar-left home">
-                    <ul class="no-ul">
-                        <li><a onclick="scrollTo('#txt-search')">Search</a></li>
-                        <li><a onclick="scrollTo('#trendingArticles')">Trending Articles</a></li>
-                        <li><a onclick="scrollTo('#latestArticle')">Latest Articles</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div id="trendingArticles">
-                    <h2>Trending Articles</h2>
-                    <ul class="article-list no-ul">
-                        <li><a href="#">Apache Spark</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">hdfs</a></li>
-                        <li><a href="#">Marathon-LB</a></li>
-                        <li><a href="#">Dart</a></li>
-                        <li><a href="#">Amazon Cloud</a></li>
-                        <li><a href="#">Circuitebreaker Pattern</a></li>
-                        <li><a href="#">Event Outsourcing</a></li>
-                        <li><a href="#">Apache Headloop</a></li>
-                        <li><a href="#">Kibana</a></li>
-                        <li><a href="#">npm</a></li>
-                        <li><a href="#">RabbitMQ</a></li>
-                        <li><a href="#">HAproxy</a></li>
-                        <li><a href="#">Apache Habse</a></li>
-                        <li><a href="#">Apache Pig</a></li>
-                        <li><a href="#">Could Native</a></li>
-                        <li><a href="#">Vagrant</a></li>
-                        <li><a href="#">Andromeda OS</a></li>
-                        <li><a href="#">Kurbanetees</a></li>
-                        <li><a href="#">Nagios</a></li>
-                        <li><a href="#">grpc</a></li>
-                        <li><a href="#">Theano</a></li>
-                        <li><a href="#">Pytorch</a></li>
-                        <li><a href="#">Messos</a></li>
-                        <li><a href="#">Ecm</a></li>
-                        <li><a href="#">Mojo</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">AngularJS</a></li>
-                        <li><a href="#">Python</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">AngularJS</a></li>
-                        <li><a href="#">Python</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">AngularJS</a></li>
-                    </ul>
-                </div>
-                <div id="latestArticle">
-                    <h2>Latest Articles</h2>
-                    <ul class="article-list no-ul">
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">AngularJS</a></li>
-                        <li><a href="#">Python</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">AngularJS</a></li>
-                        <li><a href="#">Python</a></li>
-                        <li><a href="#">Django</a></li>
-                        <li><a href="#">Ruby</a></li>
-                        <li><a href="#">Javascript</a></li>
-                        <li><a href="#">AngularJS</a></li>
-                    </ul>
-                </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Sign In</a></li>
+            <li class="navbar-profile">
+              <div class="navbar-profile__icon" style="background-image: url('https://pbs.twimg.com/profile_images/1760653780/1190978563_2261111954595ugly_man.jpg');"></div>
+              <div class="navbar-profile__popover">
+                <div class="navbar-profile__icon large" style="background-image: url('https://pbs.twimg.com/profile_images/1760653780/1190978563_2261111954595ugly_man.jpg');"></div>
+                <h3>Lakitha Samarasinghe</h3>
+                <p>"අපි යක්කුන්ට කුක්කු පෙවුවේ කොක්කු පෙන්නලා"</p>
+                <button type="submit" class="btn btn-black">Sign Out</button>
+              </div>
+            </li>
+            <li><a href="#" class="navbar-newarticle">+ New Article</a></li>
+            <li>
+              <ul class="navbar-social">
+                <li><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="search__container">
+              <div class="search search__navbar" id="searchNavbar">
+                <input type="text" class="form-control" placeholder="Search">
+                <button type="button" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </div>
+              <!-- <div id="search-box-autocomplete-suggestions" class="search__result">
+                <a v-for="article in results" v-bind:href="article.link">
+                  <div class="box">
+                    <h4 class="text-capitalize">Python</h4>
+                    <span class="text-muted search__result-description" v-html="article.description_short">Python is shit. liek literally shit. Python is shit. liek literally shit. Python is shit. liek literally shit.</span>
+                  </div>
+                </a>
+                <a href="{% url 'articles:add' %}">
+                  <div class="box text-info">
+                    <h4 class="text-capitalize">+ Add @{ query }</h4>
+                    <span class="text-muted">Add @{ query } article to techJargor</span>
+                  </div>
+                </a>
+              </div> -->
             </div>
 
+          </form>
         </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+    <!-- /Nav Bar -->
+  </header>
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        <input id="txt-search" type="text" class="search" placeholder="">
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="search-suggestions sidebar-left home">
+          <ul class="no-ul">
+            <li><a onclick="scrollTo('#txt-search')">Search</a></li>
+            <li><a onclick="scrollTo('#trendingArticles')">Trending Articles</a></li>
+            <li><a onclick="scrollTo('#latestArticle')">Latest Articles</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div id="trendingArticles">
+          <h2>Trending Jargons</h2>
+          <ul class="article-list no-ul">
+            <li><a href="#">Apache Spark</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">hdfs</a></li>
+            <li><a href="#">Marathon-LB</a></li>
+            <li><a href="#">Dart</a></li>
+            <li><a href="#">Amazon Cloud</a></li>
+            <li><a href="#">Circuitebreaker Pattern</a></li>
+            <li><a href="#">Event Outsourcing</a></li>
+            <li><a href="#">Apache Headloop</a></li>
+            <li><a href="#">Kibana</a></li>
+            <li><a href="#">npm</a></li>
+            <li><a href="#">RabbitMQ</a></li>
+            <li><a href="#">HAproxy</a></li>
+            <li><a href="#">Apache Habse</a></li>
+            <li><a href="#">Apache Pig</a></li>
+            <li><a href="#">Could Native</a></li>
+            <li><a href="#">Vagrant</a></li>
+            <li><a href="#">Andromeda OS</a></li>
+            <li><a href="#">Kurbanetees</a></li>
+            <li><a href="#">Nagios</a></li>
+            <li><a href="#">grpc</a></li>
+            <li><a href="#">Theano</a></li>
+            <li><a href="#">Pytorch</a></li>
+            <li><a href="#">Messos</a></li>
+            <li><a href="#">Ecm</a></li>
+            <li><a href="#">Mojo</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+          </ul>
+        </div>
+        <div id="latestArticle">
+          <h2>Latest Jargons</h2>
+          <ul class="article-list no-ul">
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Django</a></li>
+            <li><a href="#">Ruby</a></li>
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">AngularJS</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="jargon-hoversummary__container">
+          <p class="jargon-hoversummary">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+            penatibus et magnis dis parturient.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <footer>
-        <span>© 2017 TechJargon</span>
-        <span>Fidenz</span>
-    </footer>
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-        (function(b, o, i, l, e, r) {
-            b.GoogleAnalyticsObject = l;
-            b[l] || (b[l] =
-                function() {
-                    (b[l].q = b[l].q || []).push(arguments)
-                });
-            b[l].l = +new Date;
-            e = o.createElement(i);
-            r = o.getElementsByTagName(i)[0];
-            e.src = 'https://www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e, r)
-        }(window, document, 'script', 'ga'));
-        ga('create', 'UA-XXXXX-X');
-        ga('send', 'pageview');
-    </script>
+  <footer>
+    <span>© 2017 TechJargon</span>
+    <span>Fidenz</span>
+  </footer>
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <script>
+    (function (b, o, i, l, e, r) {
+      b.GoogleAnalyticsObject = l;
+      b[l] || (b[l] =
+        function () {
+          (b[l].q = b[l].q || []).push(arguments)
+        });
+      b[l].l = +new Date;
+      e = o.createElement(i);
+      r = o.getElementsByTagName(i)[0];
+      e.src = 'https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e, r)
+    }(window, document, 'script', 'ga'));
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <script src="/bower_components/jquery-bar-rating/jquery.barrating.js"></script>
-    <script src="/bower_components/typed.js/dist/typed.min.js"></script>
-    <script src="/bower_components/jssocials/dist/jssocials.js"></script>
-    <script src="/bower_components/auth0.js/build/auth0.js"></script>
-    <script src="/bower_components/Flowtype.js/flowtype.js"></script>
-    <script src="/bower_components/sifter/sifter.js"></script>
-    <script src="/bower_components/microplugin/src/microplugin.js"></script>
-    <script src="/bower_components/selectize/dist/js/selectize.js"></script>
-    <script src="/bower_components/vue/dist/vue.js"></script>
-    <script src="/bower_components/axios/dist/axios.min.js"></script>
-    <script src="/bower_components/js-cookie/src/js.cookie.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+  </script>
 
-    <!-- build:js scripts/plugins.js -->
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
-    <!-- endbuild -->
+  <!-- build:js scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/modernizr/modernizr.js"></script>
+  <script src="/bower_components/jquery-bar-rating/jquery.barrating.js"></script>
+  <script src="/bower_components/typed.js/dist/typed.min.js"></script>
+  <script src="/bower_components/jssocials/dist/jssocials.js"></script>
+  <script src="/bower_components/auth0.js/build/auth0.js"></script>
+  <script src="/bower_components/Flowtype.js/flowtype.js"></script>
+  <script src="/bower_components/sifter/sifter.js"></script>
+  <script src="/bower_components/microplugin/src/microplugin.js"></script>
+  <script src="/bower_components/selectize/dist/js/selectize.js"></script>
+  <script src="/bower_components/vue/dist/vue.js"></script>
+  <script src="/bower_components/js-cookie/src/js.cookie.js"></script>
+  <script src="/bower_components/axios/dist/axios.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
 
-    <!-- build:js scripts/main.js -->
-    <script src="scripts/main.js"></script>
-    <script src="scripts/index.js"></script>
-    <script src="scripts/create.js"></script>
-    <!-- endbuild -->
+  <!-- build:js scripts/plugins.js -->
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+  <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/main.js -->
+  <script src="scripts/main.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="scripts/create.js"></script>
+  <!-- On screen fly  -->
+  <script type="text/javascript" src="http://frank.urugate.com/standalone_fly.js"></script>
+  <!-- endbuild -->
 </body>
 
 </html>
