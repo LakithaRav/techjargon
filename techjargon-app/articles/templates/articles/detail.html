@@ -101,7 +101,7 @@
                 <a href="{% url 'articles:update' slug=article.slug article_id=article.id %}"><strong class="prominent">improve this article</strong></a>
             </li>
             <li>
-                <a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">history</a>
+                <a href="{% url 'articles:history' slug=article.slug content_id=article.active_content.id %}">revisions <small>({{ article.content_set.count }})</small></a>
             </li>
         </ul>
 
