@@ -1,25 +1,40 @@
 .search-suggestions {
-    margin-top: 20px;
-    @include bp(xxs) {
+  margin-top: 20px;
+  @include bp(xs) {
+    display: none;
+  }
+  ul {
+    margin-left: -6px;
+    margin-right: -6px;
+  }
+  li {
+    margin-bottom: 6px;
+  }
+  a {
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    padding: 0 6px;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+  }
+}
+
+.jargon-hoversummary {
+  font-family: $font-desc;
+  font-size: 40px;
+  font-weight: 300;
+  &__container {
+    width: calc(41.6666666667% - 30px);
+    position: fixed;
+    right: 15px;
+    top: 264px;
+    @include bp(xs) {
         display: none;
     }
-    ul {
-        margin-left: -6px;
-        margin-right: -6px;
-    }
-    li {
-        margin-bottom: 6px;
-    }
-    a {
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: 300;
-        letter-spacing: 0.05em;
-        padding: 0 6px;
-        text-transform: uppercase;
-        &:hover {
-            background-color: #000;
-            color: #fff;
-        }
-    }
+  }
 }
