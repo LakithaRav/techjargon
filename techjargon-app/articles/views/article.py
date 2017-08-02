@@ -10,6 +10,7 @@ from django.contrib.postgres.search import TrigramSimilarity
 import operator
 import hashlib
 import pdb
+from rest_framework.renderers import JSONRenderer
 # models
 from authors.models.author import Author
 from articles.models.article import Article
@@ -29,41 +30,43 @@ from trackings.tasks import article_impressions as impressions
 # Create your views here.
 
 def index(request):
-  _top_articles = Article.objects.order_by('-views')[:10]
-  _latest_articles = Article.objects.order_by('-created_at')[:20]
-  _tags = Tag.objects.order_by('-weight')[:50]
-  _top_100 = Article.objects.order_by('-views')[:100]
+    
+    articles = []
+    suggesting_articles = []
+    page_meta = {
+        'keywords': '',
+        'articles': '',
+        'suggesting_articles': '',
+        'full_url_path': request.build_absolute_uri(),
+    }
 
-  _tags = sorted(_tags, key=operator.attrgetter('created_at'))
-  _sugg_articles = []
-  if request.user.is_authenticated:
-      _sugg_tags = get_suggetion_tags(request.user.id)
-      _sugg_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:10]
-      _sugg_articles = sorted(_sugg_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
+    if request.user.is_authenticated:
+        articles = Article.objects.order_by('-created_at')[:20]
+        _sugg_tags = __get_suggetion_tags(request.user.id)
+        suggesting_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
+        suggesting_articles = sorted(suggesting_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
+    else:
+        articles = Article.objects.order_by('-views')[:20]
+        _sugg_tags = __get_suggetion_tags(None)
+        suggesting_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
+        suggesting_articles = sorted(suggesting_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
 
-  _page_meta = {
-    'keywords': '',
-    'article_titles': '',
-    'full_url_path': request.build_absolute_uri(),
-  }
+    for article in articles:
+        page_meta['keywords'] += article.title + ','
 
-  for article in _top_articles:
-      _page_meta['keywords'] += article.title + ','
+    _articles_seri = Article.ArticleSerializer(articles, many=True)
+    page_meta['articles'] = JSONRenderer().render(_articles_seri.data)
 
-  for article in _latest_articles:
-      _page_meta['keywords'] += article.title + ','
+    _articles_seri = Article.ArticleSerializer(suggesting_articles, many=True)
+    page_meta['suggesting_articles'] = JSONRenderer().render(_articles_seri.data)
 
-  for article in _top_100:
-      _page_meta['article_titles'] += article.title.title() + ','
+    context = {
+        'articles': articles,
+        'suggesting_articles': suggesting_articles,
+        'meta': page_meta,
+    }
 
-  _context = {
-    'top_articles': _top_articles,
-    'latest_articles': _latest_articles,
-    'suggested_articles': _sugg_articles,
-    'tags': _tags,
-    'meta': _page_meta,
-  }
-  return render(request, 'articles/index.html', _context)
+    return render(request, 'articles/index.html', context)
 
 def search(request):
     # pdb.set_trace()
@@ -336,25 +339,30 @@ def __get_ip(request):
     return ip
 
 
-def get_suggetion_tags(user_id):
+def __get_suggetion_tags(user_id):
     primary_tags = []
     optional_tags = []
 
-    _article_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')
-    _tags_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')
-    _rating_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')
+    if user_id is not None:
+        _article_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')[:10]
+        _tags_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')[:10]
+        _rating_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')[:10]
+    else:
+        _article_tags = UserTag.objects.filter(source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')[:10]
+        _tags_tags = UserTag.objects.filter(source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')[:10]
+        _rating_tags = UserTag.objects.filter(source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[0][0]).order_by('-created_at')[:10]
 
     optional_tags += _article_tags
     optional_tags += _tags_tags
     optional_tags += _rating_tags
 
-    _article_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
-    _tags_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
-    _rating_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
+    # _article_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[0][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
+    # _tags_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[1][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
+    # _rating_tags = UserTag.objects.filter(user_id=user_id, source=UserTag.SOURCE_TYPE[2][0], preferece=UserTag.PREFERENCE_TYPE[1][0]).order_by('-created_at')
 
-    primary_tags += _article_tags
-    primary_tags += _tags_tags
-    primary_tags += _rating_tags
+    # primary_tags += _article_tags
+    # primary_tags += _tags_tags
+    # primary_tags += _rating_tags
 
     tags = []
     for tag in optional_tags:

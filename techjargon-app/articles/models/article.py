@@ -4,6 +4,9 @@ from tags.models.tag import Tag
 from rest_framework import serializers
 from django.contrib.contenttypes.fields import GenericRelation
 from trackings.models.impression import Impression
+import pdb
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # Create your models here.
 class Article(models.Model):
@@ -33,7 +36,11 @@ class Article(models.Model):
         return '%s' % self.title
 
     def active_content(self):
-        content = self.content_set.get(status=1)
+        content = None
+        try:
+            content = self.content_set.get(status=1)
+        except ObjectDoesNotExist:
+            content = None
         return content
 
     def history_content(self):
@@ -43,11 +50,14 @@ class Article(models.Model):
         return self.content_set.order_by('-updated_at')
 
     def description_short(self):
-        content = self.content_set.get(status=1)
-        if len(content.body) > 150:
-            return content.body[0:150] + "..."
+        content = self.active_content()
+        if content is not None:
+            if len(content.body) > 150:
+                return content.body[0:150] + "..."
+            else:
+                return content.body
         else:
-            return content.body
+            return ""
 
     def link(self):
         return "/article/" + self.slug

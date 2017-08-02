@@ -14,6 +14,9 @@
 <!-- END Open Graph Protocol Meta -->
 {% endblock %} {% block content %}
 
+<input type="hidden" id="articles_json" value="{{  meta.articles }}">
+<input type="hidden" id="suggesting_articles_json" value="{{  meta.suggesting_articles }}">
+
 <div class="row">
     <div class="col-md-6 col-md-offset-2" id="search">
         <form action="{% url 'articles:search'%}" method="get">
@@ -27,7 +30,7 @@
             <ul class="no-ul">
                 <li><a onclick='scrollTo("#search")' v-on:click="resetSearch">search</a></li>
                 <li><a onclick='scrollTo("#trendingArticles")'>Trending Articles</a></li>
-                <li><a onclick='scrollTo("#latestArticle")'>Recommnded</a></li>
+                <li><a onclick='scrollTo("#latestArticle")'>{% if user.is_authenticated %} Recommnded {% else %} Suggestions {% endif %}</a></li>
             </ul>
         </div>
     </div>
@@ -35,19 +38,26 @@
         <div id="trendingArticles">
             <h2>Trending Articles </h2>
             <ul class="article-list no-ul">
-                {% for article in top_articles %}
-                <li><a href="{{ article.link }}">{{ article.title }}</a></li>
+                {% for article in articles %}
+                <li><a href="{{ article.link }}" v-on:mouseenter="articleOnEnter({{ forloop.counter0 }})" v-on:mouseleave="articleOnExit">{{ article.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>
         <div id="latestArticle">
-            <h2>Recommnded</h2>
+            <h2>{% if user.is_authenticated %} Recommnded {% else %} Suggestions {% endif %}</h2>
             <ul class="article-list no-ul">
-                {% for article in suggested_articles %}
-                <li><a href="{{ article.link }}">{{ article.title }}</a></li>
+                {% for article in suggesting_articles %}
+                <li><a href="{{ article.link }}" v-on:mouseenter="sArticleOnEnter({{ forloop.counter0 }})" v-on:mouseleave="sArticleOnExit">{{ article.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>
+    </div>
+    <div class="col-md-4">
+        <transition name="fade">
+            <p v-if="selectedArticle">
+                @{ selectedArticle.description_short }
+            </p>
+        </transition>
     </div>
 </div>
 
@@ -57,11 +67,15 @@
     app = new VueaApp({
         data: {
             query: null,
-            articles: []
+            articles: [],
+            suggesting_articles: [],
+            selectedArticle: null
         },
         created: function() {
-            var articles_str = '{{ meta.article_titles }}';
-            this.articles = articles_str.split(",");
+            var data_1 = document.getElementById('articles_json').value;
+            var data_2 = document.getElementById('suggesting_articles_json').value;
+            this.articles = JSON.parse(data_1);
+            this.suggesting_articles = JSON.parse(data_2);
         },
         mounted: function() {
             init(this);
@@ -73,13 +87,30 @@
                 $(_el).attr("placeholder", "Search...");
                 $(_el).val(null);
                 _el.focus();
+            },
+            articleOnEnter: function(index) {
+                this.selectedArticle = this.articles[index];
+            },
+            articleOnExit: function() {
+                this.selectedArticle = null;
+            },
+            sArticleOnEnter: function(index) {
+                this.selectedArticle = this.suggesting_articles[index];
+            },
+            sArticleOnExit: function() {
+                this.selectedArticle = null;
             }
         }
     });
 
     function init(app) {
+        var articles = Array();
+        app.articles.forEach(function(article) {
+            articles.push(article.title);
+        });
+
         var typed = $("#txt-search-1").typed({
-            strings: app.articles,
+            strings: articles,
             typeSpeed: 100,
             startDelay: 10,
             shuffle: false,
@@ -89,7 +120,7 @@
             backSpeed: 10,
             backDelay: 1800,
             onStringTyped: (arrayPos, self) => {
-                app.query = app.articles[arrayPos];
+                app.query = articles[arrayPos];
             }
         });
     }
