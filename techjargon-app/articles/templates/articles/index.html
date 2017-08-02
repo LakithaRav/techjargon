@@ -29,14 +29,14 @@
         <div class="search-suggestions sidebar-left home">
             <ul class="no-ul">
                 <li><a onclick='scrollTo("#search")' v-on:click="resetSearch">search</a></li>
-                <li><a onclick='scrollTo("#trendingArticles")'>Trending Articles</a></li>
+                <li><a onclick='scrollTo("#trendingArticles")'>Trending Jargons</a></li>
                 <li><a onclick='scrollTo("#latestArticle")'>{% if user.is_authenticated %} Recommnded {% else %} Suggestions {% endif %}</a></li>
             </ul>
         </div>
     </div>
     <div class="col-md-6">
         <div id="trendingArticles">
-            <h2>Trending Articles </h2>
+            <h2>Trending Jargons </h2>
             <ul class="article-list no-ul">
                 {% for article in articles %}
                 <li><a href="{{ article.link }}" v-on:mouseenter="articleOnEnter({{ forloop.counter0 }})" v-on:mouseleave="articleOnExit">{{ article.title }}</a></li>
@@ -52,11 +52,13 @@
             </ul>
         </div>
     </div>
-    <div class="col-md-4">
-        <transition name="fade">
-            <p v-if="selectedArticle">
-                @{ selectedArticle.description_short }
-            </p>
+    <div class="col-md-5">
+        <transition name="slide-fade">
+            <div class="jargon-hoversummary__container" v-if="selectedArticle">
+                <p class="jargon-hoversummary">
+                    @{ selectedArticle.description_short }
+                </p>
+            </div>
         </transition>
     </div>
 </div>
@@ -116,13 +118,25 @@
             shuffle: false,
             loop: true,
             loopCount: null,
-            showCursor: false,
             backSpeed: 10,
             backDelay: 1800,
-            onStringTyped: (arrayPos, self) => {
-                app.query = articles[arrayPos];
-            }
+            onStringTyped: (arrayPos, self) => {},
+            preStringTyped: (arrayPos, self) => {},
+            onLastStringBackspaced: (self) => {},
         });
+
+        function find(name) {
+            var index = 0;
+            for (var i = 0; i < app.articles.length; i++) {
+                var article = app.articles[i];
+                if (article.title.localeCompare(name)) {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        }
     }
 </script>
 

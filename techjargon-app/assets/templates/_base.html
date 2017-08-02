@@ -36,10 +36,22 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/new" class="navbar-newarticle">+ New Article</a></li>
                         <li><a href="/" class="inactive">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <!-- <li><a href="#">Contact</a></li> -->
+                        {% if user.is_authenticated %}
+                        <li class="navbar-profile">
+                            <div class="navbar-profile__icon" style="background-image: url('{{ user.author.profil_pic.url }}');"></div>
+                            <div class="navbar-profile__popover">
+                                <div class="navbar-profile__icon large" style="background-image: url('{{ user.author.profil_pic.url }}');"></div>
+                                <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                                <a href="/authors/signout" class="btn btn-black">Sign Out</a>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li><a href="/authors/signin">Sign In</a></li>
+                        {% endif %}
+                        <li><a href="/new" class="navbar-newarticle">+ New Article</a></li>
                         <li>
                             <ul class="navbar-social">
                                 <li><a href="https://www.facebook.com/techjargons/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
