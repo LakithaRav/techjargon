@@ -27,7 +27,7 @@ SECRET_KEY = 'hozd=m(om6kdqgu!sq!k*=(_b2@i_&!mikksv(_21-e8o!n^(^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['techjargon.fidenz.com']
+ALLOWED_HOSTS = ['techjargon.fidenz.com', 'techjargon-dev.fidenz.info']
 
 
 # Application definition
