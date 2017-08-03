@@ -85,6 +85,7 @@
         },
         methods: {
             resetSearch: function(e) {
+                app.selectedArticle = null;
                 var _el = $('#txt-search-1');
                 $(_el).data('typed').reset();
                 $(_el).attr("placeholder", "Search...");
@@ -112,7 +113,7 @@
 
     function init(app) {
         var articles = Array();
-        articles.push("Definitions in 30 seconds...^5000");
+        articles.push("Definitions in 60 seconds...^5000");
         app.articles.forEach(function(article) {
             articles.push(article.title);
         });
@@ -123,18 +124,18 @@
             shuffle: false,
             loop: true,
             loopCount: null,
-            backDelay: 2000,
+            backDelay: 3000,
             onStringTyped: (arrayPos, self) => {
                 if (!app.hovering) {
                     setTimeout(function() {
                         app.selectedArticle = null;
-                    }, 2000);
+                    }, 3000);
                 }
             },
             preStringTyped: (arrayPos, self) => {
                 if (!app.hovering && arrayPos > 0) {
                     setTimeout(function() {
-                        app.selectedArticle = app.articles[arrayPos];
+                        app.selectedArticle = app.articles[arrayPos - 1];
                     }, 300);
                 }
             },

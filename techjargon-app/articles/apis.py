@@ -5,7 +5,6 @@ from django.db import IntegrityError
 import pdb;
 from rest_framework.renderers import JSONRenderer
 from .models.article import Article
-from .models.tag import Tag
 from .models.content import Content
 from .models.content_rating import ContentRating
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
