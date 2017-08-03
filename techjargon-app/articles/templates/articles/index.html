@@ -71,7 +71,8 @@
             query: null,
             articles: [],
             suggesting_articles: [],
-            selectedArticle: null
+            selectedArticle: null,
+            hovering: false
         },
         created: function() {
             var data_1 = document.getElementById('articles_json').value;
@@ -92,36 +93,51 @@
             },
             articleOnEnter: function(index) {
                 this.selectedArticle = this.articles[index];
+                this.hovering = true;
             },
             articleOnExit: function() {
                 this.selectedArticle = null;
+                this.hovering = false;
             },
             sArticleOnEnter: function(index) {
                 this.selectedArticle = this.suggesting_articles[index];
+                this.hovering = true;
             },
             sArticleOnExit: function() {
                 this.selectedArticle = null;
+                this.hovering = false;
             }
         }
     });
 
     function init(app) {
         var articles = Array();
+        articles.push("Definitions in 30 seconds...^5000");
         app.articles.forEach(function(article) {
             articles.push(article.title);
         });
 
         var typed = $("#txt-search-1").typed({
             strings: articles,
-            typeSpeed: 100,
-            startDelay: 10,
+            typeSpeed: 80,
             shuffle: false,
             loop: true,
             loopCount: null,
-            backSpeed: 10,
-            backDelay: 1800,
-            onStringTyped: (arrayPos, self) => {},
-            preStringTyped: (arrayPos, self) => {},
+            backDelay: 2000,
+            onStringTyped: (arrayPos, self) => {
+                if (!app.hovering) {
+                    setTimeout(function() {
+                        app.selectedArticle = null;
+                    }, 2000);
+                }
+            },
+            preStringTyped: (arrayPos, self) => {
+                if (!app.hovering && arrayPos > 0) {
+                    setTimeout(function() {
+                        app.selectedArticle = app.articles[arrayPos];
+                    }, 300);
+                }
+            },
             onLastStringBackspaced: (self) => {},
         });
 
