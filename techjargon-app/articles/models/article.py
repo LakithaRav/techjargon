@@ -4,13 +4,18 @@ from tags.models.tag import Tag
 from rest_framework import serializers
 from django.contrib.contenttypes.fields import GenericRelation
 from trackings.models.impression import Impression
+import pdb
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import admin
+from django.template.defaultfilters import escape
+from django.utils.html import format_html
 
 # Create your models here.
-class Article(models.Model):
+class Article(models.Model): 
     # choices
     STATUS = (
-        (0, "Inactive"),
-        (1, "Active"),
+        (0, "Draft"),
+        (1, "Published"),
     )
     _DEFAULT_STATUS = 1
 
@@ -26,14 +31,16 @@ class Article(models.Model):
     tags = models.ManyToManyField(Tag, related_name='%(class)s_tags')
     impressions = GenericRelation(Impression, related_query_name='articles')
 
-    def __unicode__(self):
-        return '%s' % self.title
 
     def __str__(self):
         return '%s' % self.title
 
     def active_content(self):
-        content = self.content_set.get(status=1)
+        content = None
+        try:
+            content = self.content_set.get(status=1)
+        except ObjectDoesNotExist:
+            content = None
         return content
 
     def history_content(self):
@@ -43,11 +50,14 @@ class Article(models.Model):
         return self.content_set.order_by('-updated_at')
 
     def description_short(self):
-        content = self.content_set.get(status=1)
-        if len(content.body) > 150:
-            return content.body[0:150] + "..."
+        content = self.active_content()
+        if content is not None:
+            if len(content.body) > 150:
+                return content.body[0:150] + "..."
+            else:
+                return content.body
         else:
-            return content.body
+            return ""
 
     def link(self):
         return "/article/" + self.slug
@@ -65,3 +75,44 @@ class Article(models.Model):
         updated_at = serializers.DateTimeField()
 
         description_short = serializers.CharField(max_length=100)
+
+    
+    class ArticleAdmin(admin.ModelAdmin):
+        date_hierarchy = 'created_at'
+        list_display = ['title', 'views', 'rating', 'created_at', 'link_to_content', 'status', ]
+        list_display_links = ('title',)
+        list_editable = ('status',)
+        search_fields = ('^title', 'tags__name')
+        list_filter = ('tags', 'rating', 'status', 'created_at', )
+        ordering = ['-created_at']
+        # radio_fields = {"status": admin.VERTICAL}
+        list_max_show_all = 10
+        list_per_page = 10
+        # list_select_related = ('tags', )
+        # fieldsets = (
+        #     (None, {
+        #         'fields': ('title', 'slug', 'status')
+        #     }),
+        #     ('Advanced options', {
+        #         'classes': ('collapse', 'wide'),
+        #         'fields': ('tags',),
+        #     }),
+        # )
+        filter_horizontal = ('tags',)
+        exclude = ('views', 'rating')
+        actions = ['make_published']
+
+        def make_published(self, request, queryset):
+            rows_updated = queryset.update(status=1)
+            if rows_updated == 1:
+                message_bit = "1 Article was"
+            else:
+                message_bit = "%s Articles were" % rows_updated
+            self.message_user(request, "%s successfully marked as published." % message_bit)
+        make_published.short_description = "Mark as published"
+
+
+        def link_to_content(self, obj):
+            return format_html('<a href="/admin/articles/content?q=%s">%s</a>' % (obj.title, escape(obj.content_set.count())))
+        link_to_content.short_description = "Revisions"
+

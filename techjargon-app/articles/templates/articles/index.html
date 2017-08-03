@@ -14,6 +14,9 @@
 <!-- END Open Graph Protocol Meta -->
 {% endblock %} {% block content %}
 
+<input type="hidden" id="articles_json" value="{{  meta.articles }}">
+<input type="hidden" id="suggesting_articles_json" value="{{  meta.suggesting_articles }}">
+
 <div class="row">
     <div class="col-md-6 col-md-offset-2" id="search">
         <form action="{% url 'articles:search'%}" method="get">
@@ -26,28 +29,37 @@
         <div class="search-suggestions sidebar-left home">
             <ul class="no-ul">
                 <li><a onclick='scrollTo("#search")' v-on:click="resetSearch">search</a></li>
-                <li><a onclick='scrollTo("#trendingArticles")'>Trending Articles</a></li>
-                <li><a onclick='scrollTo("#latestArticle")'>Recommnded</a></li>
+                <li><a onclick='scrollTo("#trendingArticles")'>Trending Jargons</a></li>
+                <li><a onclick='scrollTo("#latestArticle")'>{% if user.is_authenticated %} Recommnded {% else %} Suggestions {% endif %}</a></li>
             </ul>
         </div>
     </div>
     <div class="col-md-6">
         <div id="trendingArticles">
-            <h2>Trending Articles </h2>
+            <h2>Trending Jargons </h2>
             <ul class="article-list no-ul">
-                {% for article in top_articles %}
-                <li><a href="{{ article.link }}">{{ article.title }}</a></li>
+                {% for article in articles %}
+                <li><a href="{{ article.link }}" v-on:mouseenter="articleOnEnter({{ forloop.counter0 }})" v-on:mouseleave="articleOnExit">{{ article.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>
         <div id="latestArticle">
-            <h2>Recommnded</h2>
+            <h2>{% if user.is_authenticated %} Recommnded {% else %} Suggestions {% endif %}</h2>
             <ul class="article-list no-ul">
-                {% for article in suggested_articles %}
-                <li><a href="{{ article.link }}">{{ article.title }}</a></li>
+                {% for article in suggesting_articles %}
+                <li><a href="{{ article.link }}" v-on:mouseenter="sArticleOnEnter({{ forloop.counter0 }})" v-on:mouseleave="sArticleOnExit">{{ article.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>
+    </div>
+    <div class="col-md-5">
+        <transition name="slide-fade">
+            <div class="jargon-hoversummary__container" v-if="selectedArticle">
+                <p class="jargon-hoversummary">
+                    @{ selectedArticle.description_short }
+                </p>
+            </div>
+        </transition>
     </div>
 </div>
 
@@ -57,41 +69,91 @@
     app = new VueaApp({
         data: {
             query: null,
-            articles: []
+            articles: [],
+            suggesting_articles: [],
+            selectedArticle: null,
+            hovering: false
         },
         created: function() {
-            var articles_str = '{{ meta.article_titles }}';
-            this.articles = articles_str.split(",");
+            var data_1 = document.getElementById('articles_json').value;
+            var data_2 = document.getElementById('suggesting_articles_json').value;
+            this.articles = JSON.parse(data_1);
+            this.suggesting_articles = JSON.parse(data_2);
         },
         mounted: function() {
             init(this);
         },
         methods: {
             resetSearch: function(e) {
+                app.selectedArticle = null;
                 var _el = $('#txt-search-1');
                 $(_el).data('typed').reset();
                 $(_el).attr("placeholder", "Search...");
                 $(_el).val(null);
                 _el.focus();
+            },
+            articleOnEnter: function(index) {
+                this.selectedArticle = this.articles[index];
+                this.hovering = true;
+            },
+            articleOnExit: function() {
+                this.selectedArticle = null;
+                this.hovering = false;
+            },
+            sArticleOnEnter: function(index) {
+                this.selectedArticle = this.suggesting_articles[index];
+                this.hovering = true;
+            },
+            sArticleOnExit: function() {
+                this.selectedArticle = null;
+                this.hovering = false;
             }
         }
     });
 
     function init(app) {
+        var articles = Array();
+        articles.push("Definitions in 60 seconds...^5000");
+        app.articles.forEach(function(article) {
+            articles.push(article.title);
+        });
+
         var typed = $("#txt-search-1").typed({
-            strings: app.articles,
-            typeSpeed: 100,
-            startDelay: 10,
+            strings: articles,
+            typeSpeed: 80,
             shuffle: false,
             loop: true,
             loopCount: null,
-            showCursor: false,
-            backSpeed: 10,
-            backDelay: 1800,
+            backDelay: 3000,
             onStringTyped: (arrayPos, self) => {
-                app.query = app.articles[arrayPos];
-            }
+                if (!app.hovering) {
+                    setTimeout(function() {
+                        app.selectedArticle = null;
+                    }, 3000);
+                }
+            },
+            preStringTyped: (arrayPos, self) => {
+                if (!app.hovering && arrayPos > 0) {
+                    setTimeout(function() {
+                        app.selectedArticle = app.articles[arrayPos - 1];
+                    }, 300);
+                }
+            },
+            onLastStringBackspaced: (self) => {},
         });
+
+        function find(name) {
+            var index = 0;
+            for (var i = 0; i < app.articles.length; i++) {
+                var article = app.articles[i];
+                if (article.title.localeCompare(name)) {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        }
     }
 </script>
 

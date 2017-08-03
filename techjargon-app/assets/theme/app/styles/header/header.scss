@@ -32,8 +32,11 @@ header {
         text-align: center;
       }
       &:hover {
-        background-color: transparent;
         color: $primary-highlight;
+      }
+      &:hover,
+      &:focus {
+        background-color: transparent;
       }
       &.active {
         &::before {
@@ -74,6 +77,7 @@ header {
   .navbar-social {
     list-style: none;
     padding: 0;
+    text-align: center;
     li {
       display: inline-block;
       padding: 0 8px !important;

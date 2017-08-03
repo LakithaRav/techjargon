@@ -1,0 +1,43 @@
+.navbar-profile {
+  position: relative;
+  &:hover>.navbar-profile__popover {
+    display: block;
+  }
+  &__icon {
+    background-size: cover;
+    background-position: center;
+    border: 3px solid $grey-light;
+    border-radius: 50%;
+    height: 30px;
+    margin-top: -5px;
+    width: 30px;
+    @include bp(xxs) {
+      margin: 0 auto 10px;
+    }
+    &.large {
+      height: 120px;
+      margin: 0 auto;
+      width: 120px;
+    }
+  }
+  &__popover {
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 50%;
+    padding: 15px;
+    position: absolute;
+    text-align: center;
+    top: 46px;
+    transform: translateX(-50%);
+    width: 250px;
+    @include bp(xxs) {
+      margin: 0 auto;
+      position: static;
+      transform: none;
+    }
+    button {
+      margin-top: 20px;
+    }
+  }
+}

@@ -5,6 +5,7 @@
   font-size: 12px;
   letter-spacing: 0.15em;
   outline: none !important;
+  padding: 6px 12px !important;
   text-transform: uppercase;
   transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
   &:active {
@@ -22,7 +23,10 @@
     color: #fff !important;
   }
   &:hover {
-    background-color: $primary-color;
+    background-color: $primary-color !important;
+  }
+  &:focus {
+    background-color: #000 !important;
   }
 }
 
