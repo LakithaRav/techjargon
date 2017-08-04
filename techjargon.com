@@ -1,6 +1,17 @@
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
 server {
     listen 80;
     server_name techjargon-dev.fidenz.info www.techjargon-dev.fidenz.info;
+
+    expires $expires;
 
     access_log /var/www/techjargon/techjargon-app/log/nginx-access.log;
     error_log /var/www/techjargon/techjargon-app/log/nginx-error.log;
