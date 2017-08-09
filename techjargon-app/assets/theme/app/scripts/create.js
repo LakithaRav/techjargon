@@ -24,4 +24,6 @@ $(function () {
       'home'
     ]
   });
+
+  $('#content').typeProgress();
 });
