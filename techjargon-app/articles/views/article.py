@@ -104,10 +104,15 @@ def detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     _tags = []
     for tag in article.tags.all():
-        _tags.append(tag.slug)
+        _tags.append(tag.id)
 
-    action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
-    related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')[:10]
+    action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id=article.id).distinct('id').values_list('id', flat=True)
+    related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')[:10]
+    connection_tree = []
+    excludes = []
+    excludes.append(article.id)
+    # connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
+    # pdb.set_trace()
 
     _total_ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
     _my_rating = 0
@@ -227,6 +232,10 @@ def update(request, slug, article_id):
 
 
 # private
+
+class Tree:
+    def __init__(self):
+        super.__init__()
 
 def __save_article(post, user, metas):
     flag = False
@@ -369,3 +378,27 @@ def __get_suggetion_tags(user_id):
         tags.append(tag.tag_id)
 
     return tags
+
+
+def __get_article_tree(article, collection, excludes, level):
+    # pdb.set_trace()
+    _tags = []
+    for tag in article.tags.all():
+        _tags.append(tag.id)
+
+    action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id__in=excludes).distinct('id').values_list('id', flat=True)
+    related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')
+
+    collection.append({level: {"article":article, "level": level, "collection":related_articles}})
+
+    for r_article in related_articles:
+        excludes.append(r_article.id)
+
+    for r_article in related_articles:
+        __get_article_tree(r_article, collection, excludes, level+1)
+
+    return collection
+
+
+
+    
