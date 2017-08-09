@@ -41,14 +41,14 @@ def index(request):
     }
 
     if request.user.is_authenticated:
-        articles = Article.objects.order_by('-created_at')[:20]
+        articles = Article.objects.filter(status=Article.STATUS[1][0], in_home=True).order_by('-created_at')[:20]
         _sugg_tags = __get_suggetion_tags(request.user.id)
-        suggesting_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
+        suggesting_articles = Article.objects.filter(status=Article.STATUS[1][0], tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
         suggesting_articles = sorted(suggesting_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
     else:
-        articles = Article.objects.order_by('-views')[:20]
+        articles = Article.objects.filter(status=Article.STATUS[1][0], in_home=True).order_by('-views')[:20]
         _sugg_tags = __get_suggetion_tags(None)
-        suggesting_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
+        suggesting_articles = Article.objects.filter(status=Article.STATUS[1][0], tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
         suggesting_articles = sorted(suggesting_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
 
     for article in articles:
@@ -79,7 +79,7 @@ def search(request):
     search_query = SearchQuery(_query)
     trigram_similarity = TrigramSimilarity('title', _query) + TrigramSimilarity('tags__name', _query)
 
-    _articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3).order_by('id', '-similarity').distinct('id')[:10]
+    _articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3, status=Article.STATUS[1][0]).order_by('id', '-similarity').distinct('id')[:10]
     _tags = Tag.objects.filter(name__contains=_query).order_by('-weight')[:20]
 
     paginator = Paginator(_articles, 5)

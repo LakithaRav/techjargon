@@ -26,6 +26,8 @@ class Article(models.Model):
     rating = models.DecimalField(max_digits=10, decimal_places=3, default=0.0)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=True)
+    in_home = models.BooleanField(default=False)
+
 
     # relations
     tags = models.ManyToManyField(Tag, related_name='%(class)s_tags')
@@ -100,7 +102,7 @@ class Article(models.Model):
         # )
         filter_horizontal = ('tags',)
         exclude = ('views', 'rating')
-        actions = ['make_published']
+        actions = ['make_published', 'make_show_in_home']
 
         def make_published(self, request, queryset):
             rows_updated = queryset.update(status=1)
@@ -111,6 +113,14 @@ class Article(models.Model):
             self.message_user(request, "%s successfully marked as published." % message_bit)
         make_published.short_description = "Mark as published"
 
+        def make_show_in_home(self, request, queryset):
+            rows_updated = queryset.update(in_home=True)
+            if rows_updated == 1:
+                message_bit = "1 Article was"
+            else:
+                message_bit = "%s Articles were" % rows_updated
+            self.message_user(request, "%s successfully marked as home Articles." % message_bit)
+        make_show_in_home.short_description = "Mark as Home Article"
 
         def link_to_content(self, obj):
             return format_html('<a href="/admin/articles/content?q=%s">%s</a>' % (obj.title, escape(obj.content_set.count())))

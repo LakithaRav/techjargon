@@ -25,7 +25,7 @@ def search(request):
 		search_query = SearchQuery(_query)
 		trigram_similarity = TrigramSimilarity('title', _query) + TrigramSimilarity('tags__name', _query)
 
-		articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3).order_by('id', '-similarity').distinct('id')[:10]
+		articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3, status=Article.STATUS[1][0]).order_by('id', '-similarity').distinct('id')[:10]
 		rank_sorted_articles = sorted(articles.all(), key=lambda a: a.rank)
 
 		# articles = Article.objects.annotate(search=SearchVector('title', 'tags__name'),).filter(search=_query).distinct('id')
