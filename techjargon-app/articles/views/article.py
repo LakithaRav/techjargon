@@ -11,6 +11,7 @@ import operator
 import hashlib
 import pdb
 from rest_framework.renderers import JSONRenderer
+import json
 # models
 from authors.models.author import Author
 from articles.models.article import Article
@@ -111,7 +112,8 @@ def detail(request, slug):
     connection_tree = []
     excludes = []
     excludes.append(article.id)
-    # connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
+    connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
+    # j_data = json.dumps(connection_tree)
     # pdb.set_trace()
 
     _total_ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
@@ -133,7 +135,8 @@ def detail(request, slug):
         'related_articles': related_articles,
         'my_rating': _my_rating,
         'total_ratings': _total_ratings,
-        'full_url_path': request.build_absolute_uri()
+        'full_url_path': request.build_absolute_uri(),
+        # 'tree': j_data
     }
 
     __add_view_log(request, article)
@@ -380,8 +383,7 @@ def __get_suggetion_tags(user_id):
     return tags
 
 
-def __get_article_tree(article, collection, excludes, level):
-    # pdb.set_trace()
+def __get_article_tree(article, collection, excludes, level):  
     _tags = []
     for tag in article.tags.all():
         _tags.append(tag.id)
@@ -389,15 +391,42 @@ def __get_article_tree(article, collection, excludes, level):
     action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id__in=excludes).distinct('id').values_list('id', flat=True)
     related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')
 
-    collection.append({level: {"article":article, "level": level, "collection":related_articles}})
+    print(article)
+    print(related_articles)
+    collection.append({ article: related_articles })
 
     for r_article in related_articles:
         excludes.append(r_article.id)
 
-    for r_article in related_articles:
-        __get_article_tree(r_article, collection, excludes, level+1)
+    if len(related_articles) > 0:
+        for r_article in related_articles:
+            # collection.append({r_article: __get_article_tree(r_article, collection, excludes, level+1)})
+            __get_article_tree(r_article, collection, excludes, level+1)
 
     return collection
+        
+
+# def __get_article_tree(article, collection, excludes, level):
+#     # pdb.set_trace()
+#     _tags = []
+#     for tag in article.tags.all():
+#         _tags.append(tag.id)
+
+#     action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id__in=excludes).distinct('id').values_list('id', flat=True)
+#     related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')
+
+#     _article_seri = Article.ArticleSerializer(article, many=False)
+#     _articles_seri = Article.ArticleSerializer(related_articles, many=True)
+
+#     collection.append({"article": _article_seri.data, "level": level, "collection": _articles_seri.data})
+
+#     for r_article in related_articles:
+#         excludes.append(r_article.id)
+
+#     for r_article in related_articles:
+#         __get_article_tree(r_article, collection, excludes, level+1)
+
+#     return collection
 
 
 

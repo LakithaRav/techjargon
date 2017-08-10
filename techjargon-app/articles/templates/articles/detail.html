@@ -23,6 +23,8 @@
 <!-- END Open Graph Protocol Meta -->
 {% endblock %} {% block content %}
 
+<input type="hidden" id="articles_json" value="{{  tree }}">
+
 <div class="row">
     <div class="col-md-3">
         <div class="sidebar-left article">
@@ -161,6 +163,10 @@
             my_rating: '{{ my_rating }}',
             show_rating: true,
             rating_feedback: 'How helpful was this answer for you ?'
+        },
+        created: function() {
+            var data_1 = document.getElementById('articles_json').value;
+            var articles = JSON.parse(data_1);
         },
         mounted: function() {
             init(this);
