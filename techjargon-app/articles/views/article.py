@@ -113,8 +113,7 @@ def detail(request, slug):
     excludes = []
     excludes.append(article.id)
     connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
-    # j_data = json.dumps(connection_tree)
-    # pdb.set_trace()
+    tree_data = json.dumps(connection_tree)
 
     _total_ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
     _my_rating = 0
@@ -136,7 +135,7 @@ def detail(request, slug):
         'my_rating': _my_rating,
         'total_ratings': _total_ratings,
         'full_url_path': request.build_absolute_uri(),
-        # 'tree': j_data
+        'relation_tree': tree_data
     }
 
     __add_view_log(request, article)
@@ -235,11 +234,6 @@ def update(request, slug, article_id):
 
 
 # private
-
-class Tree:
-    def __init__(self):
-        super.__init__()
-
 def __save_article(post, user, metas):
     flag = False
     message = []
@@ -391,42 +385,21 @@ def __get_article_tree(article, collection, excludes, level):
     action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id__in=excludes).distinct('id').values_list('id', flat=True)
     related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')
 
-    print(article)
-    print(related_articles)
-    collection.append({ article: related_articles })
-
     for r_article in related_articles:
         excludes.append(r_article.id)
 
+    _children = []
     if len(related_articles) > 0:
         for r_article in related_articles:
-            # collection.append({r_article: __get_article_tree(r_article, collection, excludes, level+1)})
-            __get_article_tree(r_article, collection, excludes, level+1)
+            _child = __get_article_tree(r_article, collection, excludes, level+1)
+            _children.append(_child)
 
-    return collection
-        
+    # _child =  { article.title: _children }
+    _article_seri = Article.ArticleSerializer(article, many=False)
+    _child =  { "article": _article_seri.data, "children": _children }
 
-# def __get_article_tree(article, collection, excludes, level):
-#     # pdb.set_trace()
-#     _tags = []
-#     for tag in article.tags.all():
-#         _tags.append(tag.id)
+    return _child
 
-#     action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id__in=excludes).distinct('id').values_list('id', flat=True)
-#     related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')
-
-#     _article_seri = Article.ArticleSerializer(article, many=False)
-#     _articles_seri = Article.ArticleSerializer(related_articles, many=True)
-
-#     collection.append({"article": _article_seri.data, "level": level, "collection": _articles_seri.data})
-
-#     for r_article in related_articles:
-#         excludes.append(r_article.id)
-
-#     for r_article in related_articles:
-#         __get_article_tree(r_article, collection, excludes, level+1)
-
-#     return collection
 
 
 
