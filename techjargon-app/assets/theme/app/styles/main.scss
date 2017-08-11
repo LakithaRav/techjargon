@@ -1,35 +1,27 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Oswald:300,400|Slabo+27px|Merriweather:300|Quicksand:400,500');
 @import "constants";
-
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 // endbower
-
 @import "mixin";
-
 @import "common/common";
 @import "common/typography";
 @import "common/buttons";
 @import "common/forms";
 @import "common/search";
 @import "common/pagination";
-
 @import "header/header";
 @import "header/logo";
 @import "header/profile";
-
 @import "footer/footer";
-
 @import "main/sidebar";
 @import "main/home/home";
 @import "main/articles/article-list";
 @import "main/articles/article";
 @import "main/articles/create";
 @import "main/about/about";
-
 @import "main/search/search";
-
 @import "main/history/history";
-
+@import "d3.style";
 @import "shame";
