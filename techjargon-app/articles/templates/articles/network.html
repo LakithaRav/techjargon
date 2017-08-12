@@ -1,0 +1,80 @@
+{% extends "_base.html" %} {% load static %} {% load article_meta_filter %} {% load humanize %} {% block title %} {{article.title}} |{% endblock %} {% block meta %}
+<meta name="description" content="{{ article.active_content.body }}">
+<meta name="author" content="{{ article.active_content.author.user.first_name }} {{ article.active_content.author.user.last_name }}, TechJargon">
+<meta name="article_keywords" content="{{ article.tags_str }}">
+
+<meta name='twitter:card' content='summary_large_image' />
+<meta name='twitter:image:src' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta name='twitter:site' content='@techjargons' />
+<meta name='twitter:url' content='{{ full_url_path }}' />
+<meta name='twitter:description' content='{{ article.active_content.body }}' />
+<meta name='twitter:title' content='{{ article.title }}' />
+
+<!-- Open Graph Protocol Meta -->
+<meta property='og:title' content='{{ article.title }}' />
+<meta property="og:type" content="article" />
+<meta property='og:url' content='{{ full_url_path }}' />
+<meta property='og:image' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:url' content='http://fidenz.com/wp-content/themes/one-page/images/fidenz.png' />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:image:type' content='image/jpeg' />
+<meta property='og:description' content='{{ article.active_content.body }}' />
+<!-- END Open Graph Protocol Meta -->
+{% endblock %} {% block content %}
+
+<input type="hidden" id="articles_json" value="{{  relation_tree }}">
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar-left article">
+            <h1 class="article-title">{{ article.title }}</h1>
+            <ul class="article-info">
+                <li class="article-ratings readonly">
+                    <!--<ul class="article-ratings">
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+					</ul>-->
+                    <select id="articleRatings">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+                </li>
+                <!--<li data-toggle="tooltip" title="Ratings"><i class="fa fa-star-o" aria-hidden="true"></i></span> 100</li>
+				<li data-toggle="tooltip" title="Views"><i class="fa fa-eye" aria-hidden="true"></i> 210</li>-->
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="network"></div>
+    </div>
+</div>
+
+{% endblock %} {% block javascript %}
+
+<script>
+    app = new VueaApp({
+        data: {
+
+        },
+        created: function() {
+            var data_1 = document.getElementById('articles_json').value;
+            var articles = JSON.parse(data_1);
+            alert(articles);
+        },
+        mounted: function() {
+            alert("drawing chart");
+            drawChart();
+        },
+        methods: {
+
+        }
+    });
+</script>
+
+{% endblock %}

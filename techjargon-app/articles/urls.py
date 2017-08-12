@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^search/', article.search, name='search'),
     url(r'^article/(?P<article_id>[0-9]+)/(?P<slug>[-\w\d]+)/update$', article.update, name='update'),
     url(r'^article/(?P<slug>[-\w\d]+)/$', article.detail, name='detail'),
+    url(r'^article/(?P<slug>[-\w\d]+)/network$', article.network, name='network'),
     url(r'^article/(?P<slug>[-\w\d]+)/(?P<content_id>[0-9]+)/history$', article.history, name='history'),
     url(r'^about/', article.about, name='about'),
     # apis

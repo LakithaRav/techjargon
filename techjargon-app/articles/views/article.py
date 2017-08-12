@@ -109,11 +109,6 @@ def detail(request, slug):
 
     action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id=article.id).distinct('id').values_list('id', flat=True)
     related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')[:10]
-    connection_tree = []
-    excludes = []
-    excludes.append(article.id)
-    connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
-    tree_data = json.dumps(connection_tree)
 
     _total_ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
     _my_rating = 0
@@ -134,13 +129,30 @@ def detail(request, slug):
         'related_articles': related_articles,
         'my_rating': _my_rating,
         'total_ratings': _total_ratings,
-        'full_url_path': request.build_absolute_uri(),
-        'relation_tree': tree_data
+        'full_url_path': request.build_absolute_uri()
     }
 
     __add_view_log(request, article)
 
     return render(request, 'articles/detail.html', _context)
+
+def network(request, slug):
+    article = get_object_or_404(Article, slug=slug)
+
+    connection_tree = []
+    excludes = []
+    excludes.append(article.id)
+    connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
+    tree_data = json.dumps(connection_tree)
+
+    _context = {
+        'article': article,
+        'content': article.active_content,
+        'full_url_path': request.build_absolute_uri(),
+        'relation_tree': tree_data
+    }
+
+    return render(request, 'articles/network.html', _context)
 
 def history(request, slug, content_id):
     article = get_object_or_404(Article, slug=slug)
