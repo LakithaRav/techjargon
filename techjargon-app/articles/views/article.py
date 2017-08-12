@@ -11,6 +11,7 @@ import operator
 import hashlib
 import pdb
 from rest_framework.renderers import JSONRenderer
+import json
 # models
 from authors.models.author import Author
 from articles.models.article import Article
@@ -41,14 +42,14 @@ def index(request):
     }
 
     if request.user.is_authenticated:
-        articles = Article.objects.order_by('-created_at')[:20]
+        articles = Article.objects.filter(status=Article.STATUS[1][0], in_home=True).order_by('-created_at')[:20]
         _sugg_tags = __get_suggetion_tags(request.user.id)
-        suggesting_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
+        suggesting_articles = Article.objects.filter(status=Article.STATUS[1][0], tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
         suggesting_articles = sorted(suggesting_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
     else:
-        articles = Article.objects.order_by('-views')[:20]
+        articles = Article.objects.filter(status=Article.STATUS[1][0], in_home=True).order_by('-views')[:20]
         _sugg_tags = __get_suggetion_tags(None)
-        suggesting_articles = Article.objects.filter(tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
+        suggesting_articles = Article.objects.filter(status=Article.STATUS[1][0], tags__pk__in=_sugg_tags).distinct('id').order_by('-id', '-created_at')[:20]
         suggesting_articles = sorted(suggesting_articles, key=operator.attrgetter('views', 'rating'), reverse=True)
 
     for article in articles:
@@ -79,7 +80,7 @@ def search(request):
     search_query = SearchQuery(_query)
     trigram_similarity = TrigramSimilarity('title', _query) + TrigramSimilarity('tags__name', _query)
 
-    _articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3).order_by('id', '-similarity').distinct('id')[:10]
+    _articles = Article.objects.annotate(rank=SearchRank(vector, search_query), similarity=trigram_similarity).filter(similarity__gt=0.3, status=Article.STATUS[1][0]).order_by('id', '-similarity').distinct('id')[:10]
     _tags = Tag.objects.filter(name__contains=_query).order_by('-weight')[:20]
 
     paginator = Paginator(_articles, 5)
@@ -104,10 +105,10 @@ def detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     _tags = []
     for tag in article.tags.all():
-        _tags.append(tag.slug)
+        _tags.append(tag.id)
 
-    action_ids = Article.objects.filter(tags__slug__in=_tags).exclude(id=article.id).distinct('id').values_list('id', flat=True)
-    related_articles = Article.objects.filter(id__in=action_ids).order_by('-tags__weight').order_by('-views')[:10]
+    action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id=article.id).distinct('id').values_list('id', flat=True)
+    related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')[:10]
 
     _total_ratings = ContentRating.objects.filter(content_id__in=article.content_set.values('id')).order_by('user_id', '-id').distinct('user_id').count()
     _my_rating = 0
@@ -134,6 +135,24 @@ def detail(request, slug):
     __add_view_log(request, article)
 
     return render(request, 'articles/detail.html', _context)
+
+def network(request, slug):
+    article = get_object_or_404(Article, slug=slug)
+
+    connection_tree = []
+    excludes = []
+    excludes.append(article.id)
+    connection_tree = __get_article_tree(article, connection_tree, excludes, 0)
+    tree_data = json.dumps(connection_tree)
+
+    _context = {
+        'article': article,
+        'content': article.active_content,
+        'full_url_path': request.build_absolute_uri(),
+        'relation_tree': tree_data
+    }
+
+    return render(request, 'articles/network.html', _context)
 
 def history(request, slug, content_id):
     article = get_object_or_404(Article, slug=slug)
@@ -227,7 +246,6 @@ def update(request, slug, article_id):
 
 
 # private
-
 def __save_article(post, user, metas):
     flag = False
     message = []
@@ -369,3 +387,36 @@ def __get_suggetion_tags(user_id):
         tags.append(tag.tag_id)
 
     return tags
+
+
+def __get_article_tree(article, collection, excludes, level):  
+    _tags = []
+    for tag in article.tags.all():
+        _tags.append(tag.id)
+
+    action_ids = Article.objects.filter(tags__id__in=_tags, status=Article.STATUS[1][0]).exclude(id__in=excludes).distinct('id').values_list('id', flat=True)
+    related_articles = Article.objects.filter(id__in=action_ids, status=Article.STATUS[1][0]).order_by('-tags__weight').order_by('-views')
+
+    for r_article in related_articles:
+        excludes.append(r_article.id)
+
+    _children = []
+    if len(related_articles) > 0:
+        for r_article in related_articles:
+            _child = __get_article_tree(r_article, collection, excludes, level+1)
+            _children.append(_child)
+
+    # _child =  { article.title: _children }
+    print(article.title)
+    _article_seri = Article.ArticleSerializer(article, many=False)
+    if len(_children) > 0:
+        _child =  { "name": _article_seri.data, "children": _children }
+    else:
+        _child =  { "name": _article_seri.data }
+
+    return _child
+
+
+
+
+    

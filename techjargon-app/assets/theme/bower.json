@@ -14,7 +14,8 @@
     "selectize": "^0.12.4",
     "vue": "^2.4.2",
     "js-cookie": "^2.1.4",
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "typeprogress.js": "https://github.com/digitalac3/typeprogress.js.git#v0.0.1"
   },
   "overrides": {
     "bootstrap-sass": {
