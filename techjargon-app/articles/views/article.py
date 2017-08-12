@@ -410,9 +410,9 @@ def __get_article_tree(article, collection, excludes, level):
     print(article.title)
     _article_seri = Article.ArticleSerializer(article, many=False)
     if len(_children) > 0:
-        _child =  { "name": article.title, "children": _children }
+        _child =  { "name": _article_seri.data, "children": _children }
     else:
-        _child =  { "name": article.title }
+        _child =  { "name": _article_seri.data }
 
     return _child
 
