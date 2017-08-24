@@ -9,12 +9,21 @@ map $sent_http_content_type $expires {
 
 server {
     listen 80;
-    server_name techjargon-dev.fidenz.info www.techjargon-dev.fidenz.info;
+    server_name techjargon.fidenz.com www.techjargon.fidenz.com;
 
     expires $expires;
 
     access_log /var/www/techjargon/techjargon-app/log/nginx-access.log;
     error_log /var/www/techjargon/techjargon-app/log/nginx-error.log;
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/techjargon.fidenz.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/techjargon.fidenz.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
 
     location = /favicon.ico { log_not_found off; }
     location /static/ {
