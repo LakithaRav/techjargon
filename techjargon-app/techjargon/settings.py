@@ -100,23 +100,23 @@ DATABASES = {
     #     'PORT': '5432',
     # }
     # development
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'techjargon_dev',
-    #     'USER': 'pgzookeeper',
-    #     'PASSWORD': 'pgzookeeper911',
-    #     'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
-    #     'PORT': '5432',
-    # }
-    # production
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'techjargon',
+        'NAME': 'techjargon_dev',
         'USER': 'pgzookeeper',
         'PASSWORD': 'pgzookeeper911',
         'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
+    # production
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'techjargon',
+    #     'USER': 'pgzookeeper',
+    #     'PASSWORD': 'pgzookeeper911',
+    #     'HOST': 'zookeeper.cilynburinur.us-east-1.rds.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 }
 
 
