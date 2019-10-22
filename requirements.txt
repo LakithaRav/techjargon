@@ -16,7 +16,7 @@ idna==2.5
 kombu==4.0.2
 Markdown==2.6.8
 olefile==0.44
-Pillow==4.1.1
+Pillow==6.2.0
 psycopg2==2.7.1
 pytz==2017.2
 requests==2.17.3
